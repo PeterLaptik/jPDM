@@ -1,8 +1,9 @@
 package model;
 
+import java.util.UUID;
+
 public class User {
-	@SuppressWarnings("unused")
+	private UUID uuid;
 	private String name;
-	@SuppressWarnings("unused")
 	private String login;
 }
