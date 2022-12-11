@@ -9,7 +9,7 @@
 		<version>0.0.1</version>
 	</parent>
 
-	<artifactId>jPDM-web-application</artifactId>
+	<artifactId>jPDM-webapp</artifactId>
 	<packaging>war</packaging>
 
 	<name>jPDM-web-application Maven Webapp</name>
@@ -26,6 +26,11 @@
 	</properties>
 
 	<dependencies>
+		<dependency>
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+			<version>1</version>
+		</dependency>
 		<!-- Spring dependencies -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -51,20 +56,15 @@
 			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<!-- JSF and primefaces dependencies -->
 		<dependency>
 			<groupId>org.primefaces</groupId>
 			<artifactId>primefaces</artifactId>
 			<version>${primefaces.version}</version>
 		</dependency>
-		<!-- 
-		<dependency>
-		    <groupId>org.primefaces.themes</groupId>
-		    <artifactId>bootstrap</artifactId>
-		    <version>${primefaces.themes.version}</version>
-		</dependency>
-		-->
+		<!-- <dependency> <groupId>org.primefaces.themes</groupId> <artifactId>bootstrap</artifactId> 
+			<version>${primefaces.themes.version}</version> </dependency> -->
 	</dependencies>
 
 	<build>

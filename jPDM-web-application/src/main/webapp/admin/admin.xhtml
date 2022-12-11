@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3c.org/1999/xhtml"
+<html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:head>
-	<title>jPDM admin page</title>
-	<h:outputStylesheet name="primeicons/primeicons.css"
-		library="primefaces" />
-	<h:outputStylesheet library="primefaces-omega" name="theme.css" />
+	<title>jPDM admin page</title> 
+	<!-- 
+	<h:outputStylesheet name="primeicons/primeicons.css" library="primefaces" />
+	<h:outputStylesheet library="primefaces-omega" name="theme.css" />  
+	-->
 </h:head>
 <h:body>
 	<p:tabMenu activeIndex="0">
@@ -19,5 +20,6 @@
 		<p:menuitem value="Model"></p:menuitem>
 	</p:tabMenu>
 	<p>Test hello</p>
+	<p>#{design.getUsersNumber()}</p>
 </h:body>
 </html>
