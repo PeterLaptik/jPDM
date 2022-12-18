@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import model.managers.CompanyManager;
 import model.managers.UserManager;
 
 @Controller
@@ -14,12 +15,14 @@ import model.managers.UserManager;
 public class UsersController {
 	@Inject
 	private UserManager manager;
+	@Inject
+	private CompanyManager cmpManager;
 	
 	@GetMapping
 	public String showDesignForm(Model model) {
 
 		
-		model.addAttribute("design", manager);
+		model.addAttribute("companies", cmpManager);
 		System.out.println(manager.getUsersNumber());
 		return "/admin/admin.xhtml";
 	}

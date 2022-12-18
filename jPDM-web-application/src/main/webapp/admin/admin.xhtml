@@ -5,21 +5,62 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:head>
-	<title>jPDM admin page</title> 
+	<title>jPDM admin page</title>
 	<!-- 
 	<h:outputStylesheet name="primeicons/primeicons.css" library="primefaces" />
 	<h:outputStylesheet library="primefaces-omega" name="theme.css" />  
 	-->
 </h:head>
 <h:body>
-	<p:tabMenu activeIndex="0">
-		<p:menuitem value="Stats"></p:menuitem>
-		<p:menuitem value="Users"></p:menuitem>
-		<p:menuitem value="Groups"></p:menuitem>
-		<!-- outcome="/admin/books.xhtml" -->
-		<p:menuitem value="Model"></p:menuitem>
-	</p:tabMenu>
-	<p>Test hello</p>
-	<p>#{design.getUsersNumber()}</p>
+
+
+		<h:form>
+			<p:growl>
+				<p:autoUpdate />
+			</p:growl>
+
+			<p:tieredMenu activeIndex="0">
+				<p:menuitem value="Companies" icon="pi pi-fw pi-external-link" />
+				<p:menuitem value="Users" icon="pi pi-fw pi-external-link" />
+				<p:menuitem value="Groups" icon="pi pi-fw pi-external-link" />
+				<p:menuitem value="Model" icon="pi pi-fw pi-external-link" />
+			</p:tieredMenu>
+		</h:form>
+		
+		<h:form>
+			<p:growl>
+				<p:autoUpdate />
+			</p:growl>
+
+			<p:tieredMenu activeIndex="0">
+				<p:menuitem value="Companies" icon="pi pi-fw pi-external-link" />
+				<p:menuitem value="Users" icon="pi pi-fw pi-external-link" />
+				<p:menuitem value="Groups" icon="pi pi-fw pi-external-link" />
+				<p:menuitem value="Model" icon="pi pi-fw pi-external-link" />
+			</p:tieredMenu>
+		</h:form>
+
+<!--  
+		<h:form id="main-form">
+			<p:dataTable var="company" id="id-company-list"
+				value="#{companies.list()}" selectionMode="single"
+				selection="#{companies.selected}" rowKey="#{company.id}">
+				<p:column headerText="Name">
+					<h:outputText value="#{company.name}" />
+				</p:column>
+				<p:column headerText="Description">
+					<h:outputText value="#{company.description}" />
+				</p:column>
+			</p:dataTable>
+
+
+			<p:contextMenu for="id-company-list" widgetVar="cMenu">
+				<p:menuitem value="Create new" icon="pi pi-search" />
+				<p:menuitem value="Delete" icon="pi pi-search" />
+			</p:contextMenu>
+
+		</h:form>
+-->
+
 </h:body>
 </html>

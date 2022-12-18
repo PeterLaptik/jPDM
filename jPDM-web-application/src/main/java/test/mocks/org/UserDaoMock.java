@@ -1,4 +1,4 @@
-package test.mocks.users;
+package test.mocks.org;
 
 import java.util.ArrayList;
 import java.util.List;
