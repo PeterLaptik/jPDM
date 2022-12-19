@@ -3,27 +3,46 @@ package model.beans.org;
 import java.util.UUID;
 
 public class Department {
-	private UUID id;
-	private String name;
+    private UUID id;
+    private String name;
 
-	public Department(String name) {
-		this.name = name;
-		id = UUID.randomUUID();
-	}
+    private String description;
+    private UUID companyId;
 
-	public UUID getId() {
-		return id;
-	}
+    public Department(String name) {
+        this.name = name;
+        id = UUID.randomUUID();
+    }
 
-	public void setId(UUID id) {
-		this.id = id;
-	}
+    public UUID getId() {
+        return id;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public void setId(UUID id) {
+        this.id = id;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public UUID getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(UUID companyId) {
+        this.companyId = companyId;
+    }
 }

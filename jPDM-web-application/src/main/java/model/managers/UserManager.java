@@ -10,14 +10,14 @@ import model.dao.UserDAO;
 
 @Component
 public class UserManager {
-	@Autowired
-	private UserDAO userDao;
-	
-	public List<User> getUsers() {
-		return userDao.getUsers();
-	}
-	
-	public int getUsersNumber() {
-		return userDao.getUsersNumber();
-	}
+    @Autowired
+    private UserDAO userDao;
+
+    public List<User> getUsers() {
+        return userDao.getUsers();
+    }
+
+    public int getUsersNumber() {
+        return userDao.getUsersNumber();
+    }
 }

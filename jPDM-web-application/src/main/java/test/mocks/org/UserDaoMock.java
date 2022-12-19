@@ -10,23 +10,23 @@ import model.dao.UserDAO;
 
 @Component
 public class UserDaoMock implements UserDAO {
-	private static List<User> users = new ArrayList<User>();
+    private static List<User> users = new ArrayList<User>();
 
-	static {
-		for (int i = 0; i < 10; i++) {
-			String name = "user_" + i;
-			User user = new User(name);
-			users.add(user);
-		}
-	}
+    static {
+        for (int i = 0; i < 10; i++) {
+            String name = "user_" + i;
+            User user = new User(name);
+            users.add(user);
+        }
+    }
 
-	@Override
-	public int getUsersNumber() {
-		return users.size();
-	}
+    @Override
+    public int getUsersNumber() {
+        return users.size();
+    }
 
-	@Override
-	public List<User> getUsers() {
-		return users;
-	}
+    @Override
+    public List<User> getUsers() {
+        return users;
+    }
 }

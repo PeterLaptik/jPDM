@@ -6,23 +6,37 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import model.beans.org.Company;
+import model.beans.org.Department;
 import model.dao.CompanyDAO;
 
 @Component
 public class CompanyManager {
-	@Autowired
-	private CompanyDAO dao;
-	private Company selected;
+    @Autowired
+    private CompanyDAO dao;
+    private Company selectedCompany;
+    private Department selectedDepartment;
 
-	public List<Company> list() {
-		return dao.GetCompanyList();
-	}
+    public List<Company> list() {
+        return dao.getCompanyList();
+    }
 
-	public Company getSelected() {
-		return selected;
-	}
+    public List<Department> departments() {
+        return dao.getDepartmentsFor(selectedCompany);
+    }
 
-	public void setSelected(Company selected) {
-		this.selected = selected;
-	}
+    public Company getSelectedCompany() {
+        return selectedCompany;
+    }
+
+    public void setSelectedCompany(Company selectedCompany) {
+        this.selectedCompany = selectedCompany;
+    }
+
+    public Department getSelectedDepartment() {
+        return selectedDepartment;
+    }
+
+    public void setSelectedDepartment(Department selectedDepartment) {
+        this.selectedDepartment = selectedDepartment;
+    }
 }

@@ -13,17 +13,15 @@ import model.managers.UserManager;
 @Controller
 @RequestMapping("/test")
 public class UsersController {
-	@Inject
-	private UserManager manager;
-	@Inject
-	private CompanyManager cmpManager;
-	
-	@GetMapping
-	public String showDesignForm(Model model) {
+    @Inject
+    private UserManager manager;
+    @Inject
+    private CompanyManager cmpManager;
 
-		
-		model.addAttribute("companies", cmpManager);
-		System.out.println(manager.getUsersNumber());
-		return "/admin/admin.xhtml";
-	}
+    @GetMapping
+    public String showDesignForm(Model model) {
+
+        model.addAttribute("companies", cmpManager);
+        return "/admin/admin.xhtml";
+    }
 }

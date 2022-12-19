@@ -1,66 +1,75 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:f="http://xmlns.jcp.org/jsf/core">
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:head>
-	<title>jPDM admin page</title>
-	<!-- 
+    <title>jPDM admin page</title>
+    <!-- 
 	<h:outputStylesheet name="primeicons/primeicons.css" library="primefaces" />
 	<h:outputStylesheet library="primefaces-omega" name="theme.css" />  
 	-->
 </h:head>
 <h:body>
+    <table>
+        <tr valign="top">
+            <td>
+                <!-- Main menu --> 
+                <p:menu>
+                    <p:menuitem value="Statistics" action="/test"
+                        update="messages" ajax="false"
+                        icon="pi pi-external-link" />
+                    <p:menuitem value="Users" action="/test"
+                        update="messages" ajax="false"
+                        icon="pi pi-external-link" />
+                    <p:menuitem value="Groups" action="/test"
+                        update="messages" ajax="false"
+                        icon="pi pi-external-link" />
+                    <p:menuitem value="Companies" action="/test"
+                        update="messages" ajax="false"
+                        icon="pi pi-external-link" />
+                </p:menu>
+            </td>
+            <td>
+                <h:form id="main-form">
+                    <p:dataTable var="company" id="id-company-list"
+                        value="#{companies.list()}"
+                        selectionMode="single"
+                        selection="#{companies.selectedCompany}"
+                        rowKey="#{company.id}" update="@([id$=id-departments-list])">
+                        <p:column headerText="Name">
+                            <h:outputText value="#{company.name}" />
+                        </p:column>
+                        <p:column headerText="Description">
+                            <h:outputText value="#{company.description}" />
+                        </p:column>
+                    </p:dataTable>
 
 
-		<h:form>
-			<p:growl>
-				<p:autoUpdate />
-			</p:growl>
+                    <p:contextMenu for="id-company-list"
+                        widgetVar="cMenu">
+                        <p:menuitem value="Create new"
+                            icon="pi pi-search" />
+                        <p:menuitem value="Delete" icon="pi pi-search" />
+                    </p:contextMenu>
 
-			<p:tieredMenu activeIndex="0">
-				<p:menuitem value="Companies" icon="pi pi-fw pi-external-link" />
-				<p:menuitem value="Users" icon="pi pi-fw pi-external-link" />
-				<p:menuitem value="Groups" icon="pi pi-fw pi-external-link" />
-				<p:menuitem value="Model" icon="pi pi-fw pi-external-link" />
-			</p:tieredMenu>
-		</h:form>
-		
-		<h:form>
-			<p:growl>
-				<p:autoUpdate />
-			</p:growl>
-
-			<p:tieredMenu activeIndex="0">
-				<p:menuitem value="Companies" icon="pi pi-fw pi-external-link" />
-				<p:menuitem value="Users" icon="pi pi-fw pi-external-link" />
-				<p:menuitem value="Groups" icon="pi pi-fw pi-external-link" />
-				<p:menuitem value="Model" icon="pi pi-fw pi-external-link" />
-			</p:tieredMenu>
-		</h:form>
-
-<!--  
-		<h:form id="main-form">
-			<p:dataTable var="company" id="id-company-list"
-				value="#{companies.list()}" selectionMode="single"
-				selection="#{companies.selected}" rowKey="#{company.id}">
-				<p:column headerText="Name">
-					<h:outputText value="#{company.name}" />
-				</p:column>
-				<p:column headerText="Description">
-					<h:outputText value="#{company.description}" />
-				</p:column>
-			</p:dataTable>
-
-
-			<p:contextMenu for="id-company-list" widgetVar="cMenu">
-				<p:menuitem value="Create new" icon="pi pi-search" />
-				<p:menuitem value="Delete" icon="pi pi-search" />
-			</p:contextMenu>
-
-		</h:form>
--->
-
+                </h:form>
+            </td>
+            <td>
+                <p:dataTable var="department" id="id-departments-list"
+                    value="#{companies.departments()}" selectionMode="single"
+                    selection="#{companies.selectedDepartment}"
+                    rowKey="#{department.id}">
+                    <p:column headerText="Name">
+                        <h:outputText value="#{department.name}" />
+                    </p:column>
+                    <p:column headerText="Description">
+                        <h:outputText value="#{department.description}" />
+                    </p:column>
+                </p:dataTable>
+            </td>
+        </tr>
+    </table>
 </h:body>
 </html>

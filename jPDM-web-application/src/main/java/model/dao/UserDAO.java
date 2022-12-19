@@ -5,7 +5,7 @@ import java.util.List;
 import model.beans.org.User;
 
 public interface UserDAO {
-	int getUsersNumber();
+    int getUsersNumber();
 
-	List<User> getUsers();
+    List<User> getUsers();
 }
