@@ -5,9 +5,7 @@ import java.util.UUID;
 public class Department {
     private UUID id;
     private String name;
-
     private String description;
-    private UUID companyId;
 
     public Department(String name) {
         this.name = name;
@@ -36,13 +34,5 @@ public class Department {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public UUID getCompanyId() {
-        return companyId;
-    }
-
-    public void setCompanyId(UUID companyId) {
-        this.companyId = companyId;
     }
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import model.beans.org.Department;
 import model.beans.org.User;
 import model.dao.UserDAO;
 
@@ -13,10 +14,16 @@ public class UserDaoMock implements UserDAO {
     private static List<User> users = new ArrayList<User>();
 
     static {
-        for (int i = 0; i < 10; i++) {
-            String name = "user_" + i;
-            User user = new User(name);
-            users.add(user);
+        List<Department> departments = DepartmentDaoMock.departments;
+        int counter = 0;
+        for(Department dep: departments) {
+            for (int i = 0; i < 10; i++) {
+                String login = "login_" + counter;
+                String name = "user_" + counter++;
+                User user = new User(login, name);
+                user.setDepartmentId(dep.getId());
+                users.add(user);
+            }
         }
     }
 
@@ -26,7 +33,16 @@ public class UserDaoMock implements UserDAO {
     }
 
     @Override
-    public List<User> getUsers() {
-        return users;
+    public List<User> getUsersOfDepartment(Department department) {
+        // All users
+        if(department==null)
+            return users;
+        // Department users
+        List<User> result = new ArrayList<>();
+        for(User user: users) {
+            if(user.getId().equals(department.getId()))
+                result.add(user);
+        }
+        return result;
     }
 }
