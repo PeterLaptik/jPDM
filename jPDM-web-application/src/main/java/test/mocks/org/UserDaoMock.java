@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.SessionScope;
 
 import model.beans.org.Department;
 import model.beans.org.User;
 import model.dao.UserDAO;
 
 @Component
+@SessionScope
 public class UserDaoMock implements UserDAO {
     private static List<User> users = new ArrayList<User>();
 

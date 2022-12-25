@@ -34,18 +34,18 @@
 
         <div class="departmentsTable">
             <h3>Departments</h3>
-            <h:form id="main-form">
+            <h:form id="dep-form">
                 <p:dataTable var="department" id="id-departments-list"
-                    value="#{departments.list()}" selectionMode="single"
-                    selection="#{departments.selectedDepartment}"
-                    rowKey="#{department.id}"
-                    update="@([id$=id-departments-list])">
+                    value="#{userManager.getDepartmentsList()}" selectionMode="single"
+                    selection="#{userManager.selectedDepartment}"
+                    rowKey="#{department.id}">
                     <p:column headerText="Name">
                         <h:outputText value="#{department.name}" />
                     </p:column>
                     <p:column headerText="Description">
                         <h:outputText value="#{department.description}" />
-                    </p:column>
+                    </p:column> 
+                    <p:ajax event="rowSelect" update="user-form:id-user-list" />
                 </p:dataTable>
 
 
@@ -58,9 +58,10 @@
         </div>
         <div class="usersTable">
         <h3>Users</h3>
+        <h:form id="user-form">
         <p:dataTable var="user" id="id-user-list"
-                    value="#{users.list()}" selectionMode="single"
-                    selection="#{users.selectedUser}"
+                    value="#{userManager.getUserList()}" selectionMode="single"
+                    selection="#{userManager.selectedUser}"
                     rowKey="#{user.id}" scrollable="true"
                     scrollHeight="70vh">
                     <p:column headerText="Login">
@@ -70,6 +71,7 @@
                         <h:outputText value="#{user.name}" />
                     </p:column>
                 </p:dataTable>
+          </h:form>
         </div>
     </div>
 </h:body>
