@@ -42,7 +42,7 @@ public class UserDaoMock implements UserDAO {
         // Department users
         List<User> result = new ArrayList<>();
         for(User user: users) {
-            if(user.getId().equals(department.getId()))
+            if(user.getDepartmentId().equals(department.getId()))
                 result.add(user);
         }
         return result;

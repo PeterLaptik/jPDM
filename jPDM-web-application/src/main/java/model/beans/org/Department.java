@@ -1,15 +1,17 @@
 package model.beans.org;
 
+import java.io.Serializable;
 import java.util.UUID;
 
-public class Department {
-    private UUID id;
+public class Department implements Serializable {
+	private static final long serialVersionUID = 7581930084833685906L;
+	private UUID id;
     private String name;
     private String description;
 
     public Department(String name) {
         this.name = name;
-        id = UUID.randomUUID();
+        this.id = UUID.randomUUID();
     }
 
     public UUID getId() {

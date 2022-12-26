@@ -3,9 +3,9 @@ package model.managers;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import javax.inject.Named;
 
 import org.springframework.stereotype.Component;
 
@@ -16,7 +16,7 @@ import model.dao.UserDAO;
 
 @Component
 @ViewScoped
-@Named("userManager")
+@ManagedBean
 public class UserManager implements Serializable {
 	private static final long serialVersionUID = -1111462741588988358L;
 	@Inject
@@ -56,6 +56,19 @@ public class UserManager implements Serializable {
 	}
 
 	public void setSelectedDepartment(Department selectedDepartment) {
+		selectedUser = null;
 		this.selectedDepartment = selectedDepartment;
+	}
+	
+	public boolean hasSelectedUser() {
+		return selectedUser!=null;
+	}
+	
+	public boolean hasSelectedDepartment() {
+		return selectedDepartment!=null;
+	}
+	
+	public void resetSelection() {
+		selectedDepartment = null;
 	}
 }

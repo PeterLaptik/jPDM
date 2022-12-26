@@ -10,7 +10,8 @@ import model.dao.DepartmentDAO;
 
 @Component
 public class DepartmentDaoMock implements DepartmentDAO {
-    public static List<Department> departments = new ArrayList<>();
+	private static final long serialVersionUID = -5936212917192611146L;
+	public static List<Department> departments = new ArrayList<>();
 
     static {
         departments.add(new Department("Engineering"));

@@ -1,9 +1,11 @@
 package model.beans.org;
 
+import java.io.Serializable;
 import java.util.UUID;
 
-public class User {
-    private UUID id;
+public class User implements Serializable {
+	private static final long serialVersionUID = -1760783703833569643L;
+	private UUID id;
     private String name;
     private String login;
     private UUID departmentId;
@@ -11,6 +13,7 @@ public class User {
     public User(String login, String name) {
         this.login = login;
         this.name = name;
+        this.id = UUID.randomUUID();
     }
 
     public UUID getId() {
