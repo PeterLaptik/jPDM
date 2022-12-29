@@ -1,4 +1,4 @@
-package model.managers;
+package controllers.jsf.model;
 
 import java.io.Serializable;
 import java.util.List;
@@ -70,5 +70,6 @@ public class UserManager implements Serializable {
 	
 	public void resetSelection() {
 		selectedDepartment = null;
+		selectedUser = null;
 	}
 }

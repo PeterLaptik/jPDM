@@ -19,7 +19,7 @@ public class UserDaoMock implements UserDAO {
         List<Department> departments = DepartmentDaoMock.departments;
         int counter = 0;
         for(Department dep: departments) {
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 100; i++) {
                 String login = "login_" + counter;
                 String name = "user_" + counter++;
                 User user = new User(login, name);

@@ -1,104 +1,124 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:f="http://xmlns.jcp.org/jsf/core">
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:head>
-	<title>jPDM admin page</title>
-	<h:outputStylesheet library="css" name="admin.css" />
-	<!-- 
+    <title>jPDM admin page</title>
+    <h:outputStylesheet library="css" name="admin.css" />
+    <!-- 
 	<h:outputStylesheet name="primeicons/primeicons.css" library="primefaces" />
 	<h:outputStylesheet library="primefaces-omega" name="theme.css" />  
 	-->
 </h:head>
 <h:body>
-	<div id="mainContainer">
-		<div class="mainMenu">
-			<!-- Main menu -->
-			<p:menu>
-				<p:menuitem value="Statistics" action="/test" update="messages"
-					ajax="false" icon="pi pi-external-link" />
-				<p:menuitem value="Users" action="/test" update="messages"
-					ajax="false" icon="pi pi-external-link" />
-				<p:menuitem value="Groups" action="/test" update="messages"
-					ajax="false" icon="pi pi-external-link" />
-				<p:menuitem value="Companies" action="/test" update="messages"
-					ajax="false" icon="pi pi-external-link" />
-			</p:menu>
-		</div>
+    <div id="mainContainer">
+        <div class="mainMenu">
+            <!-- Main menu -->
+            <p:menu>
+                <p:menuitem value="Statistics" action="/test"
+                    update="messages" ajax="false"
+                    icon="pi pi-external-link" />
+                <p:menuitem value="Users" action="/test"
+                    update="messages" ajax="false"
+                    icon="pi pi-external-link" />
+                <p:menuitem value="Groups" action="/test"
+                    update="messages" ajax="false"
+                    icon="pi pi-external-link" />
+                <p:menuitem value="Companies" action="/test"
+                    update="messages" ajax="false"
+                    icon="pi pi-external-link" />
+            </p:menu>
+        </div>
 
 
-		<div class="departmentsTable">
+        <div class="departmentsTable">
+            <h3>Departments</h3>
+            <h:form id="dep-form">
+                <p:toolbar>
+                    <p:toolbarGroup>
+                        <p:commandButton value="Create"
+                            icon="pi pi-plus"
+                            style="margin-right: .5rem"
+                            styleClass="ui-button-success"
+                            action="#{userDialogues.createDepartment}">
+                        </p:commandButton>
+                        <p:commandButton value="Delete"
+                            icon="pi pi-trash"
+                            id="button-department-delete"
+                            styleClass="ui-button-danger"
+                            disabled="#{!userManager.hasSelectedDepartment()}">
+                        </p:commandButton>
+                    </p:toolbarGroup>
+                </p:toolbar>
+                <p:dataTable var="department" id="id-departments-list"
+                    value="#{userManager.departmentsList}"
+                    selectionMode="single" sortMode="multiple"
+                    selection="#{userManager.selectedDepartment}"
+                    rowKey="#{department.id}" scrollable="true"
+                    scrollHeight="70vh">
+                    <p:column headerText="Name"
+                        sortBy="#{department.name}">
+                        <h:outputText value="#{department.name}" />
+                    </p:column>
+                    <p:column headerText="Description"
+                        sortBy="#{department.description}">
+                        <h:outputText value="#{department.description}" />
+                    </p:column>
+                    <p:ajax event="rowSelect"
+                        update="user-form:id-user-list" />
+                    <p:ajax event="rowSelect"
+                        update="dep-form:button-department-delete" />
+                </p:dataTable>
 
-			<h3>Departments</h3>
-			<p:toolbar>
-				<p:toolbarGroup>
-					<p:commandButton value="New" icon="pi pi-plus"
-						style="margin-right: .5rem" styleClass="ui-button-success">
-					</p:commandButton>
-					<p:commandButton value="Delete" icon="pi pi-trash" id="button-department-delete"
-						styleClass="ui-button-danger" disabled="#{!userManager.hasSelectedDepartment()}">
-					</p:commandButton>
-				</p:toolbarGroup>
-			</p:toolbar>
-			<h:form id="dep-form">
-				<p:dataTable var="department" id="id-departments-list"
-					value="#{userManager.departmentsList}" selectionMode="single"
-					sortMode="multiple" selection="#{userManager.selectedDepartment}"
-					rowKey="#{department.id}" scrollable="true" scrollHeight="70vh">
-					<p:column headerText="Name" sortBy="#{department.name}">
-						<h:outputText value="#{department.name}" />
-					</p:column>
-					<p:column headerText="Description"
-						sortBy="#{department.description}">
-						<h:outputText value="#{department.description}" />
-					</p:column>
-					<p:ajax event="rowSelect" update="user-form:id-user-list" />
-					<p:ajax event="rowSelect" update="button-department-delete"/>
-            		<p:ajax event="rowUnselect" update="button-department-delete"/>
-				</p:dataTable>
 
+                <p:contextMenu for="id-departments-list"
+                    widgetVar="cMenu">
+                    <p:menuitem value="Unselect" icon="pi pi-search"
+                        update="id-departments-list, dep-form:button-department-delete, user-form:id-user-list, button-user-delete"
+                        action="#{userManager.resetSelection()}" />
+                </p:contextMenu>
+            </h:form>
+        </div>
 
-				<p:contextMenu for="id-departments-list" widgetVar="cMenu">
-					<p:menuitem value="Unselect" icon="pi pi-search" 
-					update="id-departments-list, button-department-delete, user-form:id-user-list"
-					action="#{userManager.resetSelection()}"/>
-				</p:contextMenu>
-			</h:form>
-		</div>
-
-		<div class="usersTable">
-			<p:toolbar>
-				<h:outputText>Users</h:outputText>
-			</p:toolbar>
-			<p:toolbar>
-				<p:toolbarGroup>
-					<p:commandButton value="New" icon="pi pi-plus"
-						style="margin-right: .5rem" styleClass="ui-button-success">
-					</p:commandButton>
-					<p:commandButton value="Delete" icon="pi pi-trash" id="button-user-delete"
-						styleClass="ui-button-danger"
-						disabled="#{!userManager.hasSelectedUser()}">
-					</p:commandButton>
-				</p:toolbarGroup>
-			</p:toolbar>
-			<h:form id="user-form">
-				<p:dataTable var="user" id="id-user-list"
-					value="#{userManager.userList}" selectionMode="single"
-					selection="#{userManager.selectedUser}" rowKey="#{user.id}"
-					scrollable="true" scrollHeight="70vh">
-					<p:column headerText="Login">
-						<h:outputText value="#{user.login}" />
-					</p:column>
-					<p:column headerText="Name">
-						<h:outputText value="#{user.name}" />
-					</p:column>
-					<p:ajax event="rowSelect" update="button-user-delete"/>
-            		<p:ajax event="rowUnselect" update="button-user-delete"/>
-				</p:dataTable>
-			</h:form>
-		</div>
-	</div>
+        <div class="usersTable">
+            <p:toolbar>
+                <h:outputText>Users</h:outputText>
+            </p:toolbar>
+            <p:toolbar>
+                <p:toolbarGroup>
+                    <p:commandButton value="New" icon="pi pi-plus"
+                        style="margin-right: .5rem"
+                        styleClass="ui-button-success">
+                    </p:commandButton>
+                    <p:commandButton value="Delete" icon="pi pi-trash"
+                        id="button-user-delete"
+                        styleClass="ui-button-danger"
+                        disabled="#{!userManager.hasSelectedUser()}">
+                    </p:commandButton>
+                </p:toolbarGroup>
+            </p:toolbar>
+            <h:form id="user-form">
+                <p:dataTable var="user" id="id-user-list"
+                    value="#{userManager.userList}"
+                    selectionMode="single"
+                    selection="#{userManager.selectedUser}"
+                    rowKey="#{user.id}" scrollable="true"
+                    scrollHeight="70vh">
+                    <p:column headerText="Login">
+                        <h:outputText value="#{user.login}" />
+                    </p:column>
+                    <p:column headerText="Name">
+                        <h:outputText value="#{user.name}" />
+                    </p:column>
+                    <p:ajax event="rowSelect"
+                        update="button-user-delete" />
+                    <p:ajax event="rowUnselect"
+                        update="button-user-delete" />
+                </p:dataTable>
+            </h:form>
+        </div>
+    </div>
 </h:body>
 </html>

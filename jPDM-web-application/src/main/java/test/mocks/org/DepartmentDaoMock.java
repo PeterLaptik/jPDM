@@ -14,6 +14,7 @@ public class DepartmentDaoMock implements DepartmentDAO {
 	public static List<Department> departments = new ArrayList<>();
 
     static {
+        departments.add(new Department(Department.DEFAULT));
         departments.add(new Department("Engineering"));
         departments.add(new Department("Process"));
         departments.add(new Department("Management"));
