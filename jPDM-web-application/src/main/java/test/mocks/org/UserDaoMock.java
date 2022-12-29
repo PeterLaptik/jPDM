@@ -13,7 +13,8 @@ import model.dao.UserDAO;
 @Component
 @SessionScope
 public class UserDaoMock implements UserDAO {
-    private static List<User> users = new ArrayList<User>();
+	private static final long serialVersionUID = 5174823840998139278L;
+	private static List<User> users = new ArrayList<User>();
 
     static {
         List<Department> departments = DepartmentDaoMock.departments;

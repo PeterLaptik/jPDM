@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
 @Component
 @RequestScoped
 @ManagedBean
-@Named("userDialogues")
 public class UserDialogues implements Serializable {
     private static final long serialVersionUID = -7564515641058266138L;
 
@@ -25,5 +24,9 @@ public class UserDialogues implements Serializable {
                 .build();
 
         PrimeFaces.current().dialog().openDynamic("create-dep", options, null);
+    }
+    
+    public void test() {
+    	System.out.println("OK");
     }
 }

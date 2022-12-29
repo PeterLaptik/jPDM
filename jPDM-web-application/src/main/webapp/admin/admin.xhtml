@@ -67,9 +67,7 @@
                         <h:outputText value="#{department.description}" />
                     </p:column>
                     <p:ajax event="rowSelect"
-                        update="user-form:id-user-list" />
-                    <p:ajax event="rowSelect"
-                        update="dep-form:button-department-delete" />
+                        update="user-form:id-user-list, dep-form:button-department-delete, button-user-delete" />
                 </p:dataTable>
 
 

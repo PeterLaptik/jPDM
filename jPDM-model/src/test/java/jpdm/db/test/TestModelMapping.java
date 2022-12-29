@@ -9,7 +9,6 @@ import java.sql.SQLException;
 
 import org.junit.Test;
 
-import jpdm.db.model.ModelDriver;
 import jpdm.db.model.ModelTypeNode;
 import jpdm.db.model.ModelTypeProperty;
 import jpdm.db.model.ModelUpdatingException;

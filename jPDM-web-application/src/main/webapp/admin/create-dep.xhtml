@@ -15,18 +15,30 @@
 </h:head>
 
 <h:body>
+	<h:form id="rootform">
     <div>
         <table>
             <tr>
                 <td>Department name</td>
-                <td><h:inputText id="id-name"></h:inputText></td>
+                <td><h:inputText id="id-name" required="true" 
+                requiredMessage="Please enter department name"></h:inputText></td>
             </tr>
             <tr>
                 <td>Description</td>
-                <td><h:inputText id="id-descr"></h:inputText></td>
+                <td><h:inputText id="id-descr" required="true" 
+                requiredMessage="Please enter description"></h:inputText></td>
+            </tr>
+            <tr>
+            	<td>
+            		<p:commandButton id="btn" value="View" icon="pi pi-home" action="#{userDialogues.test()}">
+		            <!--  <p:ajax event="dialogReturn" listener="#{dfRootView.onReturnFromLevel1}" update="growl"/> -->
+		        	</p:commandButton>
+            	</td>
+            	<td></td>
             </tr>
         </table>
     </div>
+    </h:form>
 </h:body>
 
 </html>
