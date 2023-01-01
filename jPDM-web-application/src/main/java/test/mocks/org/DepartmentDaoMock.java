@@ -25,4 +25,9 @@ public class DepartmentDaoMock implements DepartmentDAO {
     public List<Department> getDepartments() {
         return departments;
     }
+
+	@Override
+	public void createDepartment(Department department) {
+		departments.add(department);
+	}
 }

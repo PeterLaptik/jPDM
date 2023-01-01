@@ -6,5 +6,7 @@ import java.util.List;
 import model.beans.org.Department;
 
 public interface DepartmentDAO extends Serializable {
-    List<Department> getDepartments();
+	List<Department> getDepartments();
+
+	void createDepartment(Department department);
 }

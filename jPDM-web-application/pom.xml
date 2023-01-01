@@ -76,9 +76,21 @@
 			<artifactId>primefaces</artifactId>
 			<version>${primefaces.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.primefaces.themes</groupId>
+			<artifactId>all-themes</artifactId>
+			<version>1.0.10</version>
+		</dependency>
 		<!-- <dependency> <groupId>org.primefaces.themes</groupId> <artifactId>bootstrap</artifactId> 
 			<version>${primefaces.themes.version}</version> </dependency> -->
 	</dependencies>
+
+	<repositories>
+		<repository>
+			<id>primefaces-repo</id>
+			<url>https://repository.primefaces.org/</url>
+		</repository>
+	</repositories>
 
 	<build>
 		<finalName>jPDM-web-application</finalName>
