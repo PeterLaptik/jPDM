@@ -17,31 +17,29 @@ import model.dao.DepartmentDAO;
 @RequestScoped
 @ManagedBean
 public class DlgCreateDep implements Serializable {
-    private static final long serialVersionUID = -7564515641058266138L;
-    private String name;
-    private String description;
-    @Inject
-    private DepartmentDAO dao;
+	private static final long serialVersionUID = -7564515641058266138L;
+	private static String DLG_CREATE_DEP = "create-dep";
+	private String name;
+	private String description;
+	@Inject
+	private DepartmentDAO dao;
 
-    public void createDepartmentShow() {
-        DialogFrameworkOptions options = DialogFrameworkOptions.builder()
-                .modal(true)
-                .width("330px")
-                .responsive(true)
-                .build();
+	public void createDepartmentShow() {
+		DialogFrameworkOptions options = DialogFrameworkOptions.builder().modal(true).width("350px").responsive(true)
+				.build();
 
-        PrimeFaces.current().dialog().openDynamic("create-dep", options, null);
-    }
-    
-    public void cancel() {
-    	PrimeFaces.current().dialog().closeDynamic(null);
-    }
-    
-    public void create() {
-    	Department dep = new Department(name, description);
-    	dao.createDepartment(dep);
-    	PrimeFaces.current().dialog().closeDynamic(null);
-    }
+		PrimeFaces.current().dialog().openDynamic(DLG_CREATE_DEP, options, null);
+	}
+
+	public void cancel() {
+		PrimeFaces.current().dialog().closeDynamic(null);
+	}
+
+	public void create() {
+		Department dep = new Department(name, description);
+		dao.createDepartment(dep);
+		PrimeFaces.current().dialog().closeDynamic(null);
+	}
 
 	public String getName() {
 		return name;
@@ -52,7 +50,7 @@ public class DlgCreateDep implements Serializable {
 	}
 
 	public String getDescription() {
-		return description!=null ? description : "";
+		return description != null ? description : "";
 	}
 
 	public void setDescription(String description) {

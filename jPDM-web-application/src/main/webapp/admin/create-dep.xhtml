@@ -13,21 +13,23 @@
 		<div>
 			<table>
 				<tr>
-					<td>Department name</td>
-					<td><h:inputText id="id-name" maxlength="31" value="#{dlgCreateDep.name}">
+					<td><h:outputLabel for="id-name" value="Department name " /></td>
+					<td><p:inputText id="id-name" label="Department name"
+							maxlength="31" value="#{dlgCreateDep.name}">
 							<f:validator validatorId="department.name.validator" />
-						</h:inputText></td>
+						</p:inputText></td>
 					<p:tooltip for="id-name"
 						value="Only letters, numbers, and characters '_', '-', ' ' are allowed"
 						position="right" />
 				</tr>
 				<tr>
-					<td colspan="2" style="color: red; text-align: center;"><h:message
-							id="id-msg" for="id-name" /></td>
+					<td><h:outputLabel for="id-descr" value="Description " /></td>
+					<td><p:inputText id="id-descr" maxlength="63"
+							value="#{dlgCreateDep.description}"></p:inputText></td>
 				</tr>
 				<tr>
-					<td>Description</td>
-					<td><h:inputText id="id-descr" maxlength="63" value="#{dlgCreateDep.description}"></h:inputText></td>
+					<td colspan="2" style="color: red; text-align: center;"><h:message
+							id="id-msg" for="id-name" /></td>
 				</tr>
 				<tr>
 					<td colspan="2" style="padding-top: 15px; text-align: center;">

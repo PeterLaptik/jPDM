@@ -13,14 +13,14 @@ import javax.faces.validator.ValidatorException;
 
 @ManagedBean
 @SessionScoped
-@FacesValidator("department.name.validator")
-public class ValidatorDepName extends AbstractValidator {
+@FacesValidator("user.login.validator")
+public class ValidatorUserLogin extends AbstractValidator {
 	private static final String ID_CANCEL_MASK = "btn-cancel";
-	private static final String ID = "department.name.validator";
-	private static final String NAME_PATTERN = "[_A-Za-z0-9- ]+";
+	private static final String ID = "user.login.validator";
+	private static final String NAME_PATTERN = "[_A-Za-z0-9-]+";
 	private Pattern pattern;
-
-	public ValidatorDepName() {
+	
+	public ValidatorUserLogin() {
 		pattern = Pattern.compile(NAME_PATTERN);
 	}
 
@@ -45,12 +45,12 @@ public class ValidatorDepName extends AbstractValidator {
 
 		if (value.toString().isEmpty()) {
 			throw new ValidatorException(
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Validation Error", "Name cannot be empty."));
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Validation Error", "Login cannot be empty."));
 		}
 
 		if (!pattern.matcher(value.toString()).matches()) {
 			throw new ValidatorException(
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Validation Error", "Name contains bad characters"));
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Validation Error", "Login contains bad characters"));
 		}
 	}
 }

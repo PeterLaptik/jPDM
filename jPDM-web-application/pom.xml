@@ -20,8 +20,11 @@
 		<maven.compiler.source>1.7</maven.compiler.source>
 		<maven.compiler.target>1.7</maven.compiler.target>
 		<spring.version>5.3.22</spring.version>
+		<spring.security.version>3.0.1</spring.security.version>
+		<spring.security.web.version>6.0.1</spring.security.web.version>
 		<junit.version>4.11</junit.version>
 		<faces.version>2.1</faces.version>
+		<validation.api.version>2.0.1.Final</validation.api.version>
 		<primefaces.version>12.0.0</primefaces.version>
 		<primefaces.themes.version>1.0.10</primefaces.themes.version>
 	</properties>
@@ -52,6 +55,24 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+			<version>${spring.security.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<version>${spring.security.web.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>${spring.security.web.version}</version>
+		</dependency>
+
+		<dependency>
 			<groupId>org.reactivestreams</groupId>
 			<artifactId>reactive-streams</artifactId>
 			<version>1.0.1</version>
@@ -72,6 +93,11 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<version>${validation.api.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>org.primefaces</groupId>
 			<artifactId>primefaces</artifactId>
 			<version>${primefaces.version}</version>
@@ -79,7 +105,7 @@
 		<dependency>
 			<groupId>org.primefaces.themes</groupId>
 			<artifactId>all-themes</artifactId>
-			<version>1.0.10</version>
+			<version>${primefaces.themes.version}</version>
 		</dependency>
 		<!-- <dependency> <groupId>org.primefaces.themes</groupId> <artifactId>bootstrap</artifactId> 
 			<version>${primefaces.themes.version}</version> </dependency> -->

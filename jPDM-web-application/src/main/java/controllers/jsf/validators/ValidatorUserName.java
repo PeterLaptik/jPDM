@@ -13,14 +13,14 @@ import javax.faces.validator.ValidatorException;
 
 @ManagedBean
 @SessionScoped
-@FacesValidator("department.name.validator")
-public class ValidatorDepName extends AbstractValidator {
+@FacesValidator("user.name.validator")
+public class ValidatorUserName extends AbstractValidator {
 	private static final String ID_CANCEL_MASK = "btn-cancel";
-	private static final String ID = "department.name.validator";
+	private static final String ID = "user.name.validator";
 	private static final String NAME_PATTERN = "[_A-Za-z0-9- ]+";
 	private Pattern pattern;
 
-	public ValidatorDepName() {
+	public ValidatorUserName() {
 		pattern = Pattern.compile(NAME_PATTERN);
 	}
 
