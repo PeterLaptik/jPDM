@@ -12,7 +12,7 @@
         http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
 	<!-- Provide support for component scanning -->
-	<context:component-scan base-package="test, auth, controllers, model.managers" />
+	<context:component-scan base-package="test, auth, auth.tmp, controllers, model.managers, model.service" />
 
 	<!--Provide support for conversion, formatting and validation -->
 	<mvc:annotation-driven />

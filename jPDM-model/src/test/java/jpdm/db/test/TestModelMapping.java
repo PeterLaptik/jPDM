@@ -9,10 +9,10 @@ import java.sql.SQLException;
 
 import org.junit.Test;
 
-import jpdm.db.model.ModelTypeNode;
-import jpdm.db.model.ModelTypeProperty;
-import jpdm.db.model.ModelUpdatingException;
-import jpdm.db.model.PropertyType;
+import jpdm.db.modeller.tree.ModelTypeNode;
+import jpdm.db.modeller.tree.ModelTypeProperty;
+import jpdm.db.modeller.tree.ModelUpdatingException;
+import jpdm.db.modeller.tree.PropertyType;
 
 public class TestModelMapping {
 

@@ -1,7 +1,6 @@
 package controllers;
 
-import javax.inject.Inject;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,17 +10,17 @@ import controllers.jsf.dlg.DlgCreateDep;
 import controllers.jsf.model.UserManager;
 
 @Controller
-@RequestMapping("/test")
+@RequestMapping("/admin")
 public class UsersController {
-    @Inject
-    private UserManager userManager;
-    @Inject
-    private DlgCreateDep userDialogues;
+	@Autowired
+	private UserManager userManager;
+	@Autowired
+	private DlgCreateDep userDialogues;
 
-    @GetMapping
-    public String showDesignForm(Model model) {
-        model.addAttribute("userManager", userManager);
-        model.addAttribute("userDlg", userDialogues);
-        return "/admin/admin.xhtml";
-    }
+	@GetMapping
+	public String showDesignForm(Model model) {
+		model.addAttribute("userManager", userManager);
+		model.addAttribute("userDlg", userDialogues);
+		return "/admin/admin.xhtml";
+	}
 }

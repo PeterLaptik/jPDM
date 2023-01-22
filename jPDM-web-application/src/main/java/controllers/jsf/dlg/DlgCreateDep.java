@@ -4,10 +4,10 @@ import java.io.Serializable;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
-import javax.inject.Inject;
 
 import org.primefaces.PrimeFaces;
 import org.primefaces.model.DialogFrameworkOptions;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import model.beans.org.Department;
@@ -21,7 +21,7 @@ public class DlgCreateDep implements Serializable {
 	private static String DLG_CREATE_DEP = "create-dep";
 	private String name;
 	private String description;
-	@Inject
+	@Autowired
 	private DepartmentDAO dao;
 
 	public void createDepartmentShow() {

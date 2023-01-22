@@ -1,4 +1,4 @@
-package jpdm.db.model;
+package jpdm.db.modeller.tree;
 
 import java.util.HashMap;
 import java.util.Map;

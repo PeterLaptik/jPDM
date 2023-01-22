@@ -3,12 +3,14 @@ package test.mocks.org;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import model.beans.org.Department;
 import model.dao.DepartmentDAO;
 
 @Component
+@Scope("prototype")
 public class DepartmentDaoMock implements DepartmentDAO {
 	private static final long serialVersionUID = -5936212917192611146L;
 	public static List<Department> departments = new ArrayList<>();

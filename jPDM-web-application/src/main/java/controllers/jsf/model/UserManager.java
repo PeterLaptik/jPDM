@@ -7,6 +7,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import model.beans.org.Department;
@@ -22,21 +23,21 @@ public class UserManager implements Serializable {
 	@Inject
 	private UserDAO userDao;
 	@Inject
-	private DepartmentDAO dao;
+	private DepartmentDAO departmentDao;
 
 	private Department selectedDepartment;
 	private User selectedUser;
 
 	public List<Department> getDepartmentsList() {
-		return dao.getDepartments();
+		return departmentDao.getDepartments();
 	}
 
 	public List<User> getUserList() {
-		return userDao.getUsersOfDepartment(selectedDepartment);
+		return userDao.findUsersOfDepartment(selectedDepartment);
 	}
 
 	public List<User> getUsersOfDepartment(Department department) {
-		return userDao.getUsersOfDepartment(department);
+		return userDao.findUsersOfDepartment(department);
 	}
 
 	public int getUsersNumber() {
@@ -59,15 +60,15 @@ public class UserManager implements Serializable {
 		selectedUser = null;
 		this.selectedDepartment = selectedDepartment;
 	}
-	
+
 	public boolean hasSelectedUser() {
-		return selectedUser!=null;
+		return selectedUser != null;
 	}
-	
+
 	public boolean hasSelectedDepartment() {
-		return selectedDepartment!=null;
+		return selectedDepartment != null;
 	}
-	
+
 	public void resetSelection() {
 		selectedDepartment = null;
 		selectedUser = null;

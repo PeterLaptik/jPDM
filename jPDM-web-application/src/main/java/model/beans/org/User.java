@@ -1,50 +1,83 @@
 package model.beans.org;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.UUID;
 
 public class User implements Serializable {
 	private static final long serialVersionUID = -1760783703833569643L;
 	private UUID id;
-    private String name;
-    private String login;
-    private UUID departmentId;
+	private String login;
+	private String name;
+	private String password;
+	private String salt;
+	private UUID departmentId;
 
-    public User(String login, String name) {
-        this.login = login;
-        this.name = name;
-        this.id = UUID.randomUUID();
-    }
+	private List<Group> groups;
 
-    public UUID getId() {
-        return id;
-    }
+	public User() {
+		
+	}
+	
+	public User(String login, String name) {
+		this.login = login;
+		this.name = name;
+		this.id = UUID.randomUUID();
+	}
 
-    public void setId(UUID uuid) {
-        this.id = uuid;
-    }
+	public UUID getId() {
+		return id;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public void setId(UUID uuid) {
+		this.id = uuid;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public String getLogin() {
-        return login;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public void setLogin(String login) {
-        this.login = login;
-    }
+	public String getLogin() {
+		return login;
+	}
 
-    public UUID getDepartmentId() {
-        return departmentId;
-    }
+	public void setLogin(String login) {
+		this.login = login;
+	}
 
-    public void setDepartmentId(UUID departmentId) {
-        this.departmentId = departmentId;
-    }
+	public UUID getDepartmentId() {
+		return departmentId;
+	}
+
+	public void setDepartmentId(UUID departmentId) {
+		this.departmentId = departmentId;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getSalt() {
+		return salt;
+	}
+
+	public void setSalt(String salt) {
+		this.salt = salt;
+	}
+
+	public List<Group> getGroups() {
+		return groups;
+	}
+
+	public void setGroups(List<Group> groups) {
+		this.groups = groups;
+	}
 }

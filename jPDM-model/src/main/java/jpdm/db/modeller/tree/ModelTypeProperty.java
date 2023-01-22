@@ -1,4 +1,4 @@
-package jpdm.db.model;
+package jpdm.db.modeller.tree;
 
 public class ModelTypeProperty {
 	private String name;

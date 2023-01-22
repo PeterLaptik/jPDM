@@ -8,7 +8,6 @@ import javax.faces.validator.Validator;
 import org.primefaces.validate.ClientValidator;
 
 public abstract class AbstractValidator implements Validator, ClientValidator {
-
 	/**
 	 * Checks if a certain button has been clicked and the validation should be
 	 * ignored. For example, check for 'cancel' click (ignore validation for
