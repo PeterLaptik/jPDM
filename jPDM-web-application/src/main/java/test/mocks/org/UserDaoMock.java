@@ -1,6 +1,7 @@
 package test.mocks.org;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.context.annotation.Scope;
@@ -10,6 +11,7 @@ import model.beans.org.Department;
 import model.beans.org.Group;
 import model.beans.org.User;
 import model.dao.UserDAO;
+import model.service.UserService;
 
 @Component
 @Scope("prototype")
@@ -17,11 +19,15 @@ public class UserDaoMock implements UserDAO {
 	private static final long serialVersionUID = 5174823840998139278L;
 	private static List<User> users = new ArrayList<User>();
 	private static UserServiceTest service = new UserServiceTest();
+	
+	public static List<Group> groups;
 
     static {
-    	Group groupAdmin = new Group(Group.GROUP_ADMIN, "admin group");
-    	Group groupDba = new Group(Group.GROUP_DBA_ADMIN, "dba group");
-    	Group groupDefault = new Group(Group.GROUP_DEFAULT, "default group");
+    	Group groupAdmin = new Group(Group.GROUP_ADMIN, Group.GROUP_ADMIN);
+    	Group groupDba = new Group(Group.GROUP_DBA_ADMIN, Group.GROUP_DBA_ADMIN);
+    	Group groupDefault = new Group(Group.GROUP_DEFAULT, Group.GROUP_DEFAULT);
+    	
+    	groups = Arrays.asList(groupAdmin, groupDba, groupDefault);
     	
         List<Department> departments = DepartmentDaoMock.departments;
         int counter = 0;
@@ -86,5 +92,16 @@ public class UserDaoMock implements UserDAO {
 	@Override
 	public List<Group> getUserGroups(User user) {
 		return user.getGroups();
+	}
+
+	@Override
+	public boolean createUser(User user, Department department) {
+		user.setDepartmentId(department.getId());
+		user.setGroups(new ArrayList<Group>());
+		for(Group group: groups) {
+			if(group.getName().equals(Group.GROUP_DEFAULT))
+				user.getGroups().add(group);
+		}
+		return true;
 	}
 }

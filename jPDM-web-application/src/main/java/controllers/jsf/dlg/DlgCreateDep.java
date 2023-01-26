@@ -4,16 +4,18 @@ import java.io.Serializable;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.inject.Inject;
 
 import org.primefaces.PrimeFaces;
 import org.primefaces.model.DialogFrameworkOptions;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 
 import model.beans.org.Department;
 import model.dao.DepartmentDAO;
 
 @Component
+@ComponentScan("test.mocks.org")
 @RequestScoped
 @ManagedBean
 public class DlgCreateDep implements Serializable {
@@ -21,8 +23,8 @@ public class DlgCreateDep implements Serializable {
 	private static String DLG_CREATE_DEP = "create-dep";
 	private String name;
 	private String description;
-	@Autowired
-	private DepartmentDAO dao;
+	@Inject
+	private DepartmentDAO departmentDao;
 
 	public void createDepartmentShow() {
 		DialogFrameworkOptions options = DialogFrameworkOptions.builder().modal(true).width("350px").responsive(true)
@@ -37,7 +39,7 @@ public class DlgCreateDep implements Serializable {
 
 	public void create() {
 		Department dep = new Department(name, description);
-		dao.createDepartment(dep);
+		departmentDao.createDepartment(dep);
 		PrimeFaces.current().dialog().closeDynamic(null);
 	}
 

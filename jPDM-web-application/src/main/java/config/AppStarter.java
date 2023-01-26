@@ -1,19 +1,17 @@
-package auth.tmp;
+package config;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-import auth.SecurityConfiguration;
+import auth.SecurityConfig;
 import controllers.MvcConfig;
 
-public class MyAppStarter extends AbstractAnnotationConfigDispatcherServletInitializer {
-
-	// Load database and spring security configurations
+public class AppStarter extends AbstractAnnotationConfigDispatcherServletInitializer {
+	
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
-		return new Class[] { SecurityConfiguration.class };
+		return new Class[] { SecurityConfig.class };
 	}
 
-	// Load spring web configuration
 	@Override
 	protected Class<?>[] getServletConfigClasses() {
 		return new Class[] { MvcConfig.class };

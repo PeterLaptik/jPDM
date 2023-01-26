@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 import model.beans.org.User;
 
-@Component
+//@Component
 public class UserServiceDefault implements UserService {
 	private static final int SALT_LENGTH = 16;
 	final Random random = new SecureRandom();
@@ -24,11 +24,6 @@ public class UserServiceDefault implements UserService {
 		String encodedPassword = passwordEncoder.encode(password + salt);
 		user.setPassword(encodedPassword);
 		return user;
-	}
-
-	@Override
-	public boolean matchPassword(String rawPassword, String encodedPassword) {
-		return passwordEncoder.matches(rawPassword, encodedPassword);
 	}
 
 	private String generateStaticSymbolicSalt() {

@@ -11,20 +11,21 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import model.beans.org.Group;
 import model.beans.org.User;
 import model.dao.UserDAO;
-import model.service.UserService;
 
-@Component
-public class CustomAuthenticationProvider implements AuthenticationProvider {
+//@Component
+public class UserAuthenticationProvider /*implements AuthenticationProvider*/ {
+	/*
 	private static final String ROLE_PREFIX = "ROLE_";
 	@Autowired
 	private UserDAO userDao;
 	@Autowired
-	private UserService userService;
+	private PasswordEncoder passwordEncoder;
 	
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -36,7 +37,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 			throw new BadCredentialsException("Error: incorrect login or password!");
 
 		String saltedPassword = password + user.getSalt();
-		if (!userService.matchPassword(saltedPassword, user.getPassword()))
+		if (!passwordEncoder.matches(saltedPassword, user.getPassword()))
 			throw new BadCredentialsException("Error: passord is incorrect!");
 
 		List<Group> groups = userDao.getUserGroups(user);
@@ -52,4 +53,5 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 	public boolean supports(Class<?> authentication) {
 		return true;
 	}
+	*/
 }

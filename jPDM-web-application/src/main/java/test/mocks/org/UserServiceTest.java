@@ -7,6 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import model.beans.org.User;
+import model.service.UserService;
 
 public class UserServiceTest {
 	private static final int SALT_LENGTH = 16;
