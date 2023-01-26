@@ -74,12 +74,13 @@
 			<h:form id="user-form">
 				<p:toolbar>
 					<p:toolbarGroup>
-						<p:commandButton id="button-user-create" value="New"
+						<p:commandButton id="button-user-create" value="Create"
 							icon="pi pi-plus" style="margin-right: .5rem"
 							styleClass="ui-button-success"
 							disabled="#{!userManager.hasSelectedDepartment()}"
 							action="#{dlgCreateUser.createUserShow}">
-							<p:ajax event="dialogReturn" update="id-user-list" />
+								<p:ajax event="dialogReturn" update="id-user-list" />
+								<f:attribute name="itemDepartment" value="#{userManager.selectedDepartment}" />
 						</p:commandButton>
 						<p:commandButton value="Delete" icon="pi pi-trash"
 							id="button-user-delete" styleClass="ui-button-danger"

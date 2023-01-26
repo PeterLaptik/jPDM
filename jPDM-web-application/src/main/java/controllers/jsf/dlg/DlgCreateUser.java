@@ -1,9 +1,11 @@
 package controllers.jsf.dlg;
 
 import java.io.Serializable;
+import java.util.Map;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
 
 import org.primefaces.PrimeFaces;
 import org.primefaces.model.DialogFrameworkOptions;
@@ -21,7 +23,7 @@ public class DlgCreateUser implements Serializable {
 	private String login;
 	private String password;
 
-	private Department department;
+	private Department itemDepartment;
 
 	public void createUserShow() {
 		DialogFrameworkOptions options = DialogFrameworkOptions.builder().modal(true).width("330px").responsive(true)
@@ -32,6 +34,9 @@ public class DlgCreateUser implements Serializable {
 
 	public void create() {
 		System.out.println("Create:");
+		Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+//		FacesContext.getCurrentInstance().getExternalContext().
+		PrimeFaces.current().dialog().closeDynamic(null);
 	}
 
 	public void cancel() {
@@ -62,11 +67,11 @@ public class DlgCreateUser implements Serializable {
 		this.password = password;
 	}
 
-	public Department getDepartment() {
-		return department;
+	public Department getItemDepartment() {
+		return itemDepartment;
 	}
 
-	public void setDepartment(Department department) {
-		this.department = department;
+	public void setItemDepartment(Department itemDepartment) {
+		this.itemDepartment = itemDepartment;
 	}
 }
