@@ -1,13 +1,12 @@
 package controllers.jsf.model;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 
 import model.beans.org.Department;
@@ -16,10 +15,10 @@ import model.dao.DepartmentDAO;
 import model.dao.UserDAO;
 
 @Component
+@ComponentScan("test.mocks.org")
 @ViewScoped
 @ManagedBean
-public class UserManager implements Serializable {
-	private static final long serialVersionUID = -1111462741588988358L;
+public class UserManager {
 	@Inject
 	private UserDAO userDao;
 	@Inject
