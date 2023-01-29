@@ -1,11 +1,16 @@
 package auth;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.Md4PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 //@Configuration
 //@ComponentScan("auth")
 //@ComponentScan("test.mocks.org")
 //@ComponentScan("model.service")
 //@EnableWebSecurity
 public class SecurityConfig {
+	PasswordEncoder x = new Md4PasswordEncoder();
 	/*
 	@Autowired
 	private UserAuthenticationProvider customAuthenticationProvider;

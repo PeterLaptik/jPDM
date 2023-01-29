@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+	<title>Create department</title>
+</h:head>
+
+<h:body>
+	<h:form id="rootForm">
+		<div>
+			<table>
+				<tr>
+					<td><h:outputLabel for="id-name" value="Department name " /></td>
+					<td><p:inputText id="id-name" label="Department name"
+							maxlength="31" value="#{dlgCreateDep.name}">
+							<f:validator validatorId="department.name.validator" />
+						</p:inputText></td>
+					<p:tooltip for="id-name"
+						value="Only letters, numbers, and characters '_', '-', ' ' are allowed"
+						position="right" />
+				</tr>
+				<tr>
+					<td><h:outputLabel for="id-descr" value="Description " /></td>
+					<td><p:inputText id="id-descr" maxlength="63"
+							value="#{dlgCreateDep.description}"></p:inputText></td>
+				</tr>
+				<tr>
+					<td colspan="2" style="color: red; text-align: center;"><h:message
+							id="id-msg" for="id-name" /></td>
+				</tr>
+				<tr>
+					<td colspan="2" style="padding-top: 15px; text-align: center;">
+						<p:commandButton style="margin: 10px" id="btn-cancel"
+							value="Cancel" icon="pi pi-ban" action="#{dlgCreateDep.cancel}">
+						</p:commandButton> <p:commandButton style="margin: 10px" id="btn-create"
+							value="Create" icon="pi pi-check" action="#{dlgCreateDep.create}"
+							update="id-msg">
+						</p:commandButton>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</h:form>
+</h:body>
+
+</html>

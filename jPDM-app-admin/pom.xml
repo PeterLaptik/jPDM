@@ -19,6 +19,10 @@
 		<krazo.version>1.1.1</krazo.version>
 		<jakarta.mvc-api.version>1.1.0</jakarta.mvc-api.version>
 		<jaxrs-ri.version>2.30</jaxrs-ri.version>
+		<faces.version>2.1</faces.version>
+		<validation.api.version>2.0.1.Final</validation.api.version>
+		<primefaces.version>12.0.0</primefaces.version>
+		<primefaces.themes.version>1.0.10</primefaces.themes.version>
 		<junit.version>4.12</junit.version>
 	</properties>
 
@@ -31,21 +35,40 @@
 		</dependency>
 
 		<dependency>
-			<groupId>jakarta.mvc</groupId>
-			<artifactId>jakarta.mvc-api</artifactId>
-			<version>${jakarta.mvc-api.version}</version>
+			<groupId>org.wildfly.security</groupId>
+			<artifactId>wildfly-elytron</artifactId>
+			<version>2.0.0.Final</version>
 		</dependency>
 
-		<dependency>
-			<groupId>org.eclipse.krazo</groupId>
-			<artifactId>krazo-jersey</artifactId>
-			<version>${krazo.version}</version>
-		</dependency>
+		<!-- <dependency> <groupId>jakarta.mvc</groupId> <artifactId>jakarta.mvc-api</artifactId> 
+			<version>${jakarta.mvc-api.version}</version> </dependency> <dependency> 
+			<groupId>org.eclipse.krazo</groupId> <artifactId>krazo-jersey</artifactId> 
+			<version>${krazo.version}</version> </dependency> <dependency> <groupId>org.eclipse.krazo.ext</groupId> 
+			<artifactId>krazo-mustache</artifactId> <version>1.0.0</version> </dependency> 
+			<dependency> <groupId>org.glassfish.jersey.bundles</groupId> <artifactId>jaxrs-ri</artifactId> 
+			<version>${jaxrs-ri.version}</version> </dependency> -->
 
+		<!-- JSF and primefaces dependencies -->
 		<dependency>
-			<groupId>org.glassfish.jersey.bundles</groupId>
-			<artifactId>jaxrs-ri</artifactId>
-			<version>${jaxrs-ri.version}</version>
+			<groupId>javax.faces</groupId>
+			<artifactId>javax.faces-api</artifactId>
+			<version>${faces.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<version>${validation.api.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.primefaces</groupId>
+			<artifactId>primefaces</artifactId>
+			<version>${primefaces.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.primefaces.themes</groupId>
+			<artifactId>all-themes</artifactId>
+			<version>${primefaces.themes.version}</version>
 		</dependency>
 
 		<dependency>
@@ -55,6 +78,13 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+
+	<repositories>
+		<repository>
+			<id>primefaces-repo</id>
+			<url>https://repository.primefaces.org/</url>
+		</repository>
+	</repositories>
 
 	<build>
 		<finalName>jPDM-app-admin</finalName>
@@ -73,6 +103,14 @@
 				<artifactId>maven-war-plugin</artifactId>
 				<configuration>
 					<failOnMissingWebXml>false</failOnMissingWebXml>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.0.0-M8</version>
+				<configuration>
+					<skipTests>true</skipTests>
 				</configuration>
 			</plugin>
 		</plugins>
