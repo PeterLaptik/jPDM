@@ -19,28 +19,43 @@ public class ElytronBCryptEncoder implements PasswordEncoder {
 	private Provider provider = new WildFlyElytronPasswordProvider();
 
 	@Override
-	public String encode(CharSequence rawPassword) throws NoSuchAlgorithmException, InvalidKeySpecException {
-		PasswordFactory passwordFactory = PasswordFactory.getInstance(BCryptPassword.ALGORITHM_BCRYPT, provider);
+	public String encode(CharSequence rawPassword) {
+		String result = null;
 
-		byte[] salt = new byte[BCryptPassword.BCRYPT_SALT_SIZE];
-		SecureRandom random = new SecureRandom();
-		random.nextBytes(salt);
+		try {
+			PasswordFactory passwordFactory = PasswordFactory.getInstance(BCryptPassword.ALGORITHM_BCRYPT, provider);
+			byte[] salt = new byte[BCryptPassword.BCRYPT_SALT_SIZE];
+			SecureRandom random = new SecureRandom();
+			random.nextBytes(salt);
 
-		IteratedSaltedPasswordAlgorithmSpec iteratedAlgorithmSpec = new IteratedSaltedPasswordAlgorithmSpec(
-				ITERATION_COUNT, salt);
-		EncryptablePasswordSpec encryptableSpec = new EncryptablePasswordSpec(rawPassword.toString().toCharArray(),
-				iteratedAlgorithmSpec);
+			IteratedSaltedPasswordAlgorithmSpec iteratedAlgorithmSpec = new IteratedSaltedPasswordAlgorithmSpec(
+					ITERATION_COUNT, salt);
+			EncryptablePasswordSpec encryptableSpec = new EncryptablePasswordSpec(rawPassword.toString().toCharArray(),
+					iteratedAlgorithmSpec);
 
-		BCryptPassword original = (BCryptPassword) passwordFactory.generatePassword(encryptableSpec);
-		return ModularCrypt.encodeAsString(original);
+			BCryptPassword original = (BCryptPassword) passwordFactory.generatePassword(encryptableSpec);
+			result = ModularCrypt.encodeAsString(original);
+		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+			throw new JpdmSecurityException(e);
+		}
+
+		return result;
 	}
 
 	@Override
-	public boolean matches(CharSequence rawPassword, String encodedPassword) throws NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException {
-		PasswordFactory passwordFactory = PasswordFactory.getInstance(BCryptPassword.ALGORITHM_BCRYPT, provider);
-		Password userPasswordDecoded = ModularCrypt.decode(encodedPassword);
-		Password userPasswordRestored = passwordFactory.translate(userPasswordDecoded);
-		return passwordFactory.verify(userPasswordRestored, rawPassword.toString().toCharArray());
+	public boolean matches(CharSequence rawPassword, String encodedPassword) {
+		boolean result;
+		PasswordFactory passwordFactory;
+		Password userPasswordDecoded;
+		Password userPasswordRestored;
+		try {
+			passwordFactory = PasswordFactory.getInstance(BCryptPassword.ALGORITHM_BCRYPT, provider);
+			userPasswordDecoded = ModularCrypt.decode(encodedPassword);
+			userPasswordRestored = passwordFactory.translate(userPasswordDecoded);
+			result = passwordFactory.verify(userPasswordRestored, rawPassword.toString().toCharArray());
+		} catch (NoSuchAlgorithmException | InvalidKeySpecException | InvalidKeyException e) {
+			throw new JpdmSecurityException(e);
+		}
+		return result;
 	}
-
 }

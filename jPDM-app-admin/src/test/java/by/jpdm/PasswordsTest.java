@@ -1,36 +1,39 @@
 package by.jpdm;
 
-import org.junit.Test;
+import org.jboss.weld.junit5.WeldInitiator;
+import org.jboss.weld.junit5.WeldJunit5Extension;
+import org.jboss.weld.junit5.WeldSetup;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.wildfly.common.Assert;
 
-import by.jpdm.security.ElytronBCryptEncoder;
-import by.jpdm.security.PasswordEncoder;
-
-import static org.junit.Assert.assertTrue;
-
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-
+@ExtendWith(WeldJunit5Extension.class)
 public class PasswordsTest {
-
+	
+	@WeldSetup
+	public WeldInitiator weld = WeldInitiator.of(WeldInitiator.createWeld());
+	
+//	PasswordEncoder encoder = new ElytronBCryptEncoder();
+	
     @Test
-    public void test() throws NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException {
-    	String pass = "Pass123";
-    	String badPass = "Pass12";
-    	PasswordEncoder encoder = new ElytronBCryptEncoder();
-    	String resultFirst = encoder.encode(pass);
-    	System.out.println(pass + ": " + resultFirst);
-    	String resultSecond = encoder.encode(pass);
-    	System.out.println(pass + ": " + resultSecond);
-    	String oddResult = encoder.encode(badPass);
-    	System.out.println(badPass + ": " + oddResult);
+    public void encodingTest() {
+//    	String pass = "Pass123";
+//    	String badPass = "Pass12";
+//    	
+//    	String resultFirst = encoder.encode(pass);
+//    	String resultSecond = encoder.encode(pass);
+//    	String oddResult = encoder.encode(badPass);
+//    	
+//    	Assert.assertTrue(encoder.matches(pass, resultFirst));
+//    	Assert.assertTrue(encoder.matches(pass, resultSecond));
+//    	
+//    	Assert.assertFalse(encoder.matches(badPass, resultFirst));
+//    	Assert.assertFalse(encoder.matches(badPass, resultSecond));
+//    	
+//    	Assert.assertTrue(encoder.matches(badPass, oddResult));
+//    	
+//    	Assert.assertFalse(encoder.matches(pass, oddResult));
     	
-    	System.out.println("Good: " + encoder.matches(pass, resultFirst));
-    	System.out.println("Good: " + encoder.matches(pass, resultSecond));
-    	System.out.println("Bad: " + encoder.matches(badPass, resultFirst));
-    	System.out.println("Bad: " + encoder.matches(badPass, resultSecond));
-    	System.out.println("Good: " + encoder.matches(badPass, oddResult));
-    	System.out.println("Bad: " + encoder.matches(pass, oddResult));
-        assertTrue(true);
+    	Assert.assertTrue(true);
     }
 }

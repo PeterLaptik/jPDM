@@ -7,7 +7,7 @@ import javax.faces.validator.Validator;
 
 import org.primefaces.validate.ClientValidator;
 
-public abstract class AbstractValidator implements Validator<Object>, ClientValidator {
+public abstract class AbstractValidator implements Validator, ClientValidator {
 	public static final String ID_CANCEL_MASK = "btn-cancel";
 	
 	/**
