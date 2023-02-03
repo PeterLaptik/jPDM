@@ -9,4 +9,6 @@ public interface DepartmentDAO extends Serializable {
 	List<Department> getDepartments();
 
 	void createDepartment(Department department);
+	
+	int getUsersNumber(Department department);
 }

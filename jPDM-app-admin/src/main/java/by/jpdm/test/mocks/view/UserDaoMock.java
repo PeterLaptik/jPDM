@@ -1,4 +1,4 @@
-package by.jpdm.test.mocks;
+package by.jpdm.test.mocks.view;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,9 +11,9 @@ import by.jpdm.model.dao.UserDAO;
 
 public class UserDaoMock implements UserDAO {
 	private static final long serialVersionUID = 5174823840998139278L;
-	private static List<User> users = new ArrayList<User>();
-	private static UserServiceTest service = new UserServiceTest();
+	private static UserServiceTestMock service = new UserServiceTestMock();
 	
+	public static List<User> users = new ArrayList<User>();
 	public static List<Group> groups;
 
     static {
@@ -89,13 +89,13 @@ public class UserDaoMock implements UserDAO {
 	}
 
 	@Override
-	public boolean createUser(User user, Department department) {
-		user.setDepartmentId(department.getId());
+	public boolean createUser(User user) {
 		user.setGroups(new ArrayList<Group>());
 		for(Group group: groups) {
 			if(group.getName().equals(Group.GROUP_DEFAULT))
 				user.getGroups().add(group);
 		}
+		users.add(user);
 		return true;
 	}
 }

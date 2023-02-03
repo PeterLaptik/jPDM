@@ -41,6 +41,7 @@ public class DlgCreateDep implements Serializable {
         try {
             Department dep = new Department(name, description);
             departmentDao.createDepartment(dep);
+            clearData();
         } catch (Exception e) {
             PrimeFaces.current().dialog().showMessageDynamic(new FacesMessage(e.getMessage()));
             return;
@@ -62,5 +63,10 @@ public class DlgCreateDep implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    private void clearData() {
+        name = "";
+        description = "";
     }
 }

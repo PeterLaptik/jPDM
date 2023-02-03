@@ -12,6 +12,6 @@ h3 {
 
 .ui-datatable-scrollable-body {
     height: auto;
-    max-height: 800px;
+    max-height: 600px;
     overflow-y: scroll;
 }

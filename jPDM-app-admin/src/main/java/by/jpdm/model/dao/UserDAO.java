@@ -8,10 +8,10 @@ import by.jpdm.model.beans.org.Group;
 import by.jpdm.model.beans.org.User;
 
 public interface UserDAO extends Serializable {
-	
-	boolean createUser(User user, Department department);
-	
+    
     int getUsersNumber();
+    
+	boolean createUser(User user);
     
     User findUserByLogin(String login);
     

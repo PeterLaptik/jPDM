@@ -4,12 +4,18 @@ import java.io.Serializable;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
+
 import org.primefaces.PrimeFaces;
 import org.primefaces.model.DialogFrameworkOptions;
 
+import by.jpdm.model.beans.org.User;
+import by.jpdm.model.dao.UserDAO;
+import by.jpdm.model.service.UserService;
 import jakarta.inject.Named;
 
 @Named
@@ -22,19 +28,33 @@ public class DlgCreateUser implements Serializable {
     private String name;
     private String login;
     private String password;
-    private UUID itemDepartmentId;
+    private UUID departmentId;
+
+    @Inject
+    private UserService userService;
+
+    @Inject
+    private UserDAO userDao;
 
     public void createUserShow() {
         DialogFrameworkOptions options = DialogFrameworkOptions.builder().modal(true).width("350px").responsive(true)
                 .build();
 
         Map<String, String> map = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        itemDepartmentId = UUID.fromString(map.get(PARAM_ITEM_DEPARTMENT));
+        departmentId = UUID.fromString(map.get(PARAM_ITEM_DEPARTMENT));
         PrimeFaces.current().dialog().openDynamic(DLG_CREATE_USER, options, null);
     }
 
     public void create() {
-        System.out.println("Create:");
+        try {
+            User user = userService.createUser(login, name, password);
+            user.setDepartmentId(departmentId);
+            userDao.createUser(user);
+            clearData();
+        } catch (Exception e) {
+            PrimeFaces.current().dialog().showMessageDynamic(new FacesMessage(e.getMessage()));
+            return;
+        }
         PrimeFaces.current().dialog().closeDynamic(null);
     }
 
@@ -67,10 +87,17 @@ public class DlgCreateUser implements Serializable {
     }
 
     public UUID getItemDepartmentId() {
-        return itemDepartmentId;
+        return departmentId;
     }
 
     public void setItemDepartmentId(String itemDepartmentId) {
-        this.itemDepartmentId = UUID.fromString(itemDepartmentId);
+        this.departmentId = UUID.fromString(itemDepartmentId);
+    }
+
+    private void clearData() {
+        name = "";
+        login = "";
+        password = "";
+        departmentId = null;
     }
 }

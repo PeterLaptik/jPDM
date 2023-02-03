@@ -1,9 +1,10 @@
-package by.jpdm.test.mocks;
+package by.jpdm.test.mocks.view;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import by.jpdm.model.beans.org.Department;
+import by.jpdm.model.beans.org.User;
 import by.jpdm.model.dao.DepartmentDAO;
 
 public class DepartmentDaoMock implements DepartmentDAO {
@@ -27,4 +28,11 @@ public class DepartmentDaoMock implements DepartmentDAO {
 	public void createDepartment(Department department) {
 		departments.add(department);
 	}
+
+    @Override
+    public int getUsersNumber(Department department) {
+        UserDaoMock mock = new UserDaoMock();
+        List<User> users = mock.findUsersOfDepartment(department);
+        return users.size();
+    }
 }

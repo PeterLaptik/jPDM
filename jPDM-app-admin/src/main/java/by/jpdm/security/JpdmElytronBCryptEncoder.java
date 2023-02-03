@@ -14,7 +14,7 @@ import org.wildfly.security.password.spec.EncryptablePasswordSpec;
 import org.wildfly.security.password.spec.IteratedSaltedPasswordAlgorithmSpec;
 import org.wildfly.security.password.util.ModularCrypt;
 
-public class ElytronBCryptEncoder implements PasswordEncoder {
+public class JpdmElytronBCryptEncoder implements PasswordEncoder {
 	private static final int ITERATION_COUNT = 10;
 	private Provider provider = new WildFlyElytronPasswordProvider();
 
