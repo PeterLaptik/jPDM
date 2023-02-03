@@ -24,6 +24,10 @@
 		<param-name>javax.faces.PROJECT_STAGE</param-name>
 		<param-value>Development</param-value>
 	</context-param>
+	<context-param>
+		<param-name>primefaces.MOVE_SCRIPTS_TO_BOTTOM</param-name>
+		<param-value>true</param-value>
+	</context-param>
 	<!-- Pages mapping -->
 	<welcome-file-list>
 		<welcome-file>jsf/users.xhtml</welcome-file>

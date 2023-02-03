@@ -3,7 +3,6 @@ package by.jpdm.jsf.model;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
@@ -13,8 +12,6 @@ import org.primefaces.model.SortMeta;
 
 import by.jpdm.model.beans.org.Department;
 import by.jpdm.model.beans.org.User;
-import by.jpdm.model.dao.DepartmentDAO;
-import by.jpdm.model.dao.UserDAO;
 import by.jpdm.model.dao.UserLazyDAO;
 
 public class UserLazyModel extends LazyDataModel<User> {
@@ -24,15 +21,13 @@ public class UserLazyModel extends LazyDataModel<User> {
     @Inject
     private UserLazyDAO userLazyDao;
 
-    @Inject
-    private DepartmentDAO departmentDao;
-
-    @Inject
-    private UserDAO userDao;
-
     @Override
     public int count(Map<String, FilterMeta> filterBy) {
-        return departmentDao.getUsersNumber(selectedDepartment);
+    	Map<String, String> filterMap = new HashMap<>();
+        for(Map.Entry<String, FilterMeta> me: filterBy.entrySet())
+            filterMap.put(me.getKey(), me.getValue().getFilterValue().toString());
+        
+        return userLazyDao.count(selectedDepartment, filterMap);
     }
 
     @Override

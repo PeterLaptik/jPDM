@@ -2,6 +2,7 @@ package by.jpdm.test.mocks.view;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 import by.jpdm.model.beans.org.Department;
@@ -9,6 +10,9 @@ import by.jpdm.model.beans.org.Group;
 import by.jpdm.model.beans.org.User;
 import by.jpdm.model.dao.UserDAO;
 
+/**
+ * Mock for manual view tests. Do not use for other purposes
+ */
 public class UserDaoMock implements UserDAO {
 	private static final long serialVersionUID = 5174823840998139278L;
 	private static UserServiceTestMock service = new UserServiceTestMock();
@@ -60,29 +64,6 @@ public class UserDaoMock implements UserDAO {
         return users.size();
     }
 
-    @Override
-    public List<User> findUsersOfDepartment(Department department) {
-        // All users
-        if(department==null)
-            return users;
-        // Department users
-        List<User> result = new ArrayList<>();
-        for(User user: users) {
-            if(user.getDepartmentId().equals(department.getId()))
-                result.add(user);
-        }
-        return result;
-    }
-
-	@Override
-	public User findUserByLogin(String login) {
-		for(User i: users) {
-			if(i.getLogin().equals(login))
-				return i;
-		}
-		return null;
-	}
-
 	@Override
 	public List<Group> getUserGroups(User user) {
 		return user.getGroups();
@@ -97,5 +78,15 @@ public class UserDaoMock implements UserDAO {
 		}
 		users.add(user);
 		return true;
+	}
+
+	@Override
+	public void deleteUser(User user) {
+		Iterator<User> it = users.iterator();
+		while(it.hasNext()) {
+			User u = (User)it.next();
+			if(u.getId().equals(user.getId()))
+				it.remove();
+		}
 	}
 }

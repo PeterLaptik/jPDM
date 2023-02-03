@@ -3,8 +3,10 @@ package by.jpdm.jsf.model;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import org.primefaces.model.LazyDataModel;
@@ -31,34 +33,39 @@ public class UserManager implements Serializable {
 	private LazyDataModel<User> lazyDataModel;
 	
 	private Department selectedDepartment;
-	private User selectedUser;
+	private List<User> selectedUsers;
 
 	public List<Department> getDepartmentsList() {
 		return departmentDao.getDepartments();
 	}
 
 	public List<User> getUserList() {
-		return userDao.findUsersOfDepartment(selectedDepartment);
+		return departmentDao.getUsers(selectedDepartment);
+	}
+	
+	public void deleteUsers() {
+		try {
+			userDao.deleteUser(null);
+		} catch (Exception e) {
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "Deleting error");
+	        FacesContext.getCurrentInstance().addMessage("sticky-key", message);
+		}
 	}
 	
 	public LazyDataModel<User> getUserLazyList() {
 	    return lazyDataModel;
 	}
 
-	public List<User> getUsersOfDepartment(Department department) {
-		return userDao.findUsersOfDepartment(department);
-	}
-
 	public int getUsersNumber() {
 		return userDao.getUsersNumber();
 	}
 
-	public User getSelectedUser() {
-		return selectedUser;
+	public List<User> getSelectedUsers() {
+		return selectedUsers;
 	}
 
-	public void setSelectedUser(User selectedUser) {
-		this.selectedUser = selectedUser;
+	public void setSelectedUsers(List<User> selectedUsers) {
+		this.selectedUsers = selectedUsers;
 	}
 
 	public Department getSelectedDepartment() {
@@ -66,13 +73,13 @@ public class UserManager implements Serializable {
 	}
 
 	public void setSelectedDepartment(Department selectedDepartment) {
-		selectedUser = null;
+		selectedUsers = null;
 		this.selectedDepartment = selectedDepartment;
 		((UserLazyModel)lazyDataModel).setSelectedDepartment(selectedDepartment);
 	}
 
-	public boolean hasSelectedUser() {
-		return selectedUser != null;
+	public boolean hasSelectedUsers() {
+		return selectedUsers != null && selectedUsers.size()>0;
 	}
 
 	public boolean hasSelectedDepartment() {
@@ -81,7 +88,7 @@ public class UserManager implements Serializable {
 
 	public void resetSelection() {
 		selectedDepartment = null;
-		selectedUser = null;
+		selectedUsers = null;
 		((UserLazyModel)lazyDataModel).setSelectedDepartment(null);
 	}
 }

@@ -7,6 +7,9 @@ import by.jpdm.model.beans.org.User;
 import by.jpdm.model.service.UserService;
 import by.jpdm.security.PasswordEncoder;
 
+/**
+ * Mock for manual view tests. Do not use for other purposes
+ */
 public class UserServiceTestMock implements UserService {
     private static final int SALT_LENGTH = 16;
     final Random random = new SecureRandom();

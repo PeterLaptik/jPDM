@@ -6,21 +6,44 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import javax.inject.Inject;
+
 import by.jpdm.model.beans.org.Department;
 import by.jpdm.model.beans.org.User;
+import by.jpdm.model.dao.DepartmentDAO;
 import by.jpdm.model.dao.UserLazyDAO;
 
+/**
+ * Mock for manual view tests. Do not use for other purposes
+ */
 public class UserLazyDaoMock implements UserLazyDAO {
+	@Inject
+	DepartmentDAO departmentDao;
 
     @Override
-    public int count(String filterLike) {
-        return 0;
+    public int count(Department department, Map<String,String> filterMap) {    
+        List<User> allUsers = departmentDao.getUsers(department);
+        
+        String filterLogin = filterMap.get("login");
+        String filterName = filterMap.get("name");
+        
+        if(filterLogin!=null)
+            allUsers = allUsers.stream()
+                    .filter(u -> (u.getLogin().toLowerCase().startsWith(filterLogin.toLowerCase())))
+                    .collect(Collectors.toList());
+        
+        if(filterName!=null)
+            allUsers = allUsers.stream()
+                    .filter(u -> (u.getName().toLowerCase().startsWith(filterName.toLowerCase())))
+                    .collect(Collectors.toList());
+        return allUsers.size();
     }
 
     @Override
     public List<User> load(Department department, int first, int pageSize, Map<String, Integer> orderMap, Map<String,String> filterMap) {
-        UserDaoMock mock = new UserDaoMock();        
-        List<User> allUsers = mock.findUsersOfDepartment(department);
+        @SuppressWarnings("unused")
+		UserDaoMock mock = new UserDaoMock();        
+        List<User> allUsers = departmentDao.getUsers(department);
         
         String filterLogin = filterMap.get("login");
         String filterName = filterMap.get("name");

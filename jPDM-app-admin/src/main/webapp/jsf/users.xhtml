@@ -8,9 +8,13 @@
 <h:head>
 	<title>jPDM admin page</title>
 	<h:outputStylesheet library="css" name="admin.css" />
+	<!--  
 	<h:outputStylesheet name="primeicons/primeicons.css"
 		library="primefaces" />
 	<h:outputStylesheet library="primefaces-casablanca" name="theme.css" />
+	-->
+	<h:outputStylesheet library="css" name="primeflex.css" />
+	<h:outputStylesheet library="css" name="saga-blue.css" />
 </h:head>
 
 <h:body>
@@ -91,7 +95,11 @@
 						</p:commandButton>
 						<p:commandButton value="Delete" icon="pi pi-trash"
 							id="button-user-delete" styleClass="ui-button-danger"
-							disabled="#{!userManager.hasSelectedUser()}">
+							disabled="#{!userManager.hasSelectedUsers()}"
+							actionListener="#{userManager.deleteUsers}"
+							update=":growl-sticky">
+								<p:confirm header="Confirmation" update="growl-sticky" message="Do you want to delete this record(s)?" icon="pi pi-info-circle"/>
+								<p:ajax event="dialogReturn" update="id-user-list" />
 						</p:commandButton>
 					</p:toolbarGroup>
 				</p:toolbar>
@@ -102,8 +110,8 @@
                     paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                     rowsPerPageTemplate="5,10,15"
                     
-                    selectionMode="single"
-					selection="#{userManager.selectedUser}" rowKey="#{user.id}"
+                    selectionMode="multiple"
+					selection="#{userManager.selectedUsers}" rowKey="#{user.id}"
 					scrollable="true" scrollHeight="70vh">
 					<p:column headerText="Login" 
                         sortBy="#{user.login}" filterBy="#{user.login}">
@@ -116,8 +124,15 @@
 					<p:ajax event="rowSelect" update="user-form:button-user-delete" />
 					<p:ajax event="rowUnselect" update="user-form:button-user-delete" />
 				</p:dataTable>
+				
+				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+				    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+				</p:confirmDialog>
+
 			</h:form>
 		</div>
 	</div>
+	<p:growl id="growl-sticky" for="sticky-key" showDetail="true" autoUpdate="true"/>
 </h:body>
 </html>
