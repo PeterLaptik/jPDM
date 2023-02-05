@@ -6,12 +6,17 @@ h3 {
 
 #mainContainer {
   height: 100%;
-  width: 100%;
+  width: 98%;
   display: flex;
 }
 
 .ui-datatable-scrollable-body {
     height: auto;
-    max-height: 600px;
-    overflow-y: scroll;
+    max-height: 60vh;
+    /*overflow-y: scroll;*/
+}
+
+.ui-widget,
+.ui-widget .ui-widget {
+    font-size: 14px !important;
 }

@@ -6,6 +6,10 @@ import java.util.Map;
 import by.jpdm.model.beans.org.Department;
 import by.jpdm.model.beans.org.User;
 
+/**
+ * DAO for users lazy fetch (limited windows with applied filters and sorting)
+ * @author Peter Laptik
+ */
 public interface UserLazyDAO {
 
     public int count(Department department, Map<String,String> filterMap);

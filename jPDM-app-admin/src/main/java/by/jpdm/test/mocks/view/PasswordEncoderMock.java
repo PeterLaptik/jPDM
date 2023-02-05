@@ -2,7 +2,6 @@ package by.jpdm.test.mocks.view;
 
 import by.jpdm.security.PasswordEncoder;
 import by.jpdm.test.qualifiers.TestViewMock;
-import jakarta.enterprise.context.Dependent;
 
 /**
  * Mock for manual view tests. Do not use for other purposes

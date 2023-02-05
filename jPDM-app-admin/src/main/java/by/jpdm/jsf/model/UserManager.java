@@ -1,6 +1,7 @@
 package by.jpdm.jsf.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -25,15 +26,74 @@ public class UserManager implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Department selectedDepartment;
 	private List<User> selectedUsers;
-	
-	@Inject @TestViewMock
+	private List<User> cutBuffer = new ArrayList<User>();
+
+	@Inject
+	@TestViewMock
 	private UserDAO userDao;
-	
-	@Inject @TestViewMock
+
+	@Inject
+	@TestViewMock
 	private DepartmentDAO departmentDao;
-	
+
 	@Inject
 	private UserLazyModel lazyDataModel;
+
+	public void deleteUsers() {
+		try {
+			for (User user : selectedUsers)
+				userDao.deleteUser(user);
+		} catch (Exception e) {
+			processError(e);
+		}
+	}
+
+	public void deleteDepartment() {
+		try {
+			departmentDao.deleteDepartment(selectedDepartment);
+		} catch (Exception e) {
+			processError(e);
+		}
+	}
+
+	public void cutUsers() {
+		cutBuffer.clear();
+
+		if (selectedUsers == null)
+			return;
+
+		cutBuffer.addAll(selectedUsers);
+	}
+
+	public void cutAllUsers() {
+		cutBuffer.clear();
+
+		if (selectedDepartment == null)
+			return;
+
+		List<User> users = getUserList();
+		cutBuffer.addAll(users);
+	}
+
+	public void pasteUsers() {
+		if (selectedDepartment == null)
+			return;
+
+		if (cutBuffer.size() < 1)
+			return;
+
+		try {
+			for (User user : cutBuffer) {
+				User existingUser = userDao.getUserById(user.getId());
+				existingUser.setDepartmentId(selectedDepartment.getId());
+				userDao.updateUser(existingUser);
+			}
+		} catch (Exception e) {
+			processError(e);
+		}
+
+		cutBuffer.clear();
+	}
 
 	public List<Department> getDepartmentsList() {
 		return departmentDao.getDepartments();
@@ -42,18 +102,9 @@ public class UserManager implements Serializable {
 	public List<User> getUserList() {
 		return departmentDao.getUsers(selectedDepartment);
 	}
-	
-	public void deleteUsers() {
-		try {
-			for(User user: selectedUsers)
-				userDao.deleteUser(user);
-		} catch (Exception e) {
-			processError(e);
-		}
-	}
-	
+
 	public LazyDataModel<User> getUserLazyList() {
-	    return lazyDataModel;
+		return lazyDataModel;
 	}
 
 	public List<User> getSelectedUsers() {
@@ -75,21 +126,35 @@ public class UserManager implements Serializable {
 	}
 
 	public boolean hasSelectedUsers() {
-		return selectedUsers != null && selectedUsers.size()>0;
+		return selectedUsers != null && selectedUsers.size() > 0;
+	}
+	
+	public boolean isSingleUserSelected() {
+	    return selectedUsers != null && selectedUsers.size() == 1;
 	}
 
 	public boolean hasSelectedDepartment() {
 		return selectedDepartment != null;
 	}
 
+	public boolean hasCutUsers() {
+		return cutBuffer != null && cutBuffer.size() > 0;
+	}
+
 	public void resetSelection() {
 		selectedDepartment = null;
 		selectedUsers = null;
 		lazyDataModel.setSelectedDepartment(null);
+		cutBuffer.clear();
 	}
-	
+
+	public void resetUserSelection() {
+		selectedUsers = null;
+		cutBuffer.clear();
+	}
+
 	private void processError(Exception e) {
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage());
-        FacesContext.getCurrentInstance().addMessage("sticky-key", message);
+		FacesContext.getCurrentInstance().addMessage("sticky-key", message);
 	}
 }

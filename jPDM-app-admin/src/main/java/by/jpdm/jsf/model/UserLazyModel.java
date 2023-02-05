@@ -15,6 +15,11 @@ import by.jpdm.model.beans.org.User;
 import by.jpdm.model.dao.UserLazyDAO;
 import by.jpdm.test.qualifiers.TestViewMock;
 
+/**
+ * Paginated user list provider.
+ * See user table in users.xhtml
+ * @author Peter Laptik
+ */
 public class UserLazyModel extends LazyDataModel<User> {
     private static final long serialVersionUID = 1L;
     private Department selectedDepartment;

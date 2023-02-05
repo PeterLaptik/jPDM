@@ -6,6 +6,7 @@ import java.util.List;
 import by.jpdm.model.beans.org.Department;
 import by.jpdm.model.beans.org.User;
 import by.jpdm.model.dao.DepartmentDAO;
+import by.jpdm.model.dao.exceptions.JpdmModelException;
 import by.jpdm.test.qualifiers.TestViewMock;
 
 /**
@@ -60,7 +61,8 @@ public class DepartmentDaoMock implements DepartmentDAO {
 
 	@Override
 	public void deleteDepartment(Department department) {
-		// TODO Auto-generated method stub
-
+		if(getUsersNumber(department)>0)
+			throw new JpdmModelException("The department contains users.");
+		departments.remove(department);
 	}
 }

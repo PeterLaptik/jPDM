@@ -4,14 +4,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
-
-import javax.inject.Inject;
+import java.util.UUID;
 
 import by.jpdm.model.beans.org.Department;
 import by.jpdm.model.beans.org.Group;
 import by.jpdm.model.beans.org.User;
 import by.jpdm.model.dao.UserDAO;
-import by.jpdm.model.service.UserService;
 import by.jpdm.test.qualifiers.TestViewMock;
 
 /**
@@ -83,14 +81,13 @@ public class UserDaoMock implements UserDAO {
 	}
 
 	@Override
-	public boolean createUser(User user) {
+	public void createUser(User user) {
 		user.setGroups(new ArrayList<Group>());
 		for (Group group : groups) {
 			if (group.getName().equals(Group.GROUP_DEFAULT))
 				user.getGroups().add(group);
 		}
 		users.add(user);
-		return true;
 	}
 
 	@Override
@@ -101,5 +98,22 @@ public class UserDaoMock implements UserDAO {
 			if (u.getId().equals(user.getId()))
 				it.remove();
 		}
+	}
+
+	@Override
+	public void updateUser(User user) {
+		User existingUser = getUserById(user.getId());
+		existingUser.setDepartmentId(user.getDepartmentId());
+		existingUser.setLogin(user.getLogin());
+		existingUser.setPassword(user.getPassword());
+		existingUser.setSalt(user.getSalt());
+	}
+
+	@Override
+	public User getUserById(UUID id) {
+		for(User user: users)
+			if(user.getId().equals(id))
+				return user;
+		return null;
 	}
 }
