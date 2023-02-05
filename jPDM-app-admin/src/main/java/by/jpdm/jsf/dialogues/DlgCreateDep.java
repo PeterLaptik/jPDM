@@ -12,6 +12,7 @@ import org.primefaces.model.DialogFrameworkOptions;
 
 import by.jpdm.model.beans.org.Department;
 import by.jpdm.model.dao.DepartmentDAO;
+import by.jpdm.test.qualifiers.TestViewMock;
 import jakarta.inject.Named;
 
 @Named
@@ -23,7 +24,7 @@ public class DlgCreateDep implements Serializable {
     private String name;
     private String description;
 
-    @Inject
+    @Inject @TestViewMock
     private DepartmentDAO departmentDao;
 
     public void createDepartmentShow() {

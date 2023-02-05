@@ -16,6 +16,7 @@ import org.primefaces.model.DialogFrameworkOptions;
 import by.jpdm.model.beans.org.User;
 import by.jpdm.model.dao.UserDAO;
 import by.jpdm.model.service.UserService;
+import by.jpdm.test.qualifiers.TestViewMock;
 import jakarta.inject.Named;
 
 @Named
@@ -30,10 +31,10 @@ public class DlgCreateUser implements Serializable {
     private String password;
     private UUID departmentId;
 
-    @Inject
+    @Inject @TestViewMock
     private UserService userService;
 
-    @Inject
+    @Inject @TestViewMock
     private UserDAO userDao;
 
     public void createUserShow() {
@@ -51,6 +52,7 @@ public class DlgCreateUser implements Serializable {
             user.setDepartmentId(departmentId);
             userDao.createUser(user);
             clearData();
+            processError(new Exception("Test error!"));
         } catch (Exception e) {
             PrimeFaces.current().dialog().showMessageDynamic(new FacesMessage(e.getMessage()));
             return;
@@ -100,4 +102,9 @@ public class DlgCreateUser implements Serializable {
         password = "";
         departmentId = null;
     }
+    
+    private void processError(Exception e) {
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage());
+        FacesContext.getCurrentInstance().addMessage(null, message);
+	}
 }

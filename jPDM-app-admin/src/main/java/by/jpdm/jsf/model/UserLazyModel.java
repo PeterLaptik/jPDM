@@ -13,12 +13,13 @@ import org.primefaces.model.SortMeta;
 import by.jpdm.model.beans.org.Department;
 import by.jpdm.model.beans.org.User;
 import by.jpdm.model.dao.UserLazyDAO;
+import by.jpdm.test.qualifiers.TestViewMock;
 
 public class UserLazyModel extends LazyDataModel<User> {
     private static final long serialVersionUID = 1L;
     private Department selectedDepartment;
 
-    @Inject
+    @Inject @TestViewMock
     private UserLazyDAO userLazyDao;
 
     @Override

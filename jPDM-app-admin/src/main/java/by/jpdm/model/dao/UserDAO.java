@@ -13,8 +13,6 @@ public interface UserDAO extends Serializable {
 	boolean createUser(User user);
 	
 	void deleteUser(User user);
-    
-//    User findUserByLogin(String login);
-    
+        
     List<Group> getUserGroups(User user);
 }

@@ -3,17 +3,23 @@ package by.jpdm.test.mocks.view;
 import java.security.SecureRandom;
 import java.util.Random;
 
+import javax.inject.Inject;
+
 import by.jpdm.model.beans.org.User;
 import by.jpdm.model.service.UserService;
 import by.jpdm.security.PasswordEncoder;
+import by.jpdm.test.qualifiers.TestViewMock;
 
 /**
  * Mock for manual view tests. Do not use for other purposes
  */
+@TestViewMock
 public class UserServiceTestMock implements UserService {
     private static final int SALT_LENGTH = 16;
     final Random random = new SecureRandom();
-    private PasswordEncoder passwordEncoder = new PasswordEncoderMock();
+    
+    @Inject @TestViewMock
+    private PasswordEncoder passwordEncoder;
 
     public User createUser(String login, String name, String password) {
         User user = new User(login, name);

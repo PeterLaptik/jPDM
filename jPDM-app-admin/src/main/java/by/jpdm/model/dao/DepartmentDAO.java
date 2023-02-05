@@ -8,9 +8,11 @@ import by.jpdm.model.beans.org.User;
 
 public interface DepartmentDAO extends Serializable {
 	
-	List<Department> getDepartments();
-
 	void createDepartment(Department department);
+	
+	void deleteDepartment(Department department);
+	
+	List<Department> getDepartments();
 	
 	int getUsersNumber(Department department);
 	

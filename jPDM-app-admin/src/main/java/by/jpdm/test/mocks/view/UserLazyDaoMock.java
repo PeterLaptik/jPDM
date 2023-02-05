@@ -12,12 +12,14 @@ import by.jpdm.model.beans.org.Department;
 import by.jpdm.model.beans.org.User;
 import by.jpdm.model.dao.DepartmentDAO;
 import by.jpdm.model.dao.UserLazyDAO;
+import by.jpdm.test.qualifiers.TestViewMock;
 
 /**
  * Mock for manual view tests. Do not use for other purposes
  */
+@TestViewMock
 public class UserLazyDaoMock implements UserLazyDAO {
-	@Inject
+	@Inject @TestViewMock
 	DepartmentDAO departmentDao;
 
     @Override

@@ -15,6 +15,7 @@ import by.jpdm.model.beans.org.Department;
 import by.jpdm.model.beans.org.User;
 import by.jpdm.model.dao.DepartmentDAO;
 import by.jpdm.model.dao.UserDAO;
+import by.jpdm.test.qualifiers.TestViewMock;
 import jakarta.inject.Named;
 
 @Named
@@ -22,18 +23,17 @@ import jakarta.inject.Named;
 @ViewScoped
 public class UserManager implements Serializable {
 	private static final long serialVersionUID = 1L;
+	private Department selectedDepartment;
+	private List<User> selectedUsers;
 	
-	@Inject
+	@Inject @TestViewMock
 	private UserDAO userDao;
 	
-	@Inject
+	@Inject @TestViewMock
 	private DepartmentDAO departmentDao;
 	
 	@Inject
-	private LazyDataModel<User> lazyDataModel;
-	
-	private Department selectedDepartment;
-	private List<User> selectedUsers;
+	private UserLazyModel lazyDataModel;
 
 	public List<Department> getDepartmentsList() {
 		return departmentDao.getDepartments();
@@ -45,19 +45,15 @@ public class UserManager implements Serializable {
 	
 	public void deleteUsers() {
 		try {
-			userDao.deleteUser(null);
+			for(User user: selectedUsers)
+				userDao.deleteUser(user);
 		} catch (Exception e) {
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "Deleting error");
-	        FacesContext.getCurrentInstance().addMessage("sticky-key", message);
+			processError(e);
 		}
 	}
 	
 	public LazyDataModel<User> getUserLazyList() {
 	    return lazyDataModel;
-	}
-
-	public int getUsersNumber() {
-		return userDao.getUsersNumber();
 	}
 
 	public List<User> getSelectedUsers() {
@@ -75,7 +71,7 @@ public class UserManager implements Serializable {
 	public void setSelectedDepartment(Department selectedDepartment) {
 		selectedUsers = null;
 		this.selectedDepartment = selectedDepartment;
-		((UserLazyModel)lazyDataModel).setSelectedDepartment(selectedDepartment);
+		lazyDataModel.setSelectedDepartment(selectedDepartment);
 	}
 
 	public boolean hasSelectedUsers() {
@@ -89,6 +85,11 @@ public class UserManager implements Serializable {
 	public void resetSelection() {
 		selectedDepartment = null;
 		selectedUsers = null;
-		((UserLazyModel)lazyDataModel).setSelectedDepartment(null);
+		lazyDataModel.setSelectedDepartment(null);
+	}
+	
+	private void processError(Exception e) {
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage());
+        FacesContext.getCurrentInstance().addMessage("sticky-key", message);
 	}
 }

@@ -8,7 +8,7 @@ import javax.faces.validator.Validator;
 import org.primefaces.validate.ClientValidator;
 
 public abstract class AbstractValidator implements Validator, ClientValidator {
-	public static final String ID_CANCEL_MASK = "btn-cancel";
+	public static final String ID_BUTTON_MASK = "btn-cancel";
 	
 	/**
 	 * Checks if a certain button has been clicked and the validation should be
@@ -22,7 +22,7 @@ public abstract class AbstractValidator implements Validator, ClientValidator {
 	public boolean shouldBeIgnored(FacesContext context) {
 		Map<String, String> params = context.getExternalContext().getRequestParameterMap();
 		for (Map.Entry<String, String> me : params.entrySet()) {
-			if (me.getKey().contains(ID_CANCEL_MASK))
+			if (me.getKey().contains(ID_BUTTON_MASK))
 				return true;
 		}
 		return false;
