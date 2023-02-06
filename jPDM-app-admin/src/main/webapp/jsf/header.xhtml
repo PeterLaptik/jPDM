@@ -1,11 +1,39 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
 <body>
-	<ui:composition>
-		<h1>Default Menu</h1>
-	</ui:composition>
+    <ui:composition>
+        <style type="text/css">
+            #my-exit-button {
+            	display: flex;
+            	justify-content: space-around; margin-left : auto; margin-right : 0;
+            	flex-direction: column-reverse;
+            	margin-left: auto;
+            	margin-right: 0;
+            }
+        </style>
+        <div class="header-panel"
+            style="display: flex; background-image: linear-gradient(to right, rgba(175, 175, 175, 1), rgba(248, 249, 250, 0));">
+            <div>
+                <h:graphicImage width="156px" height="50px"
+                    alt="Logo not found"
+                    style="padding-left: 5px; padding-bottom: 5px;"
+                    value="resources/images/logo-contrast-large.png" />
+            </div>
+            <div id="my-exit-button">
+                <p:button value="Logout" icon="pi pi-fw pi-sign-out"
+                    styleClass="ui-button-info" />
+            </div>
+        </div>
+
+
+
+
+    </ui:composition>
 </body>
 </html>
 
