@@ -15,7 +15,7 @@
 				<tr>
 					<td>New password</td>
 					<td>
-						<p:password id="id-pass" maxlength="32" value="#{dlgCreateUser.password}"
+						<p:password id="id-pass" maxlength="32" value="#{dlgUpdatePassword.password}"
 							toggleMask="true" redisplay="true">
 							<f:validator validatorId="user.password.validator" />
 							</p:password>
@@ -30,7 +30,7 @@
 						<p:commandButton style="margin: 10px" id="btn-cancel"
 							value="Cancel" icon="pi pi-ban" action="#{dlgUpdatePassword.cancel}">
 						</p:commandButton> <p:commandButton style="margin: 10px" id="btn-create"
-							value="Create" icon="pi pi-check"
+							value="Update" icon="pi pi-check"
 							action="#{dlgUpdatePassword.update}"
 							update="id-msg-pass">
 						</p:commandButton>

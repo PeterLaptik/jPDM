@@ -105,6 +105,7 @@ public class UserDaoMock implements UserDAO {
 		User existingUser = getUserById(user.getId());
 		existingUser.setDepartmentId(user.getDepartmentId());
 		existingUser.setLogin(user.getLogin());
+		existingUser.setName(user.getName());
 		existingUser.setPassword(user.getPassword());
 		existingUser.setSalt(user.getSalt());
 	}

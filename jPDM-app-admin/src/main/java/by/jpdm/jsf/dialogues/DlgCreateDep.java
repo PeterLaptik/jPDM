@@ -24,7 +24,8 @@ public class DlgCreateDep implements Serializable {
     private String name;
     private String description;
 
-    @Inject @TestViewMock
+    @Inject
+    @TestViewMock
     private DepartmentDAO departmentDao;
 
     public void createDepartmentShow() {

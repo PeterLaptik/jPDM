@@ -11,7 +11,9 @@ import javax.inject.Inject;
 import org.primefaces.PrimeFaces;
 import org.primefaces.model.DialogFrameworkOptions;
 
+import by.jpdm.model.beans.org.User;
 import by.jpdm.model.dao.UserDAO;
+import by.jpdm.model.service.UserService;
 import by.jpdm.test.qualifiers.TestViewMock;
 import jakarta.inject.Named;
 
@@ -28,12 +30,16 @@ public class DlgUpdatePassword {
     @TestViewMock
     private UserDAO userDao;
 
+    @Inject
+    @TestViewMock
+    private UserService userService;
+
     public void updatePasswordShow() {
-        String strValue = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap()
+        String strSelectionValue = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap()
                 .get(FIELD_SELECTION);
 
         try {
-            updateUserData(strValue);
+            updateUserData(strSelectionValue);
         } catch (Exception e) {
             processError(e);
             return;
@@ -45,7 +51,18 @@ public class DlgUpdatePassword {
     }
 
     public void update() {
-        clearData();
+        try {
+            User user = userDao.getUserById(userId);
+            User dummy = userService.createUser(user.getLogin(), user.getName(), password);
+            user.setSalt(dummy.getSalt());
+            user.setPassword(dummy.getPassword());
+            userDao.updateUser(user);
+
+        } catch (Exception e) {
+            processError(e);
+        } finally {
+            clearData();
+        }
         PrimeFaces.current().dialog().closeDynamic(null);
     }
 
@@ -65,6 +82,7 @@ public class DlgUpdatePassword {
     }
 
     private void updateUserData(String strValue) throws Exception {
+        // uuid values:
         String[] val = strValue.split(",");
 
         if (val.length == 0)

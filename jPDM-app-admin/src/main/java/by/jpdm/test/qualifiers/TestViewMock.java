@@ -8,7 +8,8 @@ import java.lang.annotation.Target;
 import javax.inject.Qualifier;
 
 /**
- * View mocks: for JSF-views manual testing
+ * View mocks: for JSF-views manual testing only
+ * Do not use for unit tests, etc.
  */
 @Qualifier
 @Retention(RetentionPolicy.RUNTIME)

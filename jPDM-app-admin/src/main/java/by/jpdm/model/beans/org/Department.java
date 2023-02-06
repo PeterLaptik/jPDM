@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.UUID;
 
 public class Department implements Serializable {
-	private static final long serialVersionUID = 7581930084833685906L;
-	public static final int MAX_CHARS_NAME = 31;
+    private static final long serialVersionUID = 1L;
+    public static final int MAX_CHARS_NAME = 31;
 	public static final int MAX_CHARS_DESCR = 63;
 	public static final String DEFAULT = "default";
 	private UUID id;

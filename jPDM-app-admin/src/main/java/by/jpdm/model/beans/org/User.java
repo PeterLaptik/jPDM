@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.UUID;
 
 public class User implements Serializable {
-	private static final long serialVersionUID = -1760783703833569643L;
-	private UUID id;
+    private static final long serialVersionUID = 1L;
+    private UUID id;
 	private String login;
 	private String name;
 	private String password;
