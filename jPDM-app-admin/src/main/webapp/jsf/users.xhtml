@@ -36,6 +36,7 @@
 		<!-- Departments table -->
 		<div class="departmentsTable">
 			<h:form id="dep-form">
+                <!-- Create / delete tools -->
 				<p:toolbar>
 					<p:toolbarGroup>
 						<h3>Departments</h3>
@@ -56,6 +57,7 @@
 						</p:commandButton>
 					</p:toolbarGroup>
 				</p:toolbar>
+                <!-- Table -->
 				<p:dataTable var="department" id="id-departments-list"
 					value="#{userManager.departmentsList}" selectionMode="single"
 					sortMode="multiple" selection="#{userManager.selectedDepartment}"
@@ -74,7 +76,7 @@
 						user-form:button-user-delete" />
 				</p:dataTable>
 
-
+                <!-- Pop up menu -->
 				<p:contextMenu for="id-departments-list" widgetVar="cMenu"
 					id="mcontext-department-form">
 					<p:menuitem value="Cut all Users" icon="pi pi-search"
@@ -93,8 +95,10 @@
 			</h:form>
 		</div>
 
+        <!-- Users table -->
 		<div class="Users table">
 			<h:form id="user-form">
+                <!-- Create / delete tools -->
 				<p:toolbar>
 					<p:toolbarGroup>
 						<h3>Users</h3>
@@ -118,6 +122,7 @@
 						</p:commandButton>
 					</p:toolbarGroup>
 				</p:toolbar>
+                <!-- Table -->
 				<p:dataTable var="user" id="id-user-list"
 					value="#{userManager.userLazyList}" 
                     
@@ -141,6 +146,7 @@
 					<p:ajax event="rowUnselect" update="user-form:button-user-delete, user-form:mcontext-user-form" />
 				</p:dataTable>
 				
+                <!-- Pop up menu -->
 				<p:contextMenu for="id-user-list" widgetVar="uMenu" id="mcontext-user-form">
 					<p:menuitem value="Cut Users" icon="pi pi-search"
 						action="#{userManager.cutUsers()}"
@@ -155,6 +161,7 @@
 						action="#{userManager.resetUserSelection}" />
 				</p:contextMenu>
 				
+                <!-- Confirm delete operations -->
 				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
 				    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" />
 				    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" />
@@ -163,6 +170,7 @@
 			</h:form>
 		</div>
 	</div>
+    <!-- Error messages container -->
 	<p:growl id="growl-sticky" for="sticky-key" showDetail="true" autoUpdate="true"/>
 </h:body>
 </html>
