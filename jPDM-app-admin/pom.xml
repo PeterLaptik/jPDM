@@ -96,6 +96,18 @@
 			<version>${primefaces.themes.version}</version>
 		</dependency>
 		
+		<!-- JSF mapping -->
+		<dependency>
+	    <groupId>org.ocpsoft.rewrite</groupId>
+		    <artifactId>rewrite-servlet</artifactId>
+		    <version>3.4.4.Final</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.ocpsoft.rewrite</groupId>
+		    <artifactId>rewrite-config-prettyfaces</artifactId>
+		    <version>3.4.4.Final</version>
+		</dependency>
+		
 		<!--  
 		<dependency>
 			<groupId>junit</groupId>

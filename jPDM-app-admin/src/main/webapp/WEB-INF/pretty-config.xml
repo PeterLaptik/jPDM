@@ -1,0 +1,14 @@
+<pretty-config
+    xmlns="http://ocpsoft.org/prettyfaces/3.3.3"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://ocpsoft.org/schema/rewrite-config-prettyfaces
+                      http://ocpsoft.org/xml/ns/prettyfaces/rewrite-config-prettyfaces.xsd">
+	<url-mapping id="users">
+		<pattern value="/users" />
+		<view-id value="/jsf/users.xhtml" />
+	</url-mapping>
+	<url-mapping id="groups">
+		<pattern value="/groups" />
+		<view-id value="/jsf/groups.xhtml" />
+	</url-mapping>
+</pretty-config>

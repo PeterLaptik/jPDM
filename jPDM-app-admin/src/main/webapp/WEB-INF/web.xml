@@ -15,6 +15,10 @@
 		<servlet-name>Faces Servlet</servlet-name>
 		<url-pattern>*.xhtml</url-pattern>
 	</servlet-mapping>
+	<context-param>
+		<param-name>javax.faces.PROJECT_STAGE</param-name>
+		<param-value>Development</param-value>
+	</context-param>
 	<!-- JSF: Primefaces -->
 	<context-param>
 		<param-name>primefaces.FONT_AWESOME</param-name>
@@ -29,6 +33,7 @@
 		<param-value>true</param-value>
 	</context-param>
 	<!-- Pages mapping -->
+	<!-- Page: start page -->
 	<welcome-file-list>
 		<welcome-file>jsf/users.xhtml</welcome-file>
 	</welcome-file-list>
