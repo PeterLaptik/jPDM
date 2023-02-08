@@ -12,6 +12,7 @@ import javax.inject.Inject;
 
 import org.primefaces.model.LazyDataModel;
 
+import by.jpdm.jsf.model.lazy.UserDepLazyModel;
 import by.jpdm.model.beans.org.Department;
 import by.jpdm.model.beans.org.User;
 import by.jpdm.model.dao.DepartmentDAO;
@@ -42,7 +43,7 @@ public class UserManager implements Serializable {
     private DepartmentDAO departmentDao;
 
     @Inject
-    private UserLazyModel lazyDataModel;
+    private UserDepLazyModel lazyDataModel;
 
     public void deleteUsers() {
         try {

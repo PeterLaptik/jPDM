@@ -37,6 +37,118 @@
                     icon="pi pi-external-link" />
             </p:menu>
         </div>
+        
+        <!-- Groups table -->
+        <div class="dgroupsTable">
+            <h:form id="group-form">
+                <!-- Create / delete tools -->
+                <p:toolbar>
+                    <p:toolbarGroup>
+                        <h3>Groups</h3>
+                    </p:toolbarGroup>
+                    <p:toolbarGroup align="right">
+                        <p:commandButton value="Create" icon="pi pi-plus"
+                            style="margin-right: .5rem" styleClass="ui-button-success">
+                        </p:commandButton>
+                        <p:commandButton value="Clear" icon="pi pi-trash"
+                            id="button-group-clear" styleClass="ui-button-warning"
+                            style="margin-right: .5rem"
+                            disabled="#{!groupManager.groupSelected}">
+                        </p:commandButton>
+                        <p:commandButton value="Delete" icon="pi pi-trash"
+                            id="button-group-delete" styleClass="ui-button-danger"
+                            disabled="#{!groupManager.groupSelected}">
+                        </p:commandButton>
+                    </p:toolbarGroup>
+                </p:toolbar>
+                
+                <!-- Table -->
+                <p:dataTable var="group" id="id-group-list"
+                    value="#{groupManager.groupLazyList}" 
+                    
+                    paginator="true" rows="10"
+                    paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                    rowsPerPageTemplate="5,10,15,25"
+                    paginatorPosition="bottom"
+                    
+                    selectionMode="single"
+                    selection="#{groupManager.selectedGroup}" rowKey="#{group.id}"
+                    scrollable="true">
+                    <p:column headerText="Name" 
+                        sortBy="#{group.name}" filterBy="#{group.name}">
+                        <h:outputText value="#{group.name}" />
+                    </p:column>
+                    <p:column headerText="Description" 
+                        sortBy="#{group.description}" filterBy="#{group.description}">
+                        <h:outputText value="#{user.name}" />
+                    </p:column>
+                    <p:ajax event="rowSelect" update="group-form:button-group-delete, group-form:button-group-clear, user-form:id-user-list" />
+                    <p:ajax event="rowUnselect" update="group-form:button-group-delete, group-form:button-group-clear, user-form:id-user-list" />
+                </p:dataTable>
+                
+                <!-- Pop up menu -->
+                <p:contextMenu for="id-group-list" widgetVar="gMenu"
+                    id="mcontext-group-form">
+                    <p:menuitem value="Copy all Users" icon="pi pi-search"
+                        action="#{groupManager.copyAllGroupUsers()}"
+                        update="group-form:mcontext-group-form"/>
+                    <p:menuitem value="Paste Users" icon="pi pi-search"
+                        action="#{groupManager.pasteAllGroupUsers()}"
+                        disabled="#{!groupManager.hasCutUsers()}"
+                        update="user-form:id-user-list group-form:mcontext-group-form"/>
+                    <p:menuitem value="Cancel selection" icon="pi pi-search"
+                        update="id-group-list, group-form:button-group-delete, user-form:id-user-list, 
+                                group-form:button-group-clear, group-form:mcontext-group-form"
+                        action="#{groupManager.resetSelection()}" />
+                </p:contextMenu>
+            </h:form>
+        </div>
+        
+        <!-- Users table -->
+        <div class="Users table">
+            <h:form id="user-form">
+                <!-- Create / delete tools -->
+                <p:toolbar>
+                    <p:toolbarGroup>
+                        <h3>Users</h3>
+                    </p:toolbarGroup>
+                </p:toolbar>
+                <!-- Table -->
+                <p:dataTable var="user" id="id-user-list"
+                    value="#{groupManager.userLazyList}" 
+                    
+                    paginator="true" rows="10"
+                    paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                    rowsPerPageTemplate="5,10,15,25"
+                    paginatorPosition="bottom"
+                    
+                    selectionMode="multiple"
+                    selection="#{groupManager.selectedUsers}" rowKey="#{user.id}"
+                    scrollable="true">
+                    <p:column headerText="Login" 
+                        sortBy="#{user.login}" filterBy="#{user.login}">
+                        <h:outputText value="#{user.login}" />
+                    </p:column>
+                    <p:column headerText="Name" 
+                        sortBy="#{user.name}" filterBy="#{user.name}">
+                        <h:outputText value="#{user.name}" />
+                    </p:column>
+                </p:dataTable>
+                
+                <!-- Pop up menu -->
+                <p:contextMenu for="id-user-list" widgetVar="uMenu"
+                    id="mcontext-department-form">
+                    <p:menuitem value="Copy users" icon="pi pi-search"
+                        action="#{groupManager.copySelectedUsers()}"
+                        update="group-form:mcontext-group-form" />
+                    <p:menuitem value="Cancel selection" icon="pi pi-search"
+                        update="user-form:id-user-list, group-form:mcontext-group-form"
+                        action="#{groupManager.resetUsersSelection()}" />
+                </p:contextMenu>
+            </h:form>
+        </div>
     </div>
+    <!-- Error messages container -->
+    <p:growl id="growl-sticky" for="sticky-key" showDetail="true" autoUpdate="true"/>
 </h:body>
 </html>

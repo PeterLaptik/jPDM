@@ -79,10 +79,10 @@
                 <!-- Pop up menu -->
 				<p:contextMenu for="id-departments-list" widgetVar="cMenu"
 					id="mcontext-department-form">
-					<p:menuitem value="Cut all Users" icon="pi pi-search"
+					<p:menuitem value="Cut all users" icon="pi pi-search"
 						action="#{userManager.cutAllUsers()}"
 						update="dep-form:mcontext-department-form"/>
-					<p:menuitem value="Paste Users" icon="pi pi-search"
+					<p:menuitem value="Paste users" icon="pi pi-search"
 						action="#{userManager.pasteUsers()}"
 						disabled="#{!userManager.hasCutUsers()}"
 						update="user-form:id-user-list, user-form:button-user-create, user-form:button-user-delete,
@@ -148,7 +148,7 @@
 				
                 <!-- Pop up menu -->
 				<p:contextMenu for="id-user-list" widgetVar="uMenu" id="mcontext-user-form">
-					<p:menuitem value="Cut Users" icon="pi pi-search"
+					<p:menuitem value="Cut users" icon="pi pi-search"
 						action="#{userManager.cutUsers()}"
 						update="dep-form:mcontext-department-form"/>
 					<p:menuitem value="Update password" icon="pi pi-search"

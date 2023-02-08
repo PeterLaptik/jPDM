@@ -1,4 +1,4 @@
-package by.jpdm.jsf.model;
+package by.jpdm.jsf.model.lazy;
 
 import java.util.HashMap;
 import java.util.List;
@@ -12,7 +12,7 @@ import org.primefaces.model.SortMeta;
 
 import by.jpdm.model.beans.org.Department;
 import by.jpdm.model.beans.org.User;
-import by.jpdm.model.dao.UserLazyDAO;
+import by.jpdm.model.dao.lazy.UserDepLazyDAO;
 import by.jpdm.test.qualifiers.TestViewMock;
 
 /**
@@ -20,13 +20,13 @@ import by.jpdm.test.qualifiers.TestViewMock;
  * 
  * @author Peter Laptik
  */
-public class UserLazyModel extends LazyDataModel<User> {
+public class UserDepLazyModel extends LazyDataModel<User> {
     private static final long serialVersionUID = 1L;
     private Department selectedDepartment;
 
     @Inject
     @TestViewMock
-    private UserLazyDAO userLazyDao;
+    private UserDepLazyDAO userLazyDao;
 
     @Override
     public int count(Map<String, FilterMeta> filterBy) {
