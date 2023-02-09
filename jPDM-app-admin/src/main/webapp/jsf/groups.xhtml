@@ -48,16 +48,25 @@
                     </p:toolbarGroup>
                     <p:toolbarGroup align="right">
                         <p:commandButton value="Create" icon="pi pi-plus"
-                            style="margin-right: .5rem" styleClass="ui-button-success">
+                            style="margin-right: .5rem" styleClass="ui-button-success"
+                            action="#{dlgCreateGroup.createGroupShow}">
+                            <p:ajax event="dialogReturn" update="growl-sticky, group-form:id-group-list" />
                         </p:commandButton>
                         <p:commandButton value="Clear" icon="pi pi-trash"
                             id="button-group-clear" styleClass="ui-button-warning"
                             style="margin-right: .5rem"
-                            disabled="#{!groupManager.groupSelected}">
+                            disabled="#{!groupManager.groupSelected}"
+                            action="#{groupManager.clearSelectedGroup()}"
+                            update="growl-sticky, user-form:id-user-list, group-form:button-group-clear, group-form:mcontext-group-form">
+                            <p:confirm header="Confirmation" update="growl-sticky" message="Do you want to clear this group?" icon="pi pi-info-circle"/>
                         </p:commandButton>
                         <p:commandButton value="Delete" icon="pi pi-trash"
                             id="button-group-delete" styleClass="ui-button-danger"
-                            disabled="#{!groupManager.groupSelected}">
+                            disabled="#{!groupManager.groupSelected}"
+                            action="#{groupManager.deleteSelectedGroup()}"
+                            update="growl-sticky, id-group-list, group-form:button-group-delete, user-form:id-user-list, 
+                                group-form:button-group-clear, group-form:mcontext-group-form">
+                            <p:confirm header="Confirmation" update="growl-sticky" message="Do you want to delete this group?" icon="pi pi-info-circle"/>
                         </p:commandButton>
                     </p:toolbarGroup>
                 </p:toolbar>
@@ -101,6 +110,13 @@
                                 group-form:button-group-clear, group-form:mcontext-group-form"
                         action="#{groupManager.resetSelection()}" />
                 </p:contextMenu>
+                
+                <!-- Confirm delete operations -->
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" />
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" />
+                </p:confirmDialog>
+                
             </h:form>
         </div>
         
@@ -141,6 +157,9 @@
                     <p:menuitem value="Copy users" icon="pi pi-search"
                         action="#{groupManager.copySelectedUsers()}"
                         update="group-form:mcontext-group-form" />
+                    <p:menuitem value="Remove" icon="pi pi-search"
+                        action="#{groupManager.copySelectedUsers()}"
+                        update="growl-sticky, group-form:mcontext-group-form" />
                     <p:menuitem value="Cancel selection" icon="pi pi-search"
                         update="user-form:id-user-list, group-form:mcontext-group-form"
                         action="#{groupManager.resetUsersSelection()}" />

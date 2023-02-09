@@ -21,7 +21,7 @@ import jakarta.inject.Named;
 @ManagedBean
 @SessionScoped
 public class DlgUpdatePassword {
-    private static String DLG_UPDATE_PASSWORD = "update-pass";
+    private static String DLG_UPDATE_PASSWORD = "dlg/update-pass";
     private static String FIELD_SELECTION = "user-form:id-user-list_selection";
     private UUID userId;
     private String password;

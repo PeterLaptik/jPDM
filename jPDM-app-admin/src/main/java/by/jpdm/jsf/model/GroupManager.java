@@ -33,14 +33,14 @@ import jakarta.inject.Named;
 public class GroupManager implements Serializable {
     private static final long serialVersionUID = 1L;
     private Group selectedGroup;
-    private List<User> selectedUsers;
     private boolean groupSelected = false;
-    private List<User> cutUsers = new ArrayList<>();
+    private List<User> selectedUsers = new ArrayList<>();
+    private List<User> bufferCopyUsers = new ArrayList<>();
 
     @Inject
     @TestViewMock
     private GroupLazyDAO groupLazyDao;
-    
+
     @Inject
     @TestViewMock
     private GroupDAO groupDao;
@@ -54,41 +54,76 @@ public class GroupManager implements Serializable {
     
     public void copyAllGroupUsers() {
         try {
-            cutUsers.clear();
-            cutUsers = groupDao.getUsers(selectedGroup);
+            bufferCopyUsers.clear();
+            bufferCopyUsers = groupDao.getUsers(selectedGroup);
         } catch (Exception e) {
             processError(e);
         }
-        
     }
-    
+
     public void copySelectedUsers() {
         try {
-            cutUsers.clear();
-            cutUsers.addAll(selectedUsers);
+            bufferCopyUsers.clear();
+            bufferCopyUsers.addAll(selectedUsers);
         } catch (Exception e) {
             processError(e);
         }
-        
+    }
+
+    public void deleteSelectedGroup() {
+        if (selectedGroup == null)
+            return;
+
+        try {
+            groupDao.deleteGroup(selectedGroup);
+            resetSelection();
+            resetUsersSelection();
+        } catch (Exception e) {
+            processError(e);
+        }
     }
     
+    public void clearSelectedGroup() {
+        if (selectedGroup == null)
+            return;
+
+        try {
+            groupDao.clearGroup(selectedGroup);
+            resetUsersSelection();
+        } catch (Exception e) {
+            processError(e);
+        }
+    }
+    
+    public void removeUsersFromGroup() {
+        if(selectedUsers == null || selectedUsers.size()<1 || selectedGroup == null)
+            return;
+        
+        try {
+            groupDao.removeUsers(selectedGroup, selectedUsers);
+            resetUsersSelection();
+        } catch (Exception e) {
+            processError(e);
+        }
+    }
+
     public void pasteAllGroupUsers() {
         try {
-            if(selectedGroup==null)
+            if (selectedGroup == null)
                 throw new JpdmModelException("Group is not chosen!");
-            
-            groupDao.addUsers(selectedGroup, cutUsers);
-            cutUsers.clear();
+
+            groupDao.addUsers(selectedGroup, bufferCopyUsers);
+            bufferCopyUsers.clear();
             selectedUsers.clear();
         } catch (Exception e) {
             processError(e);
         }
     }
-    
+
     public LazyDataModel<Group> getGroupLazyList() {
         return lazyGroupDataModel;
     }
-    
+
     public LazyDataModel<User> getUserLazyList() {
         return lazyUserDataModel;
     }
@@ -102,15 +137,15 @@ public class GroupManager implements Serializable {
         lazyUserDataModel.setSelectedGroup(selectedGroup);
         groupSelected = selectedGroup != null ? true : false;
     }
-    
+
     public void resetSelection() {
         setSelectedGroup(null);
-        cutUsers.clear();
+        bufferCopyUsers.clear();
     }
-    
+
     public void resetUsersSelection() {
         selectedUsers.clear();
-        cutUsers.clear();
+        bufferCopyUsers.clear();
     }
 
     public List<User> getSelectedUsers() {
@@ -124,12 +159,12 @@ public class GroupManager implements Serializable {
     public boolean isGroupSelected() {
         return groupSelected;
     }
-    
+
     public boolean hasCutUsers() {
-        return cutUsers.size()>0;
+        return bufferCopyUsers.size() > 0;
     }
-    
-    private void processError(Exception e) {
+
+    public void processError(Exception e) {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage());
         FacesContext.getCurrentInstance().addMessage("sticky-key", message);
     }

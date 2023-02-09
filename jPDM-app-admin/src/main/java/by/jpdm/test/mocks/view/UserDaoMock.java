@@ -29,7 +29,7 @@ public class UserDaoMock implements UserDAO {
 		Group groupDba = new Group(Group.GROUP_DBA_ADMIN, Group.GROUP_DBA_ADMIN);
 		Group groupDefault = new Group(Group.GROUP_DEFAULT, Group.GROUP_DEFAULT);
 
-		groups = Arrays.asList(groupAdmin, groupDba, groupDefault);
+		groups = new ArrayList<Group>(Arrays.asList(groupAdmin, groupDba, groupDefault));
 
 		List<Department> departments = DepartmentDaoMock.departments;
 		int counter = 0;

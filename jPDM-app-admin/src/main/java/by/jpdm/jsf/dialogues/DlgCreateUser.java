@@ -24,7 +24,7 @@ import jakarta.inject.Named;
 @SessionScoped
 public class DlgCreateUser implements Serializable {
     private static final long serialVersionUID = 1L;
-    private static String DLG_CREATE_USER = "create-user";
+    private static String DLG_CREATE_USER = "dlg/create-user";
     private static String PARAM_ITEM_DEPARTMENT = "itemDepartment";
     private String name;
     private String login;
