@@ -2,10 +2,8 @@ package by.jpdm.jsf.dialogues;
 
 import java.io.Serializable;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import org.primefaces.PrimeFaces;
@@ -22,11 +20,8 @@ import jakarta.inject.Named;
 public class DlgCreateDep implements Serializable {
     private static final long serialVersionUID = 1L;
     private static final String DLG_CREATE_DEP = "dlg/create-dep";
-    private static final String PARENT_ERROR_RECIEVER = "sticky-key";
-    
     private String name;
     private String description;
-    private Exception error;
 
     @Inject
     @TestViewMock
@@ -40,28 +35,15 @@ public class DlgCreateDep implements Serializable {
     }
 
     public void create() {
+        Exception error = null;
         try {
             Department dep = new Department(name, description);
             departmentDao.createDepartment(dep);
             clearData();
-            error = new Exception("Test dep");
         } catch (Exception e) {
             error = e;
-            return;
         }
-        PrimeFaces.current().dialog().closeDynamic(null);
-    }
-    
-    /**
-     * Post-process error message in a main view
-     */
-    public void handleReturn() {
-        if(error==null)
-            return;
-        
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", error.getMessage());
-        FacesContext.getCurrentInstance().addMessage(PARENT_ERROR_RECIEVER, message);
-        error = null;
+        PrimeFaces.current().dialog().closeDynamic(error);
     }
     
     public void cancel() {

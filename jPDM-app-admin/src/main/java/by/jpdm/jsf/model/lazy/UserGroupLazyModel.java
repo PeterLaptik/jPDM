@@ -16,7 +16,7 @@ import by.jpdm.model.dao.lazy.UserGroupLazyDAO;
 import by.jpdm.test.qualifiers.TestViewMock;
 
 /**
- * Paginated user list provider. See user table in users.xhtml
+ * Paginated user list provider. See user table in groups.xhtml
  * 
  * @author Peter Laptik
  */

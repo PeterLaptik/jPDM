@@ -6,7 +6,7 @@ import java.util.Random;
 import javax.inject.Inject;
 
 import by.jpdm.model.beans.org.User;
-import by.jpdm.model.service.UserService;
+import by.jpdm.model.service.UserFactory;
 import by.jpdm.security.PasswordEncoder;
 import by.jpdm.test.qualifiers.TestViewMock;
 
@@ -14,7 +14,7 @@ import by.jpdm.test.qualifiers.TestViewMock;
  * Mock for manual view tests. Do not use for other purposes
  */
 @TestViewMock
-public class UserServiceTestMock implements UserService {
+public class UserFactoryTestMock implements UserFactory {
     private static final int SALT_LENGTH = 16;
     final Random random = new SecureRandom();
     

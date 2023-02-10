@@ -50,7 +50,7 @@
                         <p:commandButton value="Create" icon="pi pi-plus"
                             style="margin-right: .5rem" styleClass="ui-button-success"
                             action="#{dlgCreateGroup.createGroupShow}">
-                            <p:ajax event="dialogReturn" listener="#{dlgCreateGroup.handleReturn}" update="growl-sticky, group-form:id-group-list" />
+                            <p:ajax event="dialogReturn" listener="#{errorProcessor.handleReturn}" update="growl-sticky, group-form:id-group-list" />
                         </p:commandButton>
                         <p:commandButton value="Clear" icon="pi pi-trash"
                             id="button-group-clear" styleClass="ui-button-warning"

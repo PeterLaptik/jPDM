@@ -46,7 +46,7 @@
 							style="margin-right: .5rem" styleClass="ui-button-success"
 							action="#{dlgCreateDep.createDepartmentShow}"
 							update="id-departments-list">
-							<p:ajax event="dialogReturn" listener="#{dlgCreateDep.handleReturn}" update="dep-form:id-departments-list, :growl-sticky" />
+							<p:ajax event="dialogReturn" listener="#{errorProcessor.handleReturn}" update="dep-form:id-departments-list, :growl-sticky" />
 						</p:commandButton>
 						<p:commandButton value="Delete" icon="pi pi-trash"
 							id="button-department-delete" styleClass="ui-button-danger"
@@ -109,7 +109,7 @@
 							styleClass="ui-button-success"
 							disabled="#{!userManager.hasSelectedDepartment()}"
 							action="#{dlgCreateUser.createUserShow}">
-							<p:ajax event="dialogReturn" listener="#{dlgCreateUser.handleReturn}" update=":growl-sticky, id-user-list" />
+							<p:ajax event="dialogReturn" listener="#{errorProcessor.handleReturn}" update=":growl-sticky, id-user-list" />
 							<f:param name="itemDepartment"
 								value="#{userManager.selectedDepartment.id}" />
 						</p:commandButton>

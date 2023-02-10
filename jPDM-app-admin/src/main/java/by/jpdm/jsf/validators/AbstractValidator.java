@@ -12,7 +12,7 @@ public abstract class AbstractValidator implements Validator, ClientValidator {
 	
 	/**
 	 * Checks if a certain button has been clicked and the validation should be
-	 * ignored. For example, check for 'cancel' click (ignore validation for
+	 * ignored. For the base case: check for 'cancel' click (ignore validation for
 	 * cancel).
 	 * 
 	 * @param context  - faces context

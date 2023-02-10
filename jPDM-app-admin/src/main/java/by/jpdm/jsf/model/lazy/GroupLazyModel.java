@@ -21,6 +21,7 @@ import by.jpdm.test.qualifiers.TestViewMock;
  */
 public class GroupLazyModel extends LazyDataModel<Group> {
     private static final long serialVersionUID = 1L;
+    
     @Inject
     @TestViewMock
     GroupLazyDAO groupLazyDao;

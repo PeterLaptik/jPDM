@@ -14,7 +14,7 @@ import org.primefaces.model.DialogFrameworkOptions;
 
 import by.jpdm.model.beans.org.User;
 import by.jpdm.model.dao.UserDAO;
-import by.jpdm.model.service.UserService;
+import by.jpdm.model.service.UserFactory;
 import by.jpdm.test.qualifiers.TestViewMock;
 import jakarta.inject.Named;
 
@@ -34,16 +34,16 @@ public class DlgUpdatePassword implements Serializable {
 
     @Inject
     @TestViewMock
-    private UserService userService;
+    private UserFactory userService;
 
     public void updatePasswordShow() {
         String strSelectionValue = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap()
                 .get(FIELD_SELECTION);
 
         try {
-            updateUserData(strSelectionValue);
+            parseSelectedUserId(strSelectionValue);
         } catch (Exception e) {
-            processError(e);
+            showError(e);
             return;
         }
 
@@ -53,19 +53,19 @@ public class DlgUpdatePassword implements Serializable {
     }
 
     public void update() {
+        Exception error = null;
         try {
             User user = userDao.getUserById(userId);
             User dummy = userService.createUser(user.getLogin(), user.getName(), password);
             user.setSalt(dummy.getSalt());
             user.setPassword(dummy.getPassword());
             userDao.updateUser(user);
-
         } catch (Exception e) {
-            processError(e);
+            error = e;
         } finally {
             clearData();
         }
-        PrimeFaces.current().dialog().closeDynamic(null);
+        PrimeFaces.current().dialog().closeDynamic(error);
     }
 
     public void cancel() {
@@ -78,12 +78,7 @@ public class DlgUpdatePassword implements Serializable {
         password = "";
     }
 
-    private void processError(Exception e) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage());
-        FacesContext.getCurrentInstance().addMessage("sticky-key", message);
-    }
-
-    private void updateUserData(String strValue) throws Exception {
+    private void parseSelectedUserId(String strValue) throws Exception {
         // uuid values:
         String[] val = strValue.split(",");
 
@@ -102,5 +97,10 @@ public class DlgUpdatePassword implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    private void showError(Exception e) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage());
+        FacesContext.getCurrentInstance().addMessage("sticky-key", message);
     }
 }

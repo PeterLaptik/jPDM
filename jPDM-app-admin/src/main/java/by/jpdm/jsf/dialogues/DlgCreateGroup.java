@@ -2,14 +2,11 @@ package by.jpdm.jsf.dialogues;
 
 import java.io.Serializable;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import org.primefaces.PrimeFaces;
-import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DialogFrameworkOptions;
 
 import by.jpdm.model.beans.org.Group;
@@ -24,11 +21,8 @@ import jakarta.inject.Named;
 public class DlgCreateGroup implements Serializable {
     private static final long serialVersionUID = 1L;
     private static final String DLG_CREATE_GROUP = "dlg/create-group";
-    private static final String PARENT_ERROR_RECIEVER = "sticky-key";
-    
     private String name;
     private String description;
-    private Exception error;
 
     @Inject
     @TestViewMock
@@ -42,27 +36,15 @@ public class DlgCreateGroup implements Serializable {
     }
 
     public void create() {
+        Exception error = null;
         try {
             Group group = new Group(name, description);
             groupDao.createGroup(group);
             clearData();
-            error = new JpdmModelException("Test group");
         } catch (Exception e) {
             error = e;
         }
-        PrimeFaces.current().dialog().closeDynamic(null);
-    }
-
-    /**
-     * Post-process error message in a main view
-     */
-    public void handleReturn(SelectEvent<T> evt) {
-        if(error==null)
-            return;
-        
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", error.getMessage());
-        FacesContext.getCurrentInstance().addMessage(PARENT_ERROR_RECIEVER, message);
-        error = null;
+        PrimeFaces.current().dialog().closeDynamic(error);
     }
     
     public void cancel() {

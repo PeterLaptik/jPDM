@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Map;
 import java.util.UUID;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -16,7 +15,7 @@ import org.primefaces.model.DialogFrameworkOptions;
 import by.jpdm.model.beans.org.User;
 import by.jpdm.model.dao.UserDAO;
 import by.jpdm.model.dao.exceptions.JpdmModelException;
-import by.jpdm.model.service.UserService;
+import by.jpdm.model.service.UserFactory;
 import by.jpdm.test.qualifiers.TestViewMock;
 import jakarta.inject.Named;
 
@@ -27,18 +26,17 @@ public class DlgCreateUser implements Serializable {
     private static final long serialVersionUID = 1L;
     private static final String DLG_CREATE_USER = "dlg/create-user";
     private static final String PARAM_ITEM_DEPARTMENT = "itemDepartment";
-    private static final String PARENT_ERROR_RECIEVER = "sticky-key";
-    
     private String name;
     private String login;
     private String password;
     private UUID departmentId;
-    private Exception error;
 
-    @Inject @TestViewMock
-    private UserService userService;
+    @Inject
+    @TestViewMock
+    private UserFactory userService;
 
-    @Inject @TestViewMock
+    @Inject
+    @TestViewMock
     private UserDAO userDao;
 
     public void createUserShow() {
@@ -51,29 +49,17 @@ public class DlgCreateUser implements Serializable {
     }
 
     public void create() {
+        Exception error = null;
         try {
             User user = userService.createUser(login, name, password);
             user.setDepartmentId(departmentId);
             userDao.createUser(user);
             clearData();
-            error = new JpdmModelException("Test user");
         } catch (Exception e) {
             error = e;
             return;
         }
-        PrimeFaces.current().dialog().closeDynamic(null);
-    }
-    
-    /**
-     * Post-process error message in a main view
-     */
-    public void handleReturn() {
-        if(error==null)
-            return;
-        
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", error.getMessage());
-        FacesContext.getCurrentInstance().addMessage(PARENT_ERROR_RECIEVER, message);
-        error = null;
+        PrimeFaces.current().dialog().closeDynamic(error);
     }
 
     public void cancel() {
@@ -118,9 +104,4 @@ public class DlgCreateUser implements Serializable {
         password = "";
         departmentId = null;
     }
-    
-    private void processError(Exception e) {
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage());
-        FacesContext.getCurrentInstance().addMessage(null, message);
-	}
 }
