@@ -1,5 +1,6 @@
 package by.jpdm.jsf.dialogues;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 import javax.faces.application.FacesMessage;
@@ -20,7 +21,8 @@ import jakarta.inject.Named;
 @Named
 @ManagedBean
 @SessionScoped
-public class DlgUpdatePassword {
+public class DlgUpdatePassword implements Serializable {
+    private static final long serialVersionUID = 1L;
     private static String DLG_UPDATE_PASSWORD = "dlg/update-pass";
     private static String FIELD_SELECTION = "user-form:id-user-list_selection";
     private UUID userId;

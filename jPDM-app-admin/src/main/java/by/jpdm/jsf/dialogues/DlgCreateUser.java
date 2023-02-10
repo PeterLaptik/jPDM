@@ -15,6 +15,7 @@ import org.primefaces.model.DialogFrameworkOptions;
 
 import by.jpdm.model.beans.org.User;
 import by.jpdm.model.dao.UserDAO;
+import by.jpdm.model.dao.exceptions.JpdmModelException;
 import by.jpdm.model.service.UserService;
 import by.jpdm.test.qualifiers.TestViewMock;
 import jakarta.inject.Named;
@@ -24,12 +25,15 @@ import jakarta.inject.Named;
 @SessionScoped
 public class DlgCreateUser implements Serializable {
     private static final long serialVersionUID = 1L;
-    private static String DLG_CREATE_USER = "dlg/create-user";
-    private static String PARAM_ITEM_DEPARTMENT = "itemDepartment";
+    private static final String DLG_CREATE_USER = "dlg/create-user";
+    private static final String PARAM_ITEM_DEPARTMENT = "itemDepartment";
+    private static final String PARENT_ERROR_RECIEVER = "sticky-key";
+    
     private String name;
     private String login;
     private String password;
     private UUID departmentId;
+    private Exception error;
 
     @Inject @TestViewMock
     private UserService userService;
@@ -52,12 +56,24 @@ public class DlgCreateUser implements Serializable {
             user.setDepartmentId(departmentId);
             userDao.createUser(user);
             clearData();
-            processError(new Exception("Test error!"));
+            error = new JpdmModelException("Test user");
         } catch (Exception e) {
-            PrimeFaces.current().dialog().showMessageDynamic(new FacesMessage(e.getMessage()));
+            error = e;
             return;
         }
         PrimeFaces.current().dialog().closeDynamic(null);
+    }
+    
+    /**
+     * Post-process error message in a main view
+     */
+    public void handleReturn() {
+        if(error==null)
+            return;
+        
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", error.getMessage());
+        FacesContext.getCurrentInstance().addMessage(PARENT_ERROR_RECIEVER, message);
+        error = null;
     }
 
     public void cancel() {

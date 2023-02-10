@@ -9,11 +9,12 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import org.primefaces.PrimeFaces;
+import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DialogFrameworkOptions;
 
-import by.jpdm.jsf.model.GroupManager;
 import by.jpdm.model.beans.org.Group;
 import by.jpdm.model.dao.GroupDAO;
+import by.jpdm.model.dao.exceptions.JpdmModelException;
 import by.jpdm.test.qualifiers.TestViewMock;
 import jakarta.inject.Named;
 
@@ -22,16 +23,16 @@ import jakarta.inject.Named;
 @SessionScoped
 public class DlgCreateGroup implements Serializable {
     private static final long serialVersionUID = 1L;
-    private static String DLG_CREATE_GROUP = "dlg/create-group";
+    private static final String DLG_CREATE_GROUP = "dlg/create-group";
+    private static final String PARENT_ERROR_RECIEVER = "sticky-key";
+    
     private String name;
     private String description;
+    private Exception error;
 
     @Inject
     @TestViewMock
     private GroupDAO groupDao;
-    
-    @Inject
-    private GroupManager groupManager;
 
     public void createGroupShow() {
         DialogFrameworkOptions options = DialogFrameworkOptions.builder().modal(true).width("380px").responsive(true)
@@ -40,24 +41,31 @@ public class DlgCreateGroup implements Serializable {
         PrimeFaces.current().dialog().openDynamic(DLG_CREATE_GROUP, options, null);
     }
 
-    public void cancel() {
-        PrimeFaces.current().dialog().closeDynamic(null);
-    }
-
     public void create() {
         try {
             Group group = new Group(name, description);
             groupDao.createGroup(group);
             clearData();
-            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "test");
-            FacesContext.getCurrentInstance().addMessage("sticky-key", message);
-            PrimeFaces.current().dialog().showMessageDynamic(new FacesMessage("test"));
+            error = new JpdmModelException("Test group");
         } catch (Exception e) {
-            e.printStackTrace();
-            PrimeFaces.current().dialog().showMessageDynamic(new FacesMessage(e.getMessage()));
-            return;
+            error = e;
         }
-        groupManager.processError(new Exception("test"));
+        PrimeFaces.current().dialog().closeDynamic(null);
+    }
+
+    /**
+     * Post-process error message in a main view
+     */
+    public void handleReturn(SelectEvent<T> evt) {
+        if(error==null)
+            return;
+        
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", error.getMessage());
+        FacesContext.getCurrentInstance().addMessage(PARENT_ERROR_RECIEVER, message);
+        error = null;
+    }
+    
+    public void cancel() {
         PrimeFaces.current().dialog().closeDynamic(null);
     }
 

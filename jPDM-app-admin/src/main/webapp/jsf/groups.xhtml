@@ -50,7 +50,7 @@
                         <p:commandButton value="Create" icon="pi pi-plus"
                             style="margin-right: .5rem" styleClass="ui-button-success"
                             action="#{dlgCreateGroup.createGroupShow}">
-                            <p:ajax event="dialogReturn" update="growl-sticky, group-form:id-group-list" />
+                            <p:ajax event="dialogReturn" listener="#{dlgCreateGroup.handleReturn}" update="growl-sticky, group-form:id-group-list" />
                         </p:commandButton>
                         <p:commandButton value="Clear" icon="pi pi-trash"
                             id="button-group-clear" styleClass="ui-button-warning"
@@ -158,8 +158,8 @@
                         action="#{groupManager.copySelectedUsers()}"
                         update="group-form:mcontext-group-form" />
                     <p:menuitem value="Remove" icon="pi pi-search"
-                        action="#{groupManager.copySelectedUsers()}"
-                        update="growl-sticky, group-form:mcontext-group-form" />
+                        action="#{groupManager.removeUsersFromGroup()}"
+                        update="growl-sticky, group-form:mcontext-group-form, user-form:id-user-list" />
                     <p:menuitem value="Cancel selection" icon="pi pi-search"
                         update="user-form:id-user-list, group-form:mcontext-group-form"
                         action="#{groupManager.resetUsersSelection()}" />
