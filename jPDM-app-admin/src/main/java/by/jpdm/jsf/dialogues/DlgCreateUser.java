@@ -14,7 +14,6 @@ import org.primefaces.model.DialogFrameworkOptions;
 
 import by.jpdm.model.beans.org.User;
 import by.jpdm.model.dao.UserDAO;
-import by.jpdm.model.dao.exceptions.JpdmModelException;
 import by.jpdm.model.service.UserFactory;
 import by.jpdm.test.qualifiers.TestViewMock;
 import jakarta.inject.Named;

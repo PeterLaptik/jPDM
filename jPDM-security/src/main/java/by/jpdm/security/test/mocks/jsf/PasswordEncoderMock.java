@@ -1,7 +1,7 @@
-package by.jpdm.test.mocks.view;
+package by.jpdm.security.test.mocks.jsf;
+
 
 import by.jpdm.security.PasswordEncoder;
-import by.jpdm.test.qualifiers.TestViewMock;
 
 /**
  * Mock for manual view tests. Do not use for other purposes

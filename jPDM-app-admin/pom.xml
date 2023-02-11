@@ -27,6 +27,12 @@
 	</properties>
 
 	<dependencies>
+        <!-- jPDM modules 
+        <dependency>
+            <groupId>by.jpdm.model</groupId>
+            <artifactId>jPDM-model</artifactId>
+        </dependency>
+        -->
 		<!--  
 		<dependency>
 			<groupId>jakarta.platform</groupId>

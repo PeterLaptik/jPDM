@@ -10,8 +10,10 @@
 	<name>jPDM</name>
 	<modules>
 		<module>jPDM-web-application</module>
-		<module>jPDM-model</module>
+		<module>jPDM-model-mgr</module>
 		<module>jPDM-app-admin</module>
+		<module>jPDM-model</module>
+		<module>jPDM-security</module>
 	</modules>
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>

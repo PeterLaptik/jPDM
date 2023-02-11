@@ -7,21 +7,20 @@
 		<artifactId>jPDM</artifactId>
 		<version>0.0.1</version>
 	</parent>
-	<groupId>by.jpdm.model</groupId>
-	<artifactId>jPDM-model</artifactId>
+	<artifactId>jPDM-model-mgr</artifactId>
+	<name>jpdm-model</name>
 
 	<dependencies>
-	    <!-- jPDM modules 
-        <dependency>
-            <groupId>by.jpdm</groupId>
-            <artifactId>jPDM-security</artifactId>
-        </dependency>
-        -->
-        
 		<dependency>
-			<groupId>javax.inject</groupId>
-			<artifactId>javax.inject</artifactId>
-			<version>1</version>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>42.5.0</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 </project>

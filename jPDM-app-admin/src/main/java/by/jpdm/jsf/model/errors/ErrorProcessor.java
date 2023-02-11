@@ -7,7 +7,6 @@ import javax.faces.context.FacesContext;
 
 import org.primefaces.event.SelectEvent;
 
-import by.jpdm.model.dao.exceptions.JpdmModelException;
 import jakarta.inject.Named;
 
 /**
