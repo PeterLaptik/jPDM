@@ -11,4 +11,8 @@
 		<pattern value="/groups" />
 		<view-id value="/jsf/groups.xhtml" />
 	</url-mapping>
+	<url-mapping id="model">
+        <pattern value="/model" />
+        <view-id value="/jsf/model.xhtml" />
+    </url-mapping>
 </pretty-config>

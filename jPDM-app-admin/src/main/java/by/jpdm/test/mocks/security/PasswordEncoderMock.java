@@ -1,4 +1,4 @@
-package by.jpdm.security.test.mocks.jsf;
+package by.jpdm.test.mocks.security;
 
 
 import by.jpdm.security.PasswordEncoder;
@@ -6,7 +6,7 @@ import by.jpdm.security.PasswordEncoder;
 /**
  * Mock for manual view tests. Do not use for other purposes
  */
-@TestViewMock
+@TestSecurityMock
 public class PasswordEncoderMock implements PasswordEncoder {
     @Override
     public String encode(CharSequence rawPassword) {

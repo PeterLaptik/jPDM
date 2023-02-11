@@ -5,10 +5,9 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<artifactId>jPDM</artifactId>
-		<groupId>by.laptik.peter</groupId>
+		<groupId>by.jpdm</groupId>
 		<version>0.0.1</version>
 	</parent>
-
 	<artifactId>jPDM-app-admin</artifactId>
 	<packaging>war</packaging>
 
@@ -27,20 +26,19 @@
 	</properties>
 
 	<dependencies>
-        <!-- jPDM modules 
-        <dependency>
-            <groupId>by.jpdm.model</groupId>
-            <artifactId>jPDM-model</artifactId>
-        </dependency>
-        -->
-		<!--  
+	   <!--  -->
 		<dependency>
-			<groupId>jakarta.platform</groupId>
-			<artifactId>jakarta.jakartaee-web-api</artifactId>
-			<version>${jakartaee-api.version}</version>
-			<scope>provided</scope>
+			<groupId>by.jpdm</groupId>
+			<artifactId>jPDM-model</artifactId>
+			<version>${project.parent.version}</version>
 		</dependency>
-		-->
+
+		<dependency>
+			<groupId>by.jpdm</groupId>
+			<artifactId>jPDM-model-mgr</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		
 
 		<dependency>
 			<groupId>javax.inject</groupId>
@@ -49,16 +47,22 @@
 		</dependency>
 
 		<dependency>
+			<groupId>javax.enterprise</groupId>
+			<artifactId>cdi-api</artifactId>
+			<version>1.2</version>
+		</dependency>
+
+		<dependency>
 			<groupId>org.jboss.weld.servlet</groupId>
 			<artifactId>weld-servlet-core</artifactId>
 			<version>4.0.3.Final</version>
 			<scope>provided</scope>
 		</dependency>
-		
+
 		<dependency>
-		    <groupId>org.jboss.weld.se</groupId>
-		    <artifactId>weld-se-core</artifactId>
-		    <version>4.0.3.Final</version>
+			<groupId>org.jboss.weld.se</groupId>
+			<artifactId>weld-se-core</artifactId>
+			<version>4.0.3.Final</version>
 		</dependency>
 
 		<dependency>
@@ -81,10 +85,10 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-		    <groupId>javax.faces</groupId>
-		    <artifactId>jsf-api</artifactId>
-		    <version>2.1</version>
-		    <scope>provided</scope>
+			<groupId>javax.faces</groupId>
+			<artifactId>jsf-api</artifactId>
+			<version>2.1</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>javax.validation</groupId>
@@ -101,33 +105,27 @@
 			<artifactId>all-themes</artifactId>
 			<version>${primefaces.themes.version}</version>
 		</dependency>
-		
+
 		<!-- JSF mapping -->
 		<dependency>
-	    <groupId>org.ocpsoft.rewrite</groupId>
-		    <artifactId>rewrite-servlet</artifactId>
-		    <version>3.4.4.Final</version>
+			<groupId>org.ocpsoft.rewrite</groupId>
+			<artifactId>rewrite-servlet</artifactId>
+			<version>3.4.4.Final</version>
 		</dependency>
 		<dependency>
-		    <groupId>org.ocpsoft.rewrite</groupId>
-		    <artifactId>rewrite-config-prettyfaces</artifactId>
-		    <version>3.4.4.Final</version>
+			<groupId>org.ocpsoft.rewrite</groupId>
+			<artifactId>rewrite-config-prettyfaces</artifactId>
+			<version>3.4.4.Final</version>
 		</dependency>
-		
-		<!--  
+
+		<!-- <dependency> <groupId>junit</groupId> <artifactId>junit</artifactId> 
+			<version>4.13.2</version> <scope>test</scope> </dependency> -->
+
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.13.2</version>
+			<groupId>org.junit.platform</groupId>
+			<artifactId>junit-platform-launcher</artifactId>
+			<version>1.9.2</version>
 			<scope>test</scope>
-		</dependency>
-		-->
-		
-		<dependency>
-		    <groupId>org.junit.platform</groupId>
-		    <artifactId>junit-platform-launcher</artifactId>
-		    <version>1.9.2</version>
-		    <scope>test</scope>
 		</dependency>
 
 		<dependency>
@@ -136,12 +134,12 @@
 			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<dependency>
-		    <groupId>org.junit.jupiter</groupId>
-		    <artifactId>junit-jupiter-engine</artifactId>
-		    <version>5.9.2</version>
-		    <scope>test</scope>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<version>5.9.2</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 

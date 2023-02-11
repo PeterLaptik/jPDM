@@ -17,7 +17,6 @@ import by.jpdm.jsf.model.lazy.UserGroupLazyModel;
 import by.jpdm.model.beans.org.Group;
 import by.jpdm.model.beans.org.User;
 import by.jpdm.model.dao.GroupDAO;
-import by.jpdm.model.dao.exceptions.JpdmModelException;
 import by.jpdm.model.dao.lazy.GroupLazyDAO;
 import by.jpdm.test.qualifiers.TestViewMock;
 import jakarta.inject.Named;
@@ -110,7 +109,7 @@ public class GroupManager implements Serializable {
     public void pasteAllGroupUsers() {
         try {
             if (selectedGroup == null)
-                throw new JpdmModelException("Group is not chosen!");
+                throw new Exception("Group is not selected!");
 
             groupDao.addUsers(selectedGroup, bufferCopyUsers);
             bufferCopyUsers.clear();

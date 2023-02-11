@@ -5,10 +5,9 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<artifactId>jPDM</artifactId>
-		<groupId>by.laptik.peter</groupId>
+		<groupId>by.jpdm</groupId>
 		<version>0.0.1</version>
 	</parent>
-
 	<artifactId>jPDM-webapp-spring</artifactId>
 	<packaging>war</packaging>
 

@@ -3,20 +3,20 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>by.laptik.peter</groupId>
+		<groupId>by.jpdm</groupId>
 		<artifactId>jPDM</artifactId>
 		<version>0.0.1</version>
 	</parent>
-	<groupId>by.jpdm.model</groupId>
 	<artifactId>jPDM-model</artifactId>
+	<packaging>jar</packaging>
 
 	<dependencies>
-	    <!-- jPDM modules 
+	    <!-- jPDM modules -->
         <dependency>
             <groupId>by.jpdm</groupId>
             <artifactId>jPDM-security</artifactId>
+            <version>${project.parent.version}</version>
         </dependency>
-        -->
         
 		<dependency>
 			<groupId>javax.inject</groupId>

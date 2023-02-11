@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import by.jpdm.model.beans.org.User;
 import by.jpdm.model.service.UserFactory;
 import by.jpdm.security.PasswordEncoder;
+import by.jpdm.test.mocks.security.TestSecurityMock;
 import by.jpdm.test.qualifiers.TestViewMock;
 
 /**
@@ -18,7 +19,7 @@ public class UserFactoryTestMock implements UserFactory {
     private static final int SALT_LENGTH = 16;
     final Random random = new SecureRandom();
     
-    @Inject @TestViewMock
+    @Inject @TestSecurityMock
     private PasswordEncoder passwordEncoder;
 
     public User createUser(String login, String name, String password) {

@@ -3,12 +3,12 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>by.laptik.peter</groupId>
+		<groupId>by.jpdm</groupId>
 		<artifactId>jPDM</artifactId>
 		<version>0.0.1</version>
 	</parent>
-	<groupId>by.jpdm</groupId>
 	<artifactId>jPDM-security</artifactId>
+	<packaging>jar</packaging>
 
 	<dependencies>
 		<dependency>
@@ -19,7 +19,7 @@
 		<dependency>
 			<groupId>jakarta.enterprise</groupId>
 			<artifactId>jakarta.enterprise.cdi-api</artifactId>
-			<version>4.0.1</version>
+			<version>3.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.wildfly.security</groupId>
@@ -29,7 +29,6 @@
 	</dependencies>
 	
 	<build>
-        <finalName>jPDM-app-admin</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
