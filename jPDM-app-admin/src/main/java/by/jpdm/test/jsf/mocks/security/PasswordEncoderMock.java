@@ -1,4 +1,4 @@
-package by.jpdm.test.mocks.security;
+package by.jpdm.test.jsf.mocks.security;
 
 
 import by.jpdm.security.PasswordEncoder;

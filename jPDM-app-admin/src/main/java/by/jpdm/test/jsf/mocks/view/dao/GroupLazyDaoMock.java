@@ -1,4 +1,4 @@
-package by.jpdm.test.mocks.view;
+package by.jpdm.test.jsf.mocks.view.dao;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -12,7 +12,7 @@ import javax.inject.Inject;
 import by.jpdm.model.beans.org.Group;
 import by.jpdm.model.dao.UserDAO;
 import by.jpdm.model.dao.lazy.GroupLazyDAO;
-import by.jpdm.test.qualifiers.TestViewMock;
+import by.jpdm.test.jsf.qualifiers.TestViewMock;
 
 /**
  * Mock for manual view tests. Do not use for other purposes

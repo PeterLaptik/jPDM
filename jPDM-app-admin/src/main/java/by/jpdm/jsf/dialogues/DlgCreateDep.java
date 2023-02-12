@@ -11,7 +11,7 @@ import org.primefaces.model.DialogFrameworkOptions;
 
 import by.jpdm.model.beans.org.Department;
 import by.jpdm.model.dao.DepartmentDAO;
-import by.jpdm.test.qualifiers.TestViewMock;
+import by.jpdm.test.jsf.qualifiers.TestViewMock;
 import jakarta.inject.Named;
 
 @Named

@@ -12,7 +12,7 @@ import org.primefaces.model.SortMeta;
 
 import by.jpdm.model.beans.org.Group;
 import by.jpdm.model.dao.lazy.GroupLazyDAO;
-import by.jpdm.test.qualifiers.TestViewMock;
+import by.jpdm.test.jsf.qualifiers.TestViewMock;
 
 /**
  * Paginated user list provider. See user table in groups.xhtml

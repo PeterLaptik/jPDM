@@ -19,6 +19,7 @@ public class ModelDbDriver {
 	public ModelTypeNode buildModelTree() throws SQLException, ModelUpdatingException {
 		ModelTypeNode root = ModelTypeNode.createRoot();
 		Connection conn = DriverManager.getConnection(url, user, pass);
+		
 		// Get types
 		ResultSet results = conn.createStatement().executeQuery("SELECT * FROM pdm_type_hierarchy");
 		while (results.next()) {

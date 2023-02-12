@@ -1,4 +1,4 @@
-package jpdm.db.modeller.tree;
+package by.jpdm.test.jsf.mocks.security;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -14,6 +14,6 @@ import javax.inject.Qualifier;
 @Qualifier
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ ElementType.FIELD, ElementType.TYPE, ElementType.METHOD })
-public @interface TestModelDriverMock {
+public @interface TestSecurityMock {
 
 }

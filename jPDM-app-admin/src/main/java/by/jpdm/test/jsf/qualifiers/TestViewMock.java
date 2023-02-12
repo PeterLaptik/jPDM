@@ -1,4 +1,4 @@
-package by.jpdm.test.qualifiers;
+package by.jpdm.test.jsf.qualifiers;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

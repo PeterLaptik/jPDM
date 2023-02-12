@@ -116,7 +116,15 @@ public class ModelTypeNode {
 			child.toConsole();
 	}
 
-	private Set<String> getUsedNamesList() {
+	public List<ModelTypeNode> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<ModelTypeNode> children) {
+        this.children = children;
+    }
+
+    private Set<String> getUsedNamesList() {
 		ModelTypeNode root = getRoot();
 		Set<String> result = new HashSet<String>();
 		return root.getUsedNamesList(result);

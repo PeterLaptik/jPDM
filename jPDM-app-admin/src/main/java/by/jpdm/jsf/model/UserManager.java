@@ -17,7 +17,7 @@ import by.jpdm.model.beans.org.Department;
 import by.jpdm.model.beans.org.User;
 import by.jpdm.model.dao.DepartmentDAO;
 import by.jpdm.model.dao.UserDAO;
-import by.jpdm.test.qualifiers.TestViewMock;
+import by.jpdm.test.jsf.qualifiers.TestViewMock;
 import jakarta.inject.Named;
 
 /**

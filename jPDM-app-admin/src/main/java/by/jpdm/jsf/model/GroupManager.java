@@ -18,7 +18,7 @@ import by.jpdm.model.beans.org.Group;
 import by.jpdm.model.beans.org.User;
 import by.jpdm.model.dao.GroupDAO;
 import by.jpdm.model.dao.lazy.GroupLazyDAO;
-import by.jpdm.test.qualifiers.TestViewMock;
+import by.jpdm.test.jsf.qualifiers.TestViewMock;
 import jakarta.inject.Named;
 
 /**

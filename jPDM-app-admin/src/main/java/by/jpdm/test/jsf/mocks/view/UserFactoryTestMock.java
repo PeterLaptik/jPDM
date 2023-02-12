@@ -1,4 +1,4 @@
-package by.jpdm.test.mocks.view;
+package by.jpdm.test.jsf.mocks.view;
 
 import java.security.SecureRandom;
 import java.util.Random;
@@ -8,8 +8,8 @@ import javax.inject.Inject;
 import by.jpdm.model.beans.org.User;
 import by.jpdm.model.service.UserFactory;
 import by.jpdm.security.PasswordEncoder;
-import by.jpdm.test.mocks.security.TestSecurityMock;
-import by.jpdm.test.qualifiers.TestViewMock;
+import by.jpdm.test.jsf.mocks.security.TestSecurityMock;
+import by.jpdm.test.jsf.qualifiers.TestViewMock;
 
 /**
  * Mock for manual view tests. Do not use for other purposes

@@ -1,4 +1,10 @@
-package jpdm.db.modeller.tree;
+package by.jpdm.test.jsf.mocks.view;
+
+import by.jpdm.test.jsf.qualifiers.TestModelDriverMock;
+import jpdm.db.modeller.tree.ModelDriver;
+import jpdm.db.modeller.tree.ModelTypeNode;
+import jpdm.db.modeller.tree.ModelTypeProperty;
+import jpdm.db.modeller.tree.PropertyType;
 
 @TestModelDriverMock
 public class ModelDriverMock implements ModelDriver {
@@ -10,7 +16,7 @@ public class ModelDriverMock implements ModelDriver {
         @SuppressWarnings("unused")
         ModelTypeNode asm = item.addChild("Assembly");
         ModelTypeNode detail = item.addChild("Detail");
-        root.addProperty(new ModelTypeProperty("name", PropertyType.TYPE_VARCHAR_256, false));
+        detail.addProperty(new ModelTypeProperty("name", PropertyType.TYPE_VARCHAR_256, false));
         detail.addProperty(new ModelTypeProperty("det_type", PropertyType.TYPE_VARCHAR_256, false));
         return root;
     }
