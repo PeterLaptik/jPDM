@@ -23,14 +23,14 @@
 			<!-- Main menu -->
 			<p:menu>
 				<p:menuitem value="Statistics" action="/test" update="messages"
-					ajax="false" icon="pi pi-external-link" />
+					ajax="false" icon="pi pi-chart-bar" />
 				<p:menuitem value="Users" outcome="users.xhtml" update="messages"
-					ajax="false" icon="pi pi-external-link" />
+					ajax="false" icon="pi pi-user" />
 				<p:menuitem value="Groups" outcome="groups.xhtml" update="messages"
-					ajax="false" icon="pi pi-external-link" />
+					ajax="false" icon="pi pi-users" />
 				<p:menuitem value="Model" outcome="model.xhtml" update="messages"
 					ajax="false" style="background-color: rgb(0 0 0 / 10%);"
-					icon="pi pi-external-link" />
+					icon="pi pi-database" />
 			</p:menu>
 		</div>
 
@@ -55,6 +55,13 @@
 					</p:column>
 					<p:ajax event="select" update="props-form:props-table" />
 				</p:treeTable>
+				
+				<!-- Pop up menu -->
+                <p:contextMenu for="types" widgetVar="tMenu"
+                    id="mcontext-group-form">
+                    <p:menuitem value="Create" icon="pi pi-search"/>
+                </p:contextMenu>
+                
 			</h:form>
 		</div>
 

@@ -24,17 +24,17 @@
             <p:menu>
                 <p:menuitem value="Statistics" action="/test"
                     update="messages" ajax="false"
-                    icon="pi pi-external-link" />
+                    icon="pi pi-chart-bar" />
                 <p:menuitem value="Users" outcome="users.xhtml"
                     update="messages" ajax="false"
-                    icon="pi pi-external-link" />
+                    icon="pi pi-user" />
                 <p:menuitem value="Groups" outcome="groups.xhtml"
                     update="messages" ajax="false"
                     style="background-color: rgb(0 0 0 / 10%);"
-                    icon="pi pi-external-link" />
+                    icon="pi pi-users" />
                 <p:menuitem value="Model" outcome="model.xhtml"
                     update="messages" ajax="false"
-                    icon="pi pi-external-link" />
+                    icon="pi pi-database" />
             </p:menu>
         </div>
         
@@ -52,7 +52,7 @@
                             action="#{dlgCreateGroup.createGroupShow}">
                             <p:ajax event="dialogReturn" listener="#{errorProcessor.handleReturn}" update="growl-sticky, group-form:id-group-list" />
                         </p:commandButton>
-                        <p:commandButton value="Clear" icon="pi pi-trash"
+                        <p:commandButton value="Clear" icon="pi pi-times-circle"
                             id="button-group-clear" styleClass="ui-button-warning"
                             style="margin-right: .5rem"
                             disabled="#{!groupManager.groupSelected}"
@@ -98,14 +98,14 @@
                 <!-- Pop up menu -->
                 <p:contextMenu for="id-group-list" widgetVar="gMenu"
                     id="mcontext-group-form">
-                    <p:menuitem value="Copy all Users" icon="pi pi-search"
+                    <p:menuitem value="Copy all Users" icon="pi pi-users"
                         action="#{groupManager.copyAllGroupUsers()}"
                         update="group-form:mcontext-group-form"/>
-                    <p:menuitem value="Paste Users" icon="pi pi-search"
+                    <p:menuitem value="Paste Users" icon="pi pi-user-plus"
                         action="#{groupManager.pasteAllGroupUsers()}"
                         disabled="#{!groupManager.hasCutUsers()}"
                         update="user-form:id-user-list group-form:mcontext-group-form"/>
-                    <p:menuitem value="Cancel selection" icon="pi pi-search"
+                    <p:menuitem value="Cancel selection" icon="pi pi-times"
                         update="id-group-list, group-form:button-group-delete, user-form:id-user-list, 
                                 group-form:button-group-clear, group-form:mcontext-group-form"
                         action="#{groupManager.resetSelection()}" />
@@ -154,13 +154,13 @@
                 <!-- Pop up menu -->
                 <p:contextMenu for="id-user-list" widgetVar="uMenu"
                     id="mcontext-department-form">
-                    <p:menuitem value="Copy users" icon="pi pi-search"
+                    <p:menuitem value="Copy users" icon="pi pi-users"
                         action="#{groupManager.copySelectedUsers()}"
                         update="group-form:mcontext-group-form" />
-                    <p:menuitem value="Remove" icon="pi pi-search"
+                    <p:menuitem value="Remove" icon="pi pi-user-minus"
                         action="#{groupManager.removeUsersFromGroup()}"
                         update="growl-sticky, group-form:mcontext-group-form, user-form:id-user-list" />
-                    <p:menuitem value="Cancel selection" icon="pi pi-search"
+                    <p:menuitem value="Cancel selection" icon="pi pi-times"
                         update="user-form:id-user-list, group-form:mcontext-group-form"
                         action="#{groupManager.resetUsersSelection()}" />
                 </p:contextMenu>

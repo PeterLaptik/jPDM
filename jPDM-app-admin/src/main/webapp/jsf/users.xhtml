@@ -22,14 +22,14 @@
 			<!-- Main menu -->
 			<p:menu>
 				<p:menuitem value="Statistics" action="/test" update="messages"
-					ajax="false" icon="pi pi-external-link" />
+					ajax="false" icon="pi pi-chart-bar" />
 				<p:menuitem value="Users" action="/test" update="messages"
-					ajax="false" icon="pi pi-external-link"
+					ajax="false" icon="pi pi-user"
 					style="background-color: rgb(0 0 0 / 10%);"/>
 				<p:menuitem value="Groups" outcome="groups" update="messages"
-					ajax="false" icon="pi pi-external-link" />
+					ajax="false" icon="pi pi-users" />
 				<p:menuitem value="Model" outcome="model.xhtml" update="messages"
-					ajax="false" icon="pi pi-external-link" />
+					ajax="false" icon="pi pi-database" />
 			</p:menu>
 		</div>
 
@@ -79,15 +79,15 @@
                 <!-- Pop up menu -->
 				<p:contextMenu for="id-departments-list" widgetVar="cMenu"
 					id="mcontext-department-form">
-					<p:menuitem value="Cut all users" icon="pi pi-search"
+					<p:menuitem value="Cut all users" icon="pi pi-users"
 						action="#{userManager.cutAllUsers()}"
 						update="dep-form:mcontext-department-form"/>
-					<p:menuitem value="Paste users" icon="pi pi-search"
+					<p:menuitem value="Paste users" icon="pi pi-user-plus"
 						action="#{userManager.pasteUsers()}"
 						disabled="#{!userManager.hasCutUsers()}"
 						update="user-form:id-user-list, user-form:button-user-create, user-form:button-user-delete,
 								dep-form:mcontext-department-form"/>
-					<p:menuitem value="Cancel selection" icon="pi pi-search"
+					<p:menuitem value="Cancel selection" icon="pi pi-times"
 						update="id-departments-list, dep-form:button-department-delete, user-form:id-user-list, 
 							user-form:button-user-create, user-form:button-user-delete, dep-form:mcontext-department-form"
 						action="#{userManager.resetSelection()}" />
@@ -123,7 +123,7 @@
 					</p:toolbarGroup>
 				</p:toolbar>
                 <!-- Table -->
-				<p:dataTable var="user" id="id-user-list"
+				<p:dataTable var="user" id="id-user-list" stickyHeader="true"
 					value="#{userManager.userLazyList}" 
                     
                     paginator="true" rows="10"
@@ -148,15 +148,15 @@
 				
                 <!-- Pop up menu -->
 				<p:contextMenu for="id-user-list" widgetVar="uMenu" id="mcontext-user-form">
-					<p:menuitem value="Cut users" icon="pi pi-search"
+					<p:menuitem value="Cut users" icon="pi pi-users"
 						action="#{userManager.cutUsers()}"
 						update="dep-form:mcontext-department-form"/>
-					<p:menuitem value="Update password" icon="pi pi-search"
+					<p:menuitem value="Update password" icon="pi pi-user-edit"
 						action="#{dlgUpdatePassword.updatePasswordShow()}"
 						disabled="#{!userManager.isSingleUserSelected()}">
 						<p:ajax event="dialogReturn" update=":growl-sticky, id-user-list" />
 					</p:menuitem>
-					<p:menuitem value="Cancel selection" icon="pi pi-search"
+					<p:menuitem value="Cancel selection" icon="pi pi-times"
 						update="user-form:id-user-list, user-form:button-user-delete, dep-form:mcontext-department-form"
 						action="#{userManager.resetUserSelection}" />
 				</p:contextMenu>
