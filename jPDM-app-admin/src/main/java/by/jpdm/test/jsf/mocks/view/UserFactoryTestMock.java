@@ -22,11 +22,11 @@ public class UserFactoryTestMock implements UserFactory {
     @Inject @TestSecurityMock
     private PasswordEncoder passwordEncoder;
 
-    public User createUser(String login, String name, String password) {
+    public User createUser(String login, String name, String rawPassword) {
         User user = new User(login, name);
         String salt = generateStaticSymbolicSalt();
         user.setSalt(salt);
-        String encodedPassword = encodePassword(password, salt);
+        String encodedPassword = encodePassword(rawPassword, salt);
         user.setPassword(encodedPassword);
         return user;
     }

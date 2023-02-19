@@ -47,7 +47,7 @@
 						</p:commandButton>
 					</p:toolbarGroup>
 				</p:toolbar>
-				<p:treeTable size="small" id="types"
+				<p:treeTable size="small" id="id-types-list"
 					value="#{modelManager.rootNode}" var="typeObject"
 					selectionMode="single" selection="#{modelManager.selectedNode}">
 					<p:column headerText="Type name">
@@ -55,13 +55,18 @@
 					</p:column>
 					<p:ajax event="select" update="props-form:props-table" />
 				</p:treeTable>
-				
+
 				<!-- Pop up menu -->
-                <p:contextMenu for="types" widgetVar="tMenu"
-                    id="mcontext-group-form">
-                    <p:menuitem value="Create" icon="pi pi-clone"/>
-                </p:contextMenu>
-                
+				<p:contextMenu for="id-types-list" widgetVar="tMenu"
+					id="mcontext-group-form">
+					<p:menuitem value="Create subtype"
+						action="#{dlgCreateType.createTypeShow}"
+						update=":growl-sticky"
+						icon="pi pi-clone">
+						<p:ajax event="dialogReturn" listener="#{modelManager.handleNewTypeReturn}" update=":growl-sticky, id-types-list" />
+						</p:menuitem>
+				</p:contextMenu>
+
 			</h:form>
 		</div>
 
@@ -73,6 +78,10 @@
 						<h3>Properties</h3>
 					</p:toolbarGroup>
 					<p:toolbarGroup align="right">
+					<p:selectBooleanCheckbox value="#{modelManager.showInheritedProps}" itemLabel="Inherited" 
+                       update="props-form:props-table">
+                       <p:ajax update="props-form:props-table"/>
+                    </p:selectBooleanCheckbox>
 						<p:commandButton value="Create" icon="pi pi-plus"
 							style="margin-right: .5rem" styleClass="ui-button-success">
 						</p:commandButton>
@@ -93,6 +102,7 @@
 			</h:form>
 		</div>
 	</div>
+
 	<!-- Error messages container -->
 	<p:growl id="growl-sticky" for="sticky-key" showDetail="true"
 		autoUpdate="true" />

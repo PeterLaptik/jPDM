@@ -7,8 +7,23 @@ import javax.faces.validator.Validator;
 
 import org.primefaces.validate.ClientValidator;
 
-public abstract class AbstractValidator implements Validator, ClientValidator {
-	public static final String ID_BUTTON_IGNORE_MASK = "btn-cancel";
+public abstract class BaseValidator implements Validator, ClientValidator {
+    private static final String ID_BUTTON_IGNORE_MASK = "btn-cancel";
+	private final String ID;
+	
+	public BaseValidator(String vid) {
+	    ID = vid;
+	}
+	
+	@Override
+    public Map<String, Object> getMetadata() {
+        return null;
+    }
+	
+	@Override
+    public String getValidatorId() {
+        return ID;
+    }
 	
 	/**
 	 * Checks if a certain button has been clicked and the validation should be

@@ -4,15 +4,17 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
+import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
+import by.jpdm.jsf.model.errors.ErrorProcessor;
+import by.jpdm.jsf.prime.PrimePropertyExtractor;
+import by.jpdm.jsf.prime.PrimeTreeTypeMapper;
 import by.jpdm.test.jsf.qualifiers.TestModelDriverMock;
 import jakarta.inject.Named;
 import jpdm.db.modeller.tree.ModelDriver;
@@ -32,10 +34,37 @@ public class ModelManager implements Serializable {
     private TreeNode<ModelTypeNode> rootNode;
     private TreeNode<ModelTypeNode> selectedNode;
     private List<ModelTypeProperty> propertyList;
+    private boolean showInheritedProps = true;
+
+    private PrimeTreeTypeMapper primeTreeMapper = new PrimeTreeTypeMapper();
+    private PrimePropertyExtractor propertyExtractor = new PrimePropertyExtractor();
+
+    @Inject
+    private ErrorProcessor errorProcessor;
 
     @Inject
     @TestModelDriverMock
     private ModelDriver modelDriver;
+
+    /**
+     * Processes result of type creation via dialogue
+     * 
+     * @param evt
+     */
+    public void handleNewTypeReturn(SelectEvent<Object> evt) {
+        if (selectedNode == null) {
+            errorProcessor.processError("No parent type selected!");
+            return;
+        }
+
+        try {
+            String name = (String) evt.getObject();
+            ModelTypeNode created = selectedNode.getData().addChild(name);
+            new DefaultTreeNode<ModelTypeNode>(created, selectedNode);
+        } catch (Exception e) {
+            errorProcessor.processError(e);
+        }
+    }
 
     public TreeNode<ModelTypeNode> getRootNode() {
         return rootNode;
@@ -47,59 +76,37 @@ public class ModelManager implements Serializable {
 
     public void setSelectedNode(TreeNode<ModelTypeNode> selectedNode) {
         this.selectedNode = selectedNode;
-        
-        if(selectedNode!=null)
-            propertyList = selectedNode.getData().getProperties();
+        updatePropertyList();
     }
 
     public List<ModelTypeProperty> getPropertyList() {
         return propertyList;
     }
 
-    public void setPropertyList(List<ModelTypeProperty> propertyList) {
-        this.propertyList = propertyList;
+    public boolean isShowInheritedProps() {
+        return showInheritedProps;
+    }
+
+    public void setShowInheritedProps(boolean showInheritedProps) {
+        this.showInheritedProps = showInheritedProps;
+        updatePropertyList();
     }
 
     /**
-     * Builds type structure and saves root tree node as a 'rootNode'-value.
-     * Information about 'ModelTypeNode' and other types see in jPDM-model-mgr
-     * module
-     * 
-     * @see ModelDriver, ModelTypeNode
+     * Builds initial type structure tree
      */
     @PostConstruct
-    private void rebuildTypeStructure() {
-        // Build node tree from type system data
-        ModelTypeNode root = null;
+    private void recreateTypeStructure() {
         try {
-            root = modelDriver.buildModelTree();
+            rootNode = primeTreeMapper.buildPrimeTreeTableData(modelDriver);
         } catch (Exception e) {
-            processError(e);
+            ModelTypeNode root = ModelTypeNode.createRoot();
+            rootNode = new DefaultTreeNode<ModelTypeNode>(root, null);
         }
-        // Create a single dummy node if a structure could not be built
-        if (root == null)
-            root = ModelTypeNode.createRoot();
-        // Create PrimeFaces TreeNode mapping for the type structure
-        rootNode = buildSubTree(null, root);
+        updatePropertyList();
     }
 
-    /**
-     * Tree recursive building. See rebuildStructure
-     * 
-     * @param parent - parent tree node
-     * @param node   - model node to add to parent tree node
-     * @return created tree node
-     */
-    private TreeNode<ModelTypeNode> buildSubTree(TreeNode<ModelTypeNode> parent, ModelTypeNode node) {
-        TreeNode<ModelTypeNode> subNode = new DefaultTreeNode<ModelTypeNode>(node, parent);
-        List<ModelTypeNode> children = node.getChildren();
-        for (ModelTypeNode child : children)
-            buildSubTree(subNode, child);
-        return subNode;
-    }
-
-    private void processError(Exception e) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage());
-        FacesContext.getCurrentInstance().addMessage("sticky-key", message);
+    private void updatePropertyList() {
+        propertyList = propertyExtractor.getPropertyList(selectedNode, showInheritedProps);
     }
 }

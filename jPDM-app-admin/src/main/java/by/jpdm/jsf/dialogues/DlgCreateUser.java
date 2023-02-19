@@ -1,12 +1,9 @@
 package by.jpdm.jsf.dialogues;
 
 import java.io.Serializable;
-import java.util.Map;
-import java.util.UUID;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import org.primefaces.PrimeFaces;
@@ -24,11 +21,9 @@ import jakarta.inject.Named;
 public class DlgCreateUser implements Serializable {
     private static final long serialVersionUID = 1L;
     private static final String DLG_CREATE_USER = "dlg/create-user";
-    private static final String PARAM_ITEM_DEPARTMENT = "itemDepartment";
     private String name;
     private String login;
     private String password;
-    private UUID departmentId;
 
     @Inject
     @TestViewMock
@@ -41,24 +36,14 @@ public class DlgCreateUser implements Serializable {
     public void createUserShow() {
         DialogFrameworkOptions options = DialogFrameworkOptions.builder().modal(true).width("350px").responsive(true)
                 .build();
-
-        Map<String, String> map = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        departmentId = UUID.fromString(map.get(PARAM_ITEM_DEPARTMENT));
         PrimeFaces.current().dialog().openDynamic(DLG_CREATE_USER, options, null);
     }
 
     public void create() {
-        Exception error = null;
-        try {
-            User user = userService.createUser(login, name, password);
-            user.setDepartmentId(departmentId);
-            userDao.createUser(user);
-            clearData();
-        } catch (Exception e) {
-            error = e;
-            return;
-        }
-        PrimeFaces.current().dialog().closeDynamic(error);
+        User user = new User(login, name);
+        user.setPassword(password);
+        clearData();
+        PrimeFaces.current().dialog().closeDynamic(user);
     }
 
     public void cancel() {
@@ -89,18 +74,9 @@ public class DlgCreateUser implements Serializable {
         this.password = password;
     }
 
-    public UUID getItemDepartmentId() {
-        return departmentId;
-    }
-
-    public void setItemDepartmentId(String itemDepartmentId) {
-        this.departmentId = UUID.fromString(itemDepartmentId);
-    }
-
     private void clearData() {
         name = "";
         login = "";
         password = "";
-        departmentId = null;
     }
 }

@@ -10,10 +10,15 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
+import org.primefaces.event.SelectEvent;
 import org.primefaces.model.LazyDataModel;
 
+import by.jpdm.jsf.model.errors.ErrorProcessor;
 import by.jpdm.jsf.model.lazy.GroupLazyModel;
 import by.jpdm.jsf.model.lazy.UserGroupLazyModel;
+import by.jpdm.jsf.service.GroupService;
+import by.jpdm.jsf.service.UserService;
+import by.jpdm.model.beans.org.Department;
 import by.jpdm.model.beans.org.Group;
 import by.jpdm.model.beans.org.User;
 import by.jpdm.model.dao.GroupDAO;
@@ -41,8 +46,10 @@ public class GroupManager implements Serializable {
     private GroupLazyDAO groupLazyDao;
 
     @Inject
-    @TestViewMock
-    private GroupDAO groupDao;
+    private UserService userService;
+
+    @Inject
+    private GroupService groupService;
 
     @Inject
     private UserGroupLazyModel lazyUserDataModel;
@@ -50,14 +57,29 @@ public class GroupManager implements Serializable {
     @Inject
     private GroupLazyModel lazyGroupDataModel;
 
-    
-    public void copyAllGroupUsers() {
-        try {
-            bufferCopyUsers.clear();
-            bufferCopyUsers = groupDao.getUsers(selectedGroup);
-        } catch (Exception e) {
-            processError(e);
+    @Inject
+    private ErrorProcessor errorProcessor;
+
+    public GroupManager() {
+
+    }
+
+    public void createGroupHandler(SelectEvent<Object> evt) {
+        Object object = evt.getObject();
+        if (object == null)
+            return;
+
+        if (!(object instanceof Group)) {
+            errorProcessor.processError("No group to create: " + object);
+            return;
         }
+
+        groupService.createGroup((Group) object);
+    }
+
+    public void copyAllGroupUsers() {
+        bufferCopyUsers.clear();
+        bufferCopyUsers = groupService.getGroupUsers(selectedGroup);
     }
 
     public void copySelectedUsers() {
@@ -70,53 +92,41 @@ public class GroupManager implements Serializable {
     }
 
     public void deleteSelectedGroup() {
-        if (selectedGroup == null)
-            return;
-
-        try {
-            groupDao.deleteGroup(selectedGroup);
-            resetSelection();
-            resetUsersSelection();
-        } catch (Exception e) {
-            processError(e);
-        }
+        groupService.deleteGroup(selectedGroup);
+//        if (selectedGroup == null)
+//            return;
+//
+//        try {
+//            groupDao.deleteGroup(selectedGroup);
+//            resetSelection();
+//            resetUsersSelection();
+//        } catch (Exception e) {
+//            processError(e);
+//        }
     }
-    
+
     public void clearSelectedGroup() {
         if (selectedGroup == null)
             return;
 
-        try {
-            groupDao.clearGroup(selectedGroup);
-            resetUsersSelection();
-        } catch (Exception e) {
-            processError(e);
-        }
+        groupService.clearGroup(selectedGroup);
     }
-    
+
     public void removeUsersFromGroup() {
-        if(selectedUsers == null || selectedUsers.size()<1 || selectedGroup == null)
+        if (selectedUsers == null || selectedUsers.size() < 1 || selectedGroup == null)
             return;
-        
-        try {
-            groupDao.removeUsers(selectedGroup, selectedUsers);
-            resetUsersSelection();
-        } catch (Exception e) {
-            processError(e);
-        }
+
+        groupService.removeUsers(selectedGroup, selectedUsers);
     }
 
     public void pasteAllGroupUsers() {
-        try {
-            if (selectedGroup == null)
-                throw new Exception("Group is not selected!");
+        if (selectedGroup == null)
+            return;
 
-            groupDao.addUsers(selectedGroup, bufferCopyUsers);
-            bufferCopyUsers.clear();
-            selectedUsers.clear();
-        } catch (Exception e) {
-            processError(e);
-        }
+        groupService.appendUsers(selectedGroup, bufferCopyUsers);
+        bufferCopyUsers.clear();
+        selectedUsers.clear();
+
     }
 
     public LazyDataModel<Group> getGroupLazyList() {

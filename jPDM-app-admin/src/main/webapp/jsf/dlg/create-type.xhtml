@@ -5,7 +5,7 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 <h:head>
-	<title>Create department</title>
+	<title>Create new type</title>
 </h:head>
 
 <h:body>
@@ -13,19 +13,14 @@
 		<div>
 			<table>
 				<tr>
-					<td><h:outputLabel for="id-name" value="Department name " /></td>
-					<td><p:inputText id="id-name" label="Department name"
-							maxlength="31" value="#{dlgCreateDepartment.name}">
-							<f:validator validatorId="department.name.validator" />
+					<td><h:outputLabel for="id-name" value="Type name " /></td>
+					<td><p:inputText id="id-name" label="Type name" maxlength="31"
+							value="#{dlgCreateType.name}">
+							<f:validator validatorId="type.name.validator" />
 						</p:inputText></td>
 					<p:tooltip for="id-name"
-						value="Only letters, numbers, and characters '_', '-', ' ' are allowed"
+						value="Only letters, numbers, and characters '_', '-', are allowed"
 						position="right" />
-				</tr>
-				<tr>
-					<td><h:outputLabel for="id-descr" value="Description " /></td>
-					<td><p:inputText id="id-descr" maxlength="63"
-							value="#{dlgCreateDepartment.description}"></p:inputText></td>
 				</tr>
 				<tr>
 					<td colspan="2" style="color: red; text-align: center;"><h:message
@@ -34,10 +29,10 @@
 				<tr>
 					<td colspan="2" style="padding-top: 15px; text-align: center;">
 						<p:commandButton style="margin: 10px" id="btn-cancel"
-							value="Cancel" icon="pi pi-ban" action="#{dlgCreateDepartment.cancel}">
+							value="Cancel" icon="pi pi-ban" action="#{dlgCreateType.cancel}">
 						</p:commandButton> <p:commandButton style="margin: 10px" id="btn-create"
-							value="Create" icon="pi pi-check" action="#{dlgCreateDepartment.create}"
-							update="id-msg">
+							value="Create" icon="pi pi-check"
+							action="#{dlgCreateType.create}" update="id-msg">
 						</p:commandButton>
 					</td>
 				</tr>

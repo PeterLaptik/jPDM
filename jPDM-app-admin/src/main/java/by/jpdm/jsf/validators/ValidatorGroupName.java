@@ -1,7 +1,6 @@
 package by.jpdm.jsf.validators;
 
 import java.io.Serializable;
-import java.util.Map;
 import java.util.regex.Pattern;
 
 import javax.faces.application.FacesMessage;
@@ -15,24 +14,14 @@ import javax.inject.Named;
 @Named
 @RequestScoped
 @FacesValidator("group.name.validator")
-public class ValidatorGroupName extends AbstractValidator implements Serializable {
-	private static final long serialVersionUID = -1626929746180916058L;
-	private static final String ID = "department.name.validator";
+public class ValidatorGroupName extends BaseValidator implements Serializable {
+    private static final long serialVersionUID = 1L;
 	private static final String NAME_PATTERN = "[_A-Za-z0-9-]+";
 	private Pattern pattern;
 
 	public ValidatorGroupName() {
+	    super("department.name.validator");
 		pattern = Pattern.compile(NAME_PATTERN);
-	}
-
-	@Override
-	public Map<String, Object> getMetadata() {
-		return null;
-	}
-
-	@Override
-	public String getValidatorId() {
-		return ID;
 	}
 
 	@Override

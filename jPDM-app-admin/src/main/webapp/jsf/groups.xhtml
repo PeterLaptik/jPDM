@@ -18,6 +18,7 @@
 <h:body>
     <ui:include src="header.xhtml" />
     <div id="mainContainer">
+    
         <!-- Left menu bar -->
         <div class="mainMenu">
             <!-- Main menu -->
@@ -41,6 +42,7 @@
         <!-- Groups table -->
         <div class="dgroupsTable">
             <h:form id="group-form">
+            
                 <!-- Create / delete tools -->
                 <p:toolbar>
                     <p:toolbarGroup>
@@ -50,7 +52,7 @@
                         <p:commandButton value="Create" icon="pi pi-plus"
                             style="margin-right: .5rem" styleClass="ui-button-success"
                             action="#{dlgCreateGroup.createGroupShow}">
-                            <p:ajax event="dialogReturn" listener="#{errorProcessor.handleReturn}" update="growl-sticky, group-form:id-group-list" />
+                            <p:ajax event="dialogReturn" listener="#{groupManager.createGroupHandler}" update="growl-sticky, group-form:id-group-list" />
                         </p:commandButton>
                         <p:commandButton value="Clear" icon="pi pi-times-circle"
                             id="button-group-clear" styleClass="ui-button-warning"
@@ -123,12 +125,14 @@
         <!-- Users table -->
         <div class="Users table">
             <h:form id="user-form">
+            
                 <!-- Create / delete tools -->
                 <p:toolbar>
                     <p:toolbarGroup>
                         <h3>Users</h3>
                     </p:toolbarGroup>
                 </p:toolbar>
+                
                 <!-- Table -->
                 <p:dataTable var="user" id="id-user-list"
                     value="#{groupManager.userLazyList}" 

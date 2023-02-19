@@ -4,14 +4,11 @@ import java.io.Serializable;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.inject.Inject;
 
 import org.primefaces.PrimeFaces;
 import org.primefaces.model.DialogFrameworkOptions;
 
 import by.jpdm.model.beans.org.Group;
-import by.jpdm.model.dao.GroupDAO;
-import by.jpdm.test.jsf.qualifiers.TestViewMock;
 import jakarta.inject.Named;
 
 @Named
@@ -23,10 +20,6 @@ public class DlgCreateGroup implements Serializable {
     private String name;
     private String description;
 
-    @Inject
-    @TestViewMock
-    private GroupDAO groupDao;
-
     public void createGroupShow() {
         DialogFrameworkOptions options = DialogFrameworkOptions.builder().modal(true).width("380px").responsive(true)
                 .build();
@@ -35,17 +28,11 @@ public class DlgCreateGroup implements Serializable {
     }
 
     public void create() {
-        Exception error = null;
-        try {
-            Group group = new Group(name, description);
-            groupDao.createGroup(group);
-            clearData();
-        } catch (Exception e) {
-            error = e;
-        }
-        PrimeFaces.current().dialog().closeDynamic(error);
+        Group group = new Group(name, description);
+        clearData();
+        PrimeFaces.current().dialog().closeDynamic(group);
     }
-    
+
     public void cancel() {
         PrimeFaces.current().dialog().closeDynamic(null);
     }

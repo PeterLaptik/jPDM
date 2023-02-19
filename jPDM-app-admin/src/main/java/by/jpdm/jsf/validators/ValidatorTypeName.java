@@ -13,14 +13,14 @@ import javax.inject.Named;
 
 @Named
 @RequestScoped
-@FacesValidator("user.name.validator")
-public class ValidatorUserName extends BaseValidator implements Serializable {
+@FacesValidator("type.name.validator")
+public class ValidatorTypeName extends BaseValidator implements Serializable {
     private static final long serialVersionUID = 1L;
-    private static final String NAME_PATTERN = "[_A-Za-z0-9- ]+";
+    private static final String NAME_PATTERN = "[_A-Za-z0-9-]+";
     private Pattern pattern;
 
-    public ValidatorUserName() {
-        super("user.name.validator");
+    public ValidatorTypeName() {
+        super("type.name.validator");
         pattern = Pattern.compile(NAME_PATTERN);
     }
 

@@ -21,7 +21,22 @@ import jakarta.inject.Named;
 public class ErrorProcessor {
     private static final String ERROR_RECIEVER = "sticky-key";
 
-    public void handleReturn(SelectEvent<Object> evt) {
+    public void processError(Exception e) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage());
+        FacesContext.getCurrentInstance().addMessage(ERROR_RECIEVER, message);
+    }
+
+    public void processError(String msg) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", msg);
+        FacesContext.getCurrentInstance().addMessage(ERROR_RECIEVER, message);
+    }
+
+    /**
+     * Shows error if a dialogue event contains error (exception)
+     * 
+     * @param evt - dialogue return
+     */
+    public void checkDialogueReturn(SelectEvent<Object> evt) {
         Object object = evt.getObject();
 
         if (!(object instanceof Exception))

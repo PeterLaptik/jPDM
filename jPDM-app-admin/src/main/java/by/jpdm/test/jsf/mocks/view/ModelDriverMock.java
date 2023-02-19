@@ -1,11 +1,14 @@
 package by.jpdm.test.jsf.mocks.view;
 
+import javax.inject.Singleton;
+
 import by.jpdm.test.jsf.qualifiers.TestModelDriverMock;
 import jpdm.db.modeller.tree.ModelDriver;
 import jpdm.db.modeller.tree.ModelTypeNode;
 import jpdm.db.modeller.tree.ModelTypeProperty;
 import jpdm.db.modeller.tree.PropertyType;
 
+@Singleton
 @TestModelDriverMock
 public class ModelDriverMock implements ModelDriver {
 

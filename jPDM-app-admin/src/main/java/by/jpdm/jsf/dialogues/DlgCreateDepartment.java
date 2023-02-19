@@ -4,28 +4,21 @@ import java.io.Serializable;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.inject.Inject;
 
 import org.primefaces.PrimeFaces;
 import org.primefaces.model.DialogFrameworkOptions;
 
 import by.jpdm.model.beans.org.Department;
-import by.jpdm.model.dao.DepartmentDAO;
-import by.jpdm.test.jsf.qualifiers.TestViewMock;
 import jakarta.inject.Named;
 
 @Named
 @ManagedBean
 @SessionScoped
-public class DlgCreateDep implements Serializable {
+public class DlgCreateDepartment implements Serializable {
     private static final long serialVersionUID = 1L;
     private static final String DLG_CREATE_DEP = "dlg/create-dep";
     private String name;
     private String description;
-
-    @Inject
-    @TestViewMock
-    private DepartmentDAO departmentDao;
 
     public void createDepartmentShow() {
         DialogFrameworkOptions options = DialogFrameworkOptions.builder().modal(true).width("380px").responsive(true)
@@ -35,17 +28,11 @@ public class DlgCreateDep implements Serializable {
     }
 
     public void create() {
-        Exception error = null;
-        try {
-            Department dep = new Department(name, description);
-            departmentDao.createDepartment(dep);
-            clearData();
-        } catch (Exception e) {
-            error = e;
-        }
-        PrimeFaces.current().dialog().closeDynamic(error);
+        Department dep = new Department(name, description);
+        clearData();
+        PrimeFaces.current().dialog().closeDynamic(dep);
     }
-    
+
     public void cancel() {
         PrimeFaces.current().dialog().closeDynamic(null);
     }

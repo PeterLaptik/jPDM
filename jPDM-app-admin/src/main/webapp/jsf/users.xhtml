@@ -17,6 +17,7 @@
 <h:body>
     <ui:include src="header.xhtml" />
 	<div id="mainContainer">
+	
 		<!-- Left menu bar -->
 		<div class="mainMenu">
 			<!-- Main menu -->
@@ -36,6 +37,7 @@
 		<!-- Departments table -->
 		<div class="departmentsTable">
 			<h:form id="dep-form">
+			
                 <!-- Create / delete tools -->
 				<p:toolbar>
 					<p:toolbarGroup>
@@ -44,9 +46,9 @@
 					<p:toolbarGroup align="right">
 						<p:commandButton value="Create" icon="pi pi-plus"
 							style="margin-right: .5rem" styleClass="ui-button-success"
-							action="#{dlgCreateDep.createDepartmentShow}"
+							action="#{dlgCreateDepartment.createDepartmentShow}"
 							update="id-departments-list">
-							<p:ajax event="dialogReturn" listener="#{errorProcessor.handleReturn}" update="dep-form:id-departments-list, :growl-sticky" />
+							<p:ajax event="dialogReturn" listener="#{userManager.createDepartmentHandler}" update="dep-form:id-departments-list, :growl-sticky" />
 						</p:commandButton>
 						<p:commandButton value="Delete" icon="pi pi-trash"
 							id="button-department-delete" styleClass="ui-button-danger"
@@ -57,6 +59,7 @@
 						</p:commandButton>
 					</p:toolbarGroup>
 				</p:toolbar>
+				
                 <!-- Table -->
 				<p:dataTable var="department" id="id-departments-list"
 					value="#{userManager.departmentsList}" selectionMode="single"
@@ -98,6 +101,7 @@
         <!-- Users table -->
 		<div class="Users table">
 			<h:form id="user-form">
+			
                 <!-- Create / delete tools -->
 				<p:toolbar>
 					<p:toolbarGroup>
@@ -109,7 +113,7 @@
 							styleClass="ui-button-success"
 							disabled="#{!userManager.hasSelectedDepartment()}"
 							action="#{dlgCreateUser.createUserShow}">
-							<p:ajax event="dialogReturn" listener="#{errorProcessor.handleReturn}" update=":growl-sticky, id-user-list" />
+							<p:ajax event="dialogReturn" listener="#{userManager.createUserHandler}" update=":growl-sticky, id-user-list" />
 							<f:param name="itemDepartment"
 								value="#{userManager.selectedDepartment.id}" />
 						</p:commandButton>
@@ -122,6 +126,7 @@
 						</p:commandButton>
 					</p:toolbarGroup>
 				</p:toolbar>
+				
                 <!-- Table -->
 				<p:dataTable var="user" id="id-user-list" stickyHeader="true"
 					value="#{userManager.userLazyList}" 
@@ -152,9 +157,9 @@
 						action="#{userManager.cutUsers()}"
 						update="dep-form:mcontext-department-form"/>
 					<p:menuitem value="Update password" icon="pi pi-user-edit"
-						action="#{dlgUpdatePassword.updatePasswordShow()}"
+					    action="#{dlgUpdatePassword.updatePasswordShow()}"
 						disabled="#{!userManager.isSingleUserSelected()}">
-						<p:ajax event="dialogReturn" update=":growl-sticky, id-user-list" />
+						<p:ajax event="dialogReturn" listener="#{userManager.updatePasswordHandler}" update=":growl-sticky, id-user-list" />
 					</p:menuitem>
 					<p:menuitem value="Cancel selection" icon="pi pi-times"
 						update="user-form:id-user-list, user-form:button-user-delete, dep-form:mcontext-department-form"

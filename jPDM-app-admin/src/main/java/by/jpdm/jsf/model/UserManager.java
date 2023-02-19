@@ -1,23 +1,22 @@
 package by.jpdm.jsf.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
+import org.primefaces.event.SelectEvent;
 import org.primefaces.model.LazyDataModel;
 
+import by.jpdm.jsf.model.errors.ErrorProcessor;
 import by.jpdm.jsf.model.lazy.UserDepLazyModel;
+import by.jpdm.jsf.model.objects.ClipboardBuffer;
+import by.jpdm.jsf.service.DepartmentService;
+import by.jpdm.jsf.service.UserService;
 import by.jpdm.model.beans.org.Department;
 import by.jpdm.model.beans.org.User;
-import by.jpdm.model.dao.DepartmentDAO;
-import by.jpdm.model.dao.UserDAO;
-import by.jpdm.test.jsf.qualifiers.TestViewMock;
 import jakarta.inject.Named;
 
 /**
@@ -32,81 +31,117 @@ public class UserManager implements Serializable {
     private static final long serialVersionUID = 1L;
     private Department selectedDepartment;
     private List<User> selectedUsers;
-    private List<User> cutBuffer = new ArrayList<User>();
+    private ClipboardBuffer<User> cutBuffer = new ClipboardBuffer<>();
 
     @Inject
-    @TestViewMock
-    private UserDAO userDao;
+    private UserService userService;
+    
+    @Inject
+    private DepartmentService departmentService;
 
     @Inject
-    @TestViewMock
-    private DepartmentDAO departmentDao;
+    private ErrorProcessor errorProcessor;
 
     @Inject
     private UserDepLazyModel lazyDataModel;
 
-    public void deleteUsers() {
-        try {
-            for (User user : selectedUsers)
-                userDao.deleteUser(user);
-        } catch (Exception e) {
-            processError(e);
+    public UserManager() {
+
+    }
+
+    public void createDepartmentHandler(SelectEvent<Object> evt) {
+        Object object = evt.getObject();
+        if (object == null)
+            return;
+
+        if (!(object instanceof Department)) {
+            errorProcessor.processError("No object to create: " + object);
+            return;
         }
+        departmentService.createDepartment((Department) object);
+    }
+
+    public void createUserHandler(SelectEvent<Object> evt) {
+        Object object = evt.getObject();
+        if (object == null)
+            return;
+
+        if (selectedDepartment == null) {
+            errorProcessor.processError("No selected department");
+            return;
+        }
+
+        if (!(object instanceof User)) {
+            errorProcessor.processError("No object to create: " + object);
+            return;
+        }
+
+        User user = (User) object; // Raw user from dialogue (no encoded password, no department)
+        userService.createUser(user, selectedDepartment);
+    }
+
+    public void updatePasswordHandler(SelectEvent<Object> evt) {
+        Object object = evt.getObject();
+        if (object == null)
+            return;
+
+        if (!(object instanceof String)) {
+            errorProcessor.processError("No password to update: " + object);
+            return;
+        }
+        
+        if (selectedUsers.size()==0) {
+            errorProcessor.processError("No user selected");
+            return;
+        }
+        
+        userService.updatePassword(selectedUsers.get(0), (String)object);
+    }
+
+    public void deleteUsers() {
+        for (User user : selectedUsers)
+            userService.deleteUser(user);
     }
 
     public void deleteDepartment() {
-        try {
-            departmentDao.deleteDepartment(selectedDepartment);
-        } catch (Exception e) {
-            processError(e);
-        }
+        departmentService.deleteDepartment(selectedDepartment);
     }
 
     public void cutUsers() {
-        cutBuffer.clear();
-
-        if (selectedUsers == null)
-            return;
-
-        cutBuffer.addAll(selectedUsers);
+        cutBuffer.cut(selectedUsers);
     }
 
     public void cutAllUsers() {
-        cutBuffer.clear();
-
         if (selectedDepartment == null)
             return;
 
-        List<User> users = getUserList();
-        cutBuffer.addAll(users);
+        List<User> users = getDepartmentUserList();
+        cutBuffer.cut(users);
     }
 
     public void pasteUsers() {
         if (selectedDepartment == null)
             return;
 
-        if (cutBuffer.size() < 1)
-            return;
-
+        List<User> usersToPaste = cutBuffer.flush();
+        // Change department id to a selected department value for all cut users
         try {
-            for (User user : cutBuffer) {
-                User existingUser = userDao.getUserById(user.getId());
+            for (User user : usersToPaste) {
+                User existingUser = userService.getUserById(user.getId());
                 existingUser.setDepartmentId(selectedDepartment.getId());
-                userDao.updateUser(existingUser);
+                userService.updateUser(existingUser);
             }
         } catch (Exception e) {
-            processError(e);
+            errorProcessor.processError(e);
         }
-
-        cutBuffer.clear();
     }
 
     public List<Department> getDepartmentsList() {
-        return departmentDao.getDepartments();
+        return departmentService.getDepartmentsList();
     }
 
-    public List<User> getUserList() {
-        return departmentDao.getUsers(selectedDepartment);
+    public List<User> getDepartmentUserList() {
+        return departmentService.getDepartmentUsers(selectedDepartment);
     }
 
     public LazyDataModel<User> getUserLazyList() {
@@ -144,7 +179,7 @@ public class UserManager implements Serializable {
     }
 
     public boolean hasCutUsers() {
-        return cutBuffer != null && cutBuffer.size() > 0;
+        return !cutBuffer.isEmpty();
     }
 
     public void resetSelection() {
@@ -157,10 +192,5 @@ public class UserManager implements Serializable {
     public void resetUserSelection() {
         selectedUsers = null;
         cutBuffer.clear();
-    }
-
-    private void processError(Exception e) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage());
-        FacesContext.getCurrentInstance().addMessage("sticky-key", message);
     }
 }

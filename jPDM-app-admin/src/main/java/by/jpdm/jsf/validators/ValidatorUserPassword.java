@@ -1,6 +1,6 @@
 package by.jpdm.jsf.validators;
 
-import java.util.Map;
+import java.io.Serializable;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.RequestScoped;
@@ -13,21 +13,11 @@ import javax.inject.Named;
 @Named
 @RequestScoped
 @FacesValidator("user.password.validator")
-public class ValidatorUserPassword extends AbstractValidator {
-    private static final String ID = "user.password.validator";
+public class ValidatorUserPassword extends BaseValidator implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     public ValidatorUserPassword() {
-
-    }
-
-    @Override
-    public Map<String, Object> getMetadata() {
-        return null;
-    }
-
-    @Override
-    public String getValidatorId() {
-        return ID;
+        super("user.password.validator");
     }
 
     @Override
