@@ -1,4 +1,4 @@
-package by.jpdm.test.jsf.mocks.view;
+package by.jpdm.model.service;
 
 import java.security.SecureRandom;
 import java.util.Random;
@@ -6,21 +6,22 @@ import java.util.Random;
 import javax.inject.Inject;
 
 import by.jpdm.model.beans.org.User;
-import by.jpdm.model.service.UserFactory;
 import by.jpdm.security.PasswordEncoder;
-import by.jpdm.test.jsf.mocks.security.TestSecurityMock;
-import by.jpdm.test.jsf.qualifiers.TestViewMock;
 
-/**
- * Mock for manual view tests. Do not use for other purposes
- */
-@TestViewMock
-public class UserFactoryTestMock implements UserFactory {
+public class UserFactoryImpl implements UserFactory {
     private static final int SALT_LENGTH = 16;
     final Random random = new SecureRandom();
-    
-    @Inject @TestSecurityMock
+
+    @Inject
     private PasswordEncoder passwordEncoder;
+
+    public UserFactoryImpl() {
+
+    }
+
+    public UserFactoryImpl(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
 
     public User createUser(String login, String name, String rawPassword) {
         User user = new User(login, name);

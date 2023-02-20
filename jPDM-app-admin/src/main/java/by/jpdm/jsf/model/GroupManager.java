@@ -4,10 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import org.primefaces.event.SelectEvent;
@@ -16,14 +14,10 @@ import org.primefaces.model.LazyDataModel;
 import by.jpdm.jsf.model.errors.ErrorProcessor;
 import by.jpdm.jsf.model.lazy.GroupLazyModel;
 import by.jpdm.jsf.model.lazy.UserGroupLazyModel;
+import by.jpdm.jsf.model.objects.ClipboardBuffer;
 import by.jpdm.jsf.service.GroupService;
-import by.jpdm.jsf.service.UserService;
-import by.jpdm.model.beans.org.Department;
 import by.jpdm.model.beans.org.Group;
 import by.jpdm.model.beans.org.User;
-import by.jpdm.model.dao.GroupDAO;
-import by.jpdm.model.dao.lazy.GroupLazyDAO;
-import by.jpdm.test.jsf.qualifiers.TestViewMock;
 import jakarta.inject.Named;
 
 /**
@@ -39,14 +33,7 @@ public class GroupManager implements Serializable {
     private Group selectedGroup;
     private boolean groupSelected = false;
     private List<User> selectedUsers = new ArrayList<>();
-    private List<User> bufferCopyUsers = new ArrayList<>();
-
-    @Inject
-    @TestViewMock
-    private GroupLazyDAO groupLazyDao;
-
-    @Inject
-    private UserService userService;
+    private ClipboardBuffer<User> clipBoard = new ClipboardBuffer<>();
 
     @Inject
     private GroupService groupService;
@@ -78,31 +65,17 @@ public class GroupManager implements Serializable {
     }
 
     public void copyAllGroupUsers() {
-        bufferCopyUsers.clear();
-        bufferCopyUsers = groupService.getGroupUsers(selectedGroup);
+        clipBoard.clear();
+        clipBoard.cut(groupService.getGroupUsers(selectedGroup));
     }
 
     public void copySelectedUsers() {
-        try {
-            bufferCopyUsers.clear();
-            bufferCopyUsers.addAll(selectedUsers);
-        } catch (Exception e) {
-            processError(e);
-        }
+        clipBoard.clear();
+        clipBoard.cut(selectedUsers);
     }
 
     public void deleteSelectedGroup() {
         groupService.deleteGroup(selectedGroup);
-//        if (selectedGroup == null)
-//            return;
-//
-//        try {
-//            groupDao.deleteGroup(selectedGroup);
-//            resetSelection();
-//            resetUsersSelection();
-//        } catch (Exception e) {
-//            processError(e);
-//        }
     }
 
     public void clearSelectedGroup() {
@@ -123,8 +96,8 @@ public class GroupManager implements Serializable {
         if (selectedGroup == null)
             return;
 
-        groupService.appendUsers(selectedGroup, bufferCopyUsers);
-        bufferCopyUsers.clear();
+        groupService.appendUsers(selectedGroup, clipBoard.flush());
+        clipBoard.clear();
         selectedUsers.clear();
 
     }
@@ -149,12 +122,12 @@ public class GroupManager implements Serializable {
 
     public void resetSelection() {
         setSelectedGroup(null);
-        bufferCopyUsers.clear();
+        clipBoard.clear();
     }
 
     public void resetUsersSelection() {
         selectedUsers.clear();
-        bufferCopyUsers.clear();
+        clipBoard.clear();
     }
 
     public List<User> getSelectedUsers() {
@@ -170,11 +143,6 @@ public class GroupManager implements Serializable {
     }
 
     public boolean hasCutUsers() {
-        return bufferCopyUsers.size() > 0;
-    }
-
-    public void processError(Exception e) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage());
-        FacesContext.getCurrentInstance().addMessage("sticky-key", message);
+        return !clipBoard.isEmpty();
     }
 }

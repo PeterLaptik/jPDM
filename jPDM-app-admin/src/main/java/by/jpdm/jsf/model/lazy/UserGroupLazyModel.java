@@ -13,7 +13,6 @@ import org.primefaces.model.SortMeta;
 import by.jpdm.model.beans.org.Group;
 import by.jpdm.model.beans.org.User;
 import by.jpdm.model.dao.lazy.UserGroupLazyDAO;
-import by.jpdm.test.jsf.qualifiers.TestViewMock;
 
 /**
  * Paginated user list provider. See user table in groups.xhtml
@@ -25,7 +24,6 @@ public class UserGroupLazyModel extends LazyDataModel<User> {
     private Group selectedGroup;
 
     @Inject
-    @TestViewMock
     private UserGroupLazyDAO userLazyDao;
 
     @Override

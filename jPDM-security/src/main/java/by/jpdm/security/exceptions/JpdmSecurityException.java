@@ -1,4 +1,4 @@
-package by.jpdm.security;
+package by.jpdm.security.exceptions;
 
 public class JpdmSecurityException extends RuntimeException {
 	private static final long serialVersionUID = 1L;

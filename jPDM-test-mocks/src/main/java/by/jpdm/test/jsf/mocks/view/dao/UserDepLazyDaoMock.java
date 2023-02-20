@@ -19,78 +19,84 @@ import by.jpdm.test.jsf.qualifiers.TestViewMock;
  */
 @TestViewMock
 public class UserDepLazyDaoMock implements UserDepLazyDAO {
-	@Inject @TestViewMock
-	DepartmentDAO departmentDao;
+    @Inject
+    @TestViewMock
+    DepartmentDAO departmentDao;
+
+    public UserDepLazyDaoMock() {
+
+    }
+
+    public UserDepLazyDaoMock(DepartmentDAO departmentDao) {
+        this.departmentDao = departmentDao;
+    }
 
     @Override
-    public int count(Department department, Map<String,String> filterMap) {    
+    public int count(Department department, Map<String, String> filterMap) {
         List<User> allUsers = departmentDao.getUsers(department);
-        
+
         String filterLogin = filterMap.get("login");
         String filterName = filterMap.get("name");
-        
-        if(filterLogin!=null)
-            allUsers = allUsers.stream()
-                    .filter(u -> (u.getLogin().toLowerCase().startsWith(filterLogin.toLowerCase())))
+
+        if (filterLogin != null)
+            allUsers = allUsers.stream().filter(u -> (u.getLogin().toLowerCase().startsWith(filterLogin.toLowerCase())))
                     .collect(Collectors.toList());
-        
-        if(filterName!=null)
-            allUsers = allUsers.stream()
-                    .filter(u -> (u.getName().toLowerCase().startsWith(filterName.toLowerCase())))
+
+        if (filterName != null)
+            allUsers = allUsers.stream().filter(u -> (u.getName().toLowerCase().startsWith(filterName.toLowerCase())))
                     .collect(Collectors.toList());
         return allUsers.size();
     }
 
     @Override
-    public List<User> load(Department department, int first, int pageSize, Map<String, Integer> orderMap, Map<String,String> filterMap) {
+    public List<User> load(Department department, int first, int pageSize, Map<String, Integer> orderMap,
+            Map<String, String> filterMap) {
         @SuppressWarnings("unused")
-		UserDaoMock mock = new UserDaoMock();        
+        UserDaoMock mock = new UserDaoMock();
         List<User> allUsers = departmentDao.getUsers(department);
-        
+
         String filterLogin = filterMap.get("login");
         String filterName = filterMap.get("name");
-        
-        if(filterLogin!=null)
-            allUsers = allUsers.stream()
-                    .filter(u -> (u.getLogin().toLowerCase().startsWith(filterLogin.toLowerCase())))
+
+        if (filterLogin != null)
+            allUsers = allUsers.stream().filter(u -> (u.getLogin().toLowerCase().startsWith(filterLogin.toLowerCase())))
                     .collect(Collectors.toList());
-        
-        if(filterName!=null)
-            allUsers = allUsers.stream()
-                    .filter(u -> (u.getName().toLowerCase().startsWith(filterName.toLowerCase())))
+
+        if (filterName != null)
+            allUsers = allUsers.stream().filter(u -> (u.getName().toLowerCase().startsWith(filterName.toLowerCase())))
                     .collect(Collectors.toList());
-        
+
         Integer orderLogin = orderMap.get("login");
         Integer orderName = orderMap.get("name");
 
-        if(orderName!=null) {
+        if (orderName != null) {
             allUsers.sort(new Comparator<User>() {
                 @Override
                 public int compare(User o1, User o2) {
-                    int result =  o1.getName().compareTo(o2.getName());
-                    return result*orderName;
+                    int result = o1.getName().compareTo(o2.getName());
+                    return result * orderName;
                 }
             });
         }
-        
-        if(orderLogin!=null) {
+
+        if (orderLogin != null) {
             allUsers.sort(new Comparator<User>() {
                 @Override
                 public int compare(User o1, User o2) {
-                    int result =  o1.getLogin().compareTo(o2.getLogin());
-                    return result*orderLogin;
+                    int result = o1.getLogin().compareTo(o2.getLogin());
+                    return result * orderLogin;
                 }
             });
         }
-        
+
         List<User> limitedUsers = allUsers.stream().skip(first).limit(pageSize).collect(Collectors.toList());
         return limitedUsers;
     }
 
     @Override
     public User getUserById(String id) {
-        for(User user: UserDaoMock.users) {
-            if(UUID.fromString(id).equals(user.getId()))
+        for (User user : UserDaoMock.users) {
+            if (UUID.fromString(id).equals(user.getId()))
                 return user;
         }
         return null;

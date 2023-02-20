@@ -25,6 +25,7 @@ public class DlgUpdatePassword implements Serializable {
     }
 
     public void update() {
+        clearData();
         PrimeFaces.current().dialog().closeDynamic(password);
     }
 

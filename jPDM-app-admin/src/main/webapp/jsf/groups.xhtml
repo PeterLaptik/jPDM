@@ -91,7 +91,7 @@
                     </p:column>
                     <p:column headerText="Description" 
                         sortBy="#{group.description}" filterBy="#{group.description}">
-                        <h:outputText value="#{user.name}" />
+                        <h:outputText value="#{group.description}" />
                     </p:column>
                     <p:ajax event="rowSelect" update="group-form:button-group-delete, group-form:button-group-clear, user-form:id-user-list" />
                     <p:ajax event="rowUnselect" update="group-form:button-group-delete, group-form:button-group-clear, user-form:id-user-list" />

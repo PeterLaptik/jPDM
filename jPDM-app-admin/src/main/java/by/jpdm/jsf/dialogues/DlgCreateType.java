@@ -1,20 +1,14 @@
 package by.jpdm.jsf.dialogues;
 
 import java.io.Serializable;
-import java.util.Map;
-import java.util.UUID;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
 
 import org.primefaces.PrimeFaces;
 import org.primefaces.model.DialogFrameworkOptions;
-import org.primefaces.model.TreeNode;
 
 import jakarta.inject.Named;
-import jpdm.db.modeller.tree.ModelTypeNode;
 
 @Named
 @ManagedBean
@@ -32,6 +26,7 @@ public class DlgCreateType implements Serializable {
 
     public void create() {
         PrimeFaces.current().dialog().closeDynamic(name);
+        clearData();
     }
     
     public void cancel() {

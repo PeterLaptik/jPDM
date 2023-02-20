@@ -10,22 +10,13 @@ import by.jpdm.model.beans.org.Department;
 import by.jpdm.model.beans.org.User;
 import by.jpdm.model.dao.UserDAO;
 import by.jpdm.model.service.UserFactory;
-import by.jpdm.security.PasswordEncoder;
-import by.jpdm.test.jsf.mocks.security.TestSecurityMock;
-import by.jpdm.test.jsf.qualifiers.TestViewMock;
 
 public class UserServiceImpl implements UserService {
     @Inject
-    @TestViewMock
     private UserDAO userDao;
 
     @Inject
-    @TestViewMock
     private UserFactory userFactory;
-
-    @Inject
-    @TestSecurityMock
-    private PasswordEncoder passwordEncoder;
 
     @Inject
     private ErrorProcessor errorProcessor;

@@ -4,15 +4,11 @@ import java.io.Serializable;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.inject.Inject;
 
 import org.primefaces.PrimeFaces;
 import org.primefaces.model.DialogFrameworkOptions;
 
 import by.jpdm.model.beans.org.User;
-import by.jpdm.model.dao.UserDAO;
-import by.jpdm.model.service.UserFactory;
-import by.jpdm.test.jsf.qualifiers.TestViewMock;
 import jakarta.inject.Named;
 
 @Named
@@ -24,14 +20,6 @@ public class DlgCreateUser implements Serializable {
     private String name;
     private String login;
     private String password;
-
-    @Inject
-    @TestViewMock
-    private UserFactory userService;
-
-    @Inject
-    @TestViewMock
-    private UserDAO userDao;
 
     public void createUserShow() {
         DialogFrameworkOptions options = DialogFrameworkOptions.builder().modal(true).width("350px").responsive(true)

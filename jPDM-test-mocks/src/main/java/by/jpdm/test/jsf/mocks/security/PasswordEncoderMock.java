@@ -6,7 +6,6 @@ import by.jpdm.security.PasswordEncoder;
 /**
  * Mock for manual view tests. Do not use for other purposes
  */
-@TestSecurityMock
 public class PasswordEncoderMock implements PasswordEncoder {
     @Override
     public String encode(CharSequence rawPassword) {

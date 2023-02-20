@@ -7,12 +7,10 @@ import by.jpdm.model.beans.org.Department;
 import by.jpdm.model.beans.org.User;
 import by.jpdm.model.dao.DepartmentDAO;
 import by.jpdm.model.dao.exceptions.JpdmModelException;
-import by.jpdm.test.jsf.qualifiers.TestViewMock;
 
 /**
  * Mock for manual view tests. Do not use for other purposes
  */
-@TestViewMock
 public class DepartmentDaoMock implements DepartmentDAO {
 	private static final long serialVersionUID = 1L;
 	public static List<Department> departments = new ArrayList<>();

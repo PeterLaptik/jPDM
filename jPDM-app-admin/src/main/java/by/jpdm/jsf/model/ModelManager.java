@@ -15,7 +15,6 @@ import org.primefaces.model.TreeNode;
 import by.jpdm.jsf.model.errors.ErrorProcessor;
 import by.jpdm.jsf.prime.PrimePropertyExtractor;
 import by.jpdm.jsf.prime.PrimeTreeTypeMapper;
-import by.jpdm.test.jsf.qualifiers.TestModelDriverMock;
 import jakarta.inject.Named;
 import jpdm.db.modeller.tree.ModelDriver;
 import jpdm.db.modeller.tree.ModelTypeNode;
@@ -43,7 +42,6 @@ public class ModelManager implements Serializable {
     private ErrorProcessor errorProcessor;
 
     @Inject
-    @TestModelDriverMock
     private ModelDriver modelDriver;
 
     /**

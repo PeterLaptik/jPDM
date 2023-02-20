@@ -13,7 +13,6 @@ import org.primefaces.model.SortMeta;
 import by.jpdm.model.beans.org.Department;
 import by.jpdm.model.beans.org.User;
 import by.jpdm.model.dao.lazy.UserDepLazyDAO;
-import by.jpdm.test.jsf.qualifiers.TestViewMock;
 
 /**
  * Paginated user list provider. See user table in users.xhtml
@@ -25,7 +24,6 @@ public class UserDepLazyModel extends LazyDataModel<User> {
     private Department selectedDepartment;
 
     @Inject
-    @TestViewMock
     private UserDepLazyDAO userLazyDao;
 
     @Override

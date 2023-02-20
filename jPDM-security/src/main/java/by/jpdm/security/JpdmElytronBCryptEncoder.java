@@ -14,6 +14,7 @@ import org.wildfly.security.password.spec.EncryptablePasswordSpec;
 import org.wildfly.security.password.spec.IteratedSaltedPasswordAlgorithmSpec;
 import org.wildfly.security.password.util.ModularCrypt;
 
+import by.jpdm.security.exceptions.JpdmSecurityException;
 import jakarta.enterprise.inject.Default;
 
 @Default

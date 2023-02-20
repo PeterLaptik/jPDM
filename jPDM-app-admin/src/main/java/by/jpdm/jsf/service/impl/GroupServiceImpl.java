@@ -10,11 +10,9 @@ import by.jpdm.jsf.service.GroupService;
 import by.jpdm.model.beans.org.Group;
 import by.jpdm.model.beans.org.User;
 import by.jpdm.model.dao.GroupDAO;
-import by.jpdm.test.jsf.qualifiers.TestViewMock;
 
 public class GroupServiceImpl implements GroupService {
     @Inject
-    @TestViewMock
     private GroupDAO groupDao;
 
     @Inject

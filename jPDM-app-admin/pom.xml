@@ -39,6 +39,12 @@
 			<version>${project.parent.version}</version>
 		</dependency>
 		
+		<dependency>
+            <groupId>by.jpdm</groupId>
+            <artifactId>jPDM-test-mocks</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+		
 
 		<dependency>
 			<groupId>javax.inject</groupId>
