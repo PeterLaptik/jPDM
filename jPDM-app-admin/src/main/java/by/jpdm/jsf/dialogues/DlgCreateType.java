@@ -1,14 +1,17 @@
 package by.jpdm.jsf.dialogues;
 
 import java.io.Serializable;
+import java.util.Map;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.inject.Inject;
 
 import org.primefaces.PrimeFaces;
 import org.primefaces.model.DialogFrameworkOptions;
 
 import jakarta.inject.Named;
+import jpdm.db.modeller.tree.ModelDriver;
 
 @Named
 @ManagedBean
@@ -18,7 +21,14 @@ public class DlgCreateType implements Serializable {
     private static final String DLG_CREATE_TYPE = "dlg/create-type";
     private String name;
     
+    @Inject
+    ModelDriver drv;
+    
     public void createTypeShow() {
+        Map<Integer, String> types = drv.getTypesMap();
+        for(Map.Entry<Integer, String> me: types.entrySet())
+            System.out.println(me.getKey() + " -> " + me.getValue());
+        
         DialogFrameworkOptions options = DialogFrameworkOptions.builder().modal(true).width("340px").responsive(true)
                 .build();
         PrimeFaces.current().dialog().openDynamic(DLG_CREATE_TYPE, options, null);

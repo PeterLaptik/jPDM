@@ -19,13 +19,14 @@ public enum PropertyType {
 	TYPE_BIGINT(7),
 	TYPE_DOUBLE(8),
 	TYPE_FLOAT(9),
-	TYPE_TIMESTAMP(10);
+	TYPE_BIG_DECIMAL(10),
+	TYPE_TIMESTAMP(11);
 	
 	
-	private static final Map<Integer, PropertyType> AOWABLE_VALUES = new HashMap<Integer, PropertyType>();
+	private static final Map<Integer, PropertyType> ALLOWABLE_VALUES = new HashMap<Integer, PropertyType>();
 	static {
 		for (PropertyType propType : values()) {
-			AOWABLE_VALUES.put(propType.getType(), propType);
+			ALLOWABLE_VALUES.put(propType.getType(), propType);
 		}
 	}
 	
@@ -40,6 +41,14 @@ public enum PropertyType {
 	}
 	
 	public static PropertyType valueOf(int value) {
-		return AOWABLE_VALUES.get(value);
+		return ALLOWABLE_VALUES.get(value);
+	}
+	
+	public static Map<Integer,String> getTypeNames() {
+	    Map<Integer,String> result = new HashMap<>();
+	    for(Map.Entry<Integer, PropertyType> me: ALLOWABLE_VALUES.entrySet())
+	        result.put(me.getKey(), me.getValue().toString());
+	    
+	    return result;
 	}
 }
