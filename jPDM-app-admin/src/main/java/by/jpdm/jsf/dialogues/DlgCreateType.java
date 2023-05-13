@@ -25,10 +25,6 @@ public class DlgCreateType implements Serializable {
     ModelDriver drv;
     
     public void createTypeShow() {
-        Map<Integer, String> types = drv.getTypesMap();
-        for(Map.Entry<Integer, String> me: types.entrySet())
-            System.out.println(me.getKey() + " -> " + me.getValue());
-        
         DialogFrameworkOptions options = DialogFrameworkOptions.builder().modal(true).width("340px").responsive(true)
                 .build();
         PrimeFaces.current().dialog().openDynamic(DLG_CREATE_TYPE, options, null);
