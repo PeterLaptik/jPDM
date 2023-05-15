@@ -9,23 +9,25 @@ import java.util.Map;
  * @author Peter Laptik
  */
 public enum PropertyType {
-	TYPE_BOOLEAN(0),
-	TYPE_CHAR(1),
-	TYPE_VARCHAR_32(2),
-	TYPE_VARCHAR_128(3),
-	TYPE_VARCHAR_256(4),
-	TYPE_TEXT(5),
-	TYPE_INTEGER(6),
-	TYPE_BIGINT(7),
-	TYPE_DOUBLE(8),
-	TYPE_FLOAT(9),
-	TYPE_TIMESTAMP(10);
+	BOOLEAN(0),
+	CHAR(1),
+	VARCHAR_32(2),
+	VARCHAR_128(3),
+	VARCHAR_256(4),
+	TEXT(5),
+	INTEGER(6),
+	BIGINT(7),
+	DOUBLE(8),
+	FLOAT(9),
+	BIG_DECIMAL(10),
+	BIG_INTEGER(11),
+	TIMESTAMP(12);
 	
 	
-	private static final Map<Integer, PropertyType> AOWABLE_VALUES = new HashMap<Integer, PropertyType>();
+	private static final Map<Integer, PropertyType> ALLOWABLE_VALUES = new HashMap<Integer, PropertyType>();
 	static {
 		for (PropertyType propType : values()) {
-			AOWABLE_VALUES.put(propType.getType(), propType);
+			ALLOWABLE_VALUES.put(propType.getType(), propType);
 		}
 	}
 	
@@ -40,6 +42,14 @@ public enum PropertyType {
 	}
 	
 	public static PropertyType valueOf(int value) {
-		return AOWABLE_VALUES.get(value);
+		return ALLOWABLE_VALUES.get(value);
+	}
+	
+	public static Map<Integer,String> getTypeNames() {
+	    Map<Integer,String> result = new HashMap<>();
+	    for(Map.Entry<Integer, PropertyType> me: ALLOWABLE_VALUES.entrySet())
+	        result.put(me.getKey(), me.getValue().toString());
+	    
+	    return result;
 	}
 }
