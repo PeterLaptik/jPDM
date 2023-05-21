@@ -6,117 +6,129 @@ import java.util.List;
 import java.util.Set;
 
 public class ModelTypeNode {
-	public static final String ROOT_NAME = "ROOT";
-	private String name;
-	private int level = 0;
-	private ModelTypeNode parent;
-	private List<ModelTypeNode> children = new ArrayList<ModelTypeNode>();
+    public static final String ROOT_NAME = "ROOT";
 
-	private List<ModelTypeProperty> properties = new ArrayList<ModelTypeProperty>();
+    // Type name
+    private String name;
 
-	private ModelTypeNode(String typeName) throws ModelUpdatingException {
-		Set<String> namesUsed = getUsedNamesList();
-		if (namesUsed.contains(typeName))
-			throw new ModelUpdatingException(String.format("Defined type name '%s' already exists.", typeName));
+    // Level
+    private int level = 0;
 
-		parent = null;
-		name = typeName.trim();
-	}
+    // Sub-type
+    private ModelTypeNode parent;
 
-	private ModelTypeNode(ModelTypeNode parent, String name) throws ModelUpdatingException {
-		this.parent = parent;
-		this.name = name.trim();
-	}
+    // Scheme name
+    private String schemeName;
 
-	public static ModelTypeNode createRoot() throws ModelUpdatingException {
-		return new ModelTypeNode(ROOT_NAME);
-	}
+    // Derived types
+    private List<ModelTypeNode> children = new ArrayList<>();
 
-	public ModelTypeNode addChild(String name) throws ModelUpdatingException {
-		Set<String> namesUsed = getUsedNamesList();
-		if (namesUsed.contains(name))
-			throw new ModelUpdatingException(String.format("Defined type name '%s' already exists.", name));
+    // Type properties
+    private List<ModelTypeProperty> properties = new ArrayList<>();
 
-		ModelTypeNode child = new ModelTypeNode(this, name);
-		child.level = level + 1;
-		children.add(child);
-		return child;
-	}
+    private ModelTypeNode(String typeName) throws ModelUpdatingException {
+        Set<String> namesUsed = getUsedNamesList();
+        if (namesUsed.contains(typeName))
+            throw new ModelUpdatingException(String.format("Defined type name '%s' already exists.", typeName));
 
-	public void removeChild(ModelTypeNode child) {
-		children.remove(child);
-	}
+        parent = null;
+        name = typeName.trim();
+    }
 
-	public ModelTypeNode getParent() {
-		return parent;
-	}
-	
-	public ModelTypeNode findSubType(String sybType) {
-		if(name.equals(sybType))
-			return this;
-		
-		ModelTypeNode t = null;
-		for(ModelTypeNode i: children) {
-			t = i.findSubType(sybType);
-			if(t!=null)
-				return t;
-		}
-		return null;
-	}
+    private ModelTypeNode(ModelTypeNode parent, String name) throws ModelUpdatingException {
+        this.parent = parent;
+        this.name = name.trim();
+    }
 
-	public String getName() {
-		return name;
-	}
+    public static ModelTypeNode createRoot() throws ModelUpdatingException {
+        return new ModelTypeNode(ROOT_NAME);
+    }
 
-	public void setName(String name) throws ModelUpdatingException {
-		if (this.name.equals(name.trim()))
-			return;
+    public ModelTypeNode addChild(String name) throws ModelUpdatingException {
+        Set<String> namesUsed = getUsedNamesList();
+        if (namesUsed.contains(name))
+            throw new ModelUpdatingException(String.format("Defined type name '%s' already exists.", name));
 
-		Set<String> namesUsed = getUsedNamesList();
-		if (namesUsed.contains(name))
-			throw new ModelUpdatingException(String.format("Defined type name '%s' already exists.", name));
+        ModelTypeNode child = new ModelTypeNode(this, name);
+        child.level = level + 1;
+        children.add(child);
+        return child;
+    }
 
-		this.name = name.trim();
-	}
+    public void removeChild(ModelTypeNode child) {
+        children.remove(child);
+    }
 
-	public ModelTypeProperty addProperty(ModelTypeProperty property) throws ModelUpdatingException {
-		checkPropertyName(property);
-		properties.add(property);
-		return property;
-	}
+    public ModelTypeNode getParent() {
+        return parent;
+    }
 
-	private void checkPropertyName(ModelTypeProperty property) throws ModelUpdatingException {
-		ModelTypeNode currentNode = this;
-		while (currentNode != null) {
-			for (ModelTypeProperty prop : currentNode.properties) {
-				if (prop.getName().equals(property.getName()))
-					throw new ModelUpdatingException(
-							String.format("The property name '%s' already exists.", property.getName()));
-			}
-			currentNode = currentNode.parent;
-		}
-	}
+    public ModelTypeNode findSubType(String sybType) {
+        if (name.equals(sybType))
+            return this;
 
-	public List<ModelTypeProperty> getProperties() {
-		return properties;
-	}
+        ModelTypeNode t = null;
+        for (ModelTypeNode i : children) {
+            t = i.findSubType(sybType);
+            if (t != null)
+                return t;
+        }
+        return null;
+    }
 
-	public ModelTypeNode getRoot() {
-		if (parent == null)
-			return this;
+    public String getName() {
+        return name;
+    }
 
-		return parent.getRoot();
-	}
+    public void setName(String name) throws ModelUpdatingException {
+        if (this.name.equals(name.trim()))
+            return;
 
-	public void toConsole() {
-		for (int i = 0; i < level; i++)
-			System.out.print("-");
-		System.out.print(name + ": " + properties.size() + " properties\n");
-		for (ModelTypeNode child : children)
-			child.toConsole();
-	}
+        Set<String> namesUsed = getUsedNamesList();
+        if (namesUsed.contains(name))
+            throw new ModelUpdatingException(String.format("Defined type name '%s' already exists.", name));
 
-	public List<ModelTypeNode> getChildren() {
+        this.name = name.trim();
+    }
+
+    public ModelTypeProperty addProperty(ModelTypeProperty property) throws ModelUpdatingException {
+        checkPropertyName(property);
+        properties.add(property);
+        return property;
+    }
+
+    private void checkPropertyName(ModelTypeProperty property) throws ModelUpdatingException {
+        ModelTypeNode currentNode = this;
+        while (currentNode != null) {
+            for (ModelTypeProperty prop : currentNode.properties) {
+                if (prop.getName().equals(property.getName()))
+                    throw new ModelUpdatingException(
+                            String.format("The property name '%s' already exists.", property.getName()));
+            }
+            currentNode = currentNode.parent;
+        }
+    }
+
+    public List<ModelTypeProperty> getProperties() {
+        return properties;
+    }
+
+    public ModelTypeNode getRoot() {
+        if (parent == null)
+            return this;
+
+        return parent.getRoot();
+    }
+
+    public void toConsole() {
+        for (int i = 0; i < level; i++)
+            System.out.print("-");
+        System.out.print(name + ": " + properties.size() + " properties\n");
+        for (ModelTypeNode child : children)
+            child.toConsole();
+    }
+
+    public List<ModelTypeNode> getChildren() {
         return children;
     }
 
@@ -125,15 +137,23 @@ public class ModelTypeNode {
     }
 
     private Set<String> getUsedNamesList() {
-		ModelTypeNode root = getRoot();
-		Set<String> result = new HashSet<String>();
-		return root.getUsedNamesList(result);
-	}
+        ModelTypeNode root = getRoot();
+        Set<String> result = new HashSet<String>();
+        return root.getUsedNamesList(result);
+    }
 
-	private Set<String> getUsedNamesList(Set<String> set) {
-		set.add(name);
-		for (ModelTypeNode i : children)
-			i.getUsedNamesList(set);
-		return set;
-	}
+    private Set<String> getUsedNamesList(Set<String> set) {
+        set.add(name);
+        for (ModelTypeNode i : children)
+            i.getUsedNamesList(set);
+        return set;
+    }
+
+    public String getSchemeName() {
+        return schemeName;
+    }
+
+    public void setSchemeName(String schemeName) {
+        this.schemeName = schemeName;
+    }
 }

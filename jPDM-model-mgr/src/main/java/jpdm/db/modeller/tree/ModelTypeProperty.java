@@ -7,12 +7,13 @@ public class ModelTypeProperty {
     private String name;
     private PropertyType type;
     private boolean masterProperty;
+    private boolean arrayProperty;
+    private String schemeName;
 
-    public ModelTypeProperty(String name, PropertyType type, boolean masterProperty) {
+    public ModelTypeProperty(String name, PropertyType type) {
         id = UUID.randomUUID();
         this.name = name.trim();
         this.type = type;
-        this.masterProperty = masterProperty;
     }
 
     public String getName() {
@@ -39,11 +40,27 @@ public class ModelTypeProperty {
         this.masterProperty = masterProperty;
     }
 
+    public boolean isArrayProperty() {
+        return arrayProperty;
+    }
+
+    public void setArrayProperty(boolean arrayProperty) {
+        this.arrayProperty = arrayProperty;
+    }
+
     public UUID getId() {
         return id;
     }
 
     public void setId(UUID id) {
         this.id = id;
+    }
+
+    public String getSchemeName() {
+        return schemeName;
+    }
+
+    public void setSchemeName(String schemeName) {
+        this.schemeName = schemeName;
     }
 }

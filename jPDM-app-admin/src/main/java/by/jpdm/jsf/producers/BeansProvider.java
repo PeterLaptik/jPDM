@@ -9,6 +9,7 @@ import by.jpdm.model.dao.UserDAO;
 import by.jpdm.model.dao.lazy.GroupLazyDAO;
 import by.jpdm.model.dao.lazy.UserDepLazyDAO;
 import by.jpdm.model.dao.lazy.UserGroupLazyDAO;
+import by.jpdm.model.dao.scheme.SchemeDAO;
 import by.jpdm.model.service.UserFactory;
 import by.jpdm.model.service.UserFactoryImpl;
 import by.jpdm.security.PasswordEncoder;
@@ -17,6 +18,7 @@ import by.jpdm.test.jsf.mocks.view.ModelDriverMock;
 import by.jpdm.test.jsf.mocks.view.dao.DepartmentDaoMock;
 import by.jpdm.test.jsf.mocks.view.dao.GroupDaoMock;
 import by.jpdm.test.jsf.mocks.view.dao.GroupLazyDaoMock;
+import by.jpdm.test.jsf.mocks.view.dao.SchemeDaoMock;
 import by.jpdm.test.jsf.mocks.view.dao.UserDaoMock;
 import by.jpdm.test.jsf.mocks.view.dao.UserDepLazyDaoMock;
 import by.jpdm.test.jsf.mocks.view.dao.UserGroupLazyDaoMock;
@@ -48,6 +50,11 @@ public class BeansProvider {
     @Produces
     public ModelDriver getModelDriver() {
         return new ModelDriverMock();
+    }
+    
+    @Produces
+    public SchemeDAO getSchemeDao() {
+        return new SchemeDaoMock();
     }
 
     @Produces

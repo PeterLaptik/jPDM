@@ -13,14 +13,27 @@
         <div>
             <table>
                 <tr>
-                    <td><p:outputLabel value="Property type" /></td>
+                    <td><h:outputLabel value="Is master property" /></td>
+                    <td><p:selectBooleanCheckbox 
+                        value="#{dlgCreateTypeProperty.masterProperty}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td><h:outputLabel value="Property type" /></td>
                     <td><p:selectOneMenu id="labeled"
                             value="#{dlgCreateTypeProperty.type}"
-                            label="Select type"
+                            itemValue=""
+                            itemLabel="Select type"
                             alwaysDisplayLabel="true">
                             <f:selectItems
                                 value="#{dlgCreateTypeProperty.typeValues}" />
                         </p:selectOneMenu></td>
+                </tr>
+                <tr>
+                    <td><h:outputLabel value="Is array" /></td>
+                    <td><p:selectBooleanCheckbox 
+                        value="#{dlgCreateTypeProperty.arrayProperty}"/>
+                    </td>
                 </tr>
                 <tr>
                     <td><h:outputLabel for="id-name"
@@ -32,7 +45,7 @@
                                 validatorId="type.name.validator" />
                         </p:inputText></td>
                     <p:tooltip for="id-name"
-                        value="Only letters, numbers, and characters '_', '-', are allowed"
+                        value="Only letters, numbers, and characters '_', are allowed"
                         position="right" />
                 </tr>
                 <tr>

@@ -2,6 +2,7 @@ package by.jpdm.jsf.model;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -15,6 +16,8 @@ import org.primefaces.model.TreeNode;
 import by.jpdm.jsf.model.errors.ErrorProcessor;
 import by.jpdm.jsf.prime.PrimePropertyExtractor;
 import by.jpdm.jsf.prime.PrimeTreeTypeMapper;
+import by.jpdm.model.beans.scheme.Scheme;
+import by.jpdm.model.dao.scheme.SchemeDAO;
 import jakarta.inject.Named;
 import jpdm.db.modeller.tree.ModelDriver;
 import jpdm.db.modeller.tree.ModelTypeNode;
@@ -33,6 +36,8 @@ public class ModelManager implements Serializable {
     private TreeNode<ModelTypeNode> rootNode;
     private TreeNode<ModelTypeNode> selectedNode;
     private List<ModelTypeProperty> propertyList;
+    private List<Scheme> schemes;
+    private Map<Scheme, TreeNode<ModelTypeNode>> schemesRootMaps; 
     private boolean showInheritedProps = true;
 
     private PrimeTreeTypeMapper primeTreeMapper = new PrimeTreeTypeMapper();
@@ -43,6 +48,9 @@ public class ModelManager implements Serializable {
 
     @Inject
     private ModelDriver modelDriver;
+    
+    @Inject
+    private SchemeDAO schemeDao;
 
     /**
      * Processes result of type creation via dialogue
@@ -95,6 +103,7 @@ public class ModelManager implements Serializable {
      */
     @PostConstruct
     private void recreateTypeStructure() {
+        schemes = schemeDao.getSchemes();
         try {
             rootNode = primeTreeMapper.buildPrimeTreeTableData(modelDriver);
         } catch (Exception e) {

@@ -24,8 +24,8 @@ public class TestModelMapping {
 		ModelTypeNode item = root.addChild("Item");
 		ModelTypeNode asm = item.addChild("Assembly");
 		ModelTypeNode detail = item.addChild("Detail");
-		root.addProperty(new ModelTypeProperty("name", PropertyType.TYPE_VARCHAR_256, false));
-		detail.addProperty(new ModelTypeProperty("det_type", PropertyType.TYPE_VARCHAR_256, false));
+		root.addProperty(new ModelTypeProperty("name", PropertyType.VARCHAR_256, false));
+		detail.addProperty(new ModelTypeProperty("det_type", PropertyType.VARCHAR_256, false));
 
 		testTypeError1();
 		testTypeError2();
@@ -74,9 +74,9 @@ public class TestModelMapping {
 			ModelTypeNode item = root.addChild("Item");
 			ModelTypeNode asm = item.addChild("Assembly");
 			ModelTypeNode detail = item.addChild("Detail");
-			root.addProperty(new ModelTypeProperty("name", PropertyType.TYPE_VARCHAR_256, false));
-			detail.addProperty(new ModelTypeProperty("det_type", PropertyType.TYPE_VARCHAR_256, false));
-			detail.addProperty(new ModelTypeProperty("name", PropertyType.TYPE_VARCHAR_256, false));
+			root.addProperty(new ModelTypeProperty("name", PropertyType.VARCHAR_256, false));
+			detail.addProperty(new ModelTypeProperty("det_type", PropertyType.VARCHAR_256, false));
+			detail.addProperty(new ModelTypeProperty("name", PropertyType.VARCHAR_256, false));
 		} catch (Exception ex) {
 			e = ex;
 		}

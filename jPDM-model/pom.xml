@@ -11,17 +11,21 @@
 	<packaging>jar</packaging>
 
 	<dependencies>
-	    <!-- jPDM modules -->
-        <dependency>
-            <groupId>by.jpdm</groupId>
-            <artifactId>jPDM-security</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        
+		<!-- jPDM modules -->
+		<dependency>
+			<groupId>by.jpdm</groupId>
+			<artifactId>jPDM-security</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>javax.inject</groupId>
 			<artifactId>javax.inject</artifactId>
 			<version>1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>42.6.0</version>
 		</dependency>
 	</dependencies>
 </project>

@@ -1,10 +1,14 @@
 package by.jpdm.jsf.prime;
 
 import java.util.List;
+import java.util.Map;
 
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
+import by.jpdm.model.beans.scheme.Scheme;
+import by.jpdm.model.dao.scheme.SchemeDAO;
+import by.jpdm.test.jsf.mocks.view.dao.SchemeDaoMock;
 import jpdm.db.modeller.tree.ModelDriver;
 import jpdm.db.modeller.tree.ModelTypeNode;
 
@@ -14,6 +18,10 @@ import jpdm.db.modeller.tree.ModelTypeNode;
  * @author Peter Laptik
  */
 public class PrimeTreeTypeMapper {
+    private List<Scheme> schemes;
+    private Map<Scheme, TreeNode<ModelTypeNode>> schemesRootMaps;
+    private Scheme currentScheme;
+    private TreeNode<ModelTypeNode> currentNode;
 
     public PrimeTreeTypeMapper() {
 
@@ -21,11 +29,13 @@ public class PrimeTreeTypeMapper {
 
     /**
      * Builds full tree of types for a tree-table
+     * 
      * @param modelDriver - driver
      * @return - root TreeNode
      * @throws Exception
      */
-    public TreeNode<ModelTypeNode> buildPrimeTreeTableData(ModelDriver modelDriver) throws Exception {
+    public TreeNode<ModelTypeNode> buildPrimeTreeTableData(ModelDriver modelDriver, SchemeDAO schemeDao)
+            throws Exception {
         TreeNode<ModelTypeNode> rootNode;
         // Build node tree from type system data
         ModelTypeNode root = null;
@@ -51,5 +61,17 @@ public class PrimeTreeTypeMapper {
         for (ModelTypeNode child : children)
             buildSubTree(subNode, child);
         return subNode;
+    }
+
+    public Scheme getCurrentScheme() {
+        return currentScheme;
+    }
+
+    public void setCurrentScheme(Scheme currentScheme) {
+        this.currentScheme = currentScheme;
+    }
+
+    public TreeNode<ModelTypeNode> getCurrentNode() {
+        return currentNode;
     }
 }

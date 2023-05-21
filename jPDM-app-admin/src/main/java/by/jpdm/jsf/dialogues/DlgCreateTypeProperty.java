@@ -23,12 +23,16 @@ public class DlgCreateTypeProperty implements Serializable {
     private static final String DLG_CREATE_TYPE_PROPERTY = "dlg/create-type-property";
     private String name;
     private String type;
-    
+    private boolean masterProperty;
+    private boolean arrayProperty;
+
     @Inject
     ModelDriver drv;
 
     public void createTypePropertyShow() {
-        DialogFrameworkOptions options = DialogFrameworkOptions.builder().modal(true).width("400px").responsive(true)
+        DialogFrameworkOptions options = DialogFrameworkOptions.builder()
+                .modal(true)
+                .width("400px").responsive(true)
                 .build();
         PrimeFaces.current().dialog().openDynamic(DLG_CREATE_TYPE_PROPERTY, options, null);
     }
@@ -52,12 +56,12 @@ public class DlgCreateTypeProperty implements Serializable {
     public List<String> getTypeValues() {
         List<String> typeValues = new ArrayList<>();
         Map<Integer, String> types = drv.getTypesMap();
-        for(Map.Entry<Integer, String> me: types.entrySet()) {
+        for (Map.Entry<Integer, String> me : types.entrySet()) {
             typeValues.add(me.getValue());
         }
         return typeValues;
     }
-    
+
     public void create() {
         PrimeFaces.current().dialog().closeDynamic(name);
         clearData();
@@ -66,9 +70,27 @@ public class DlgCreateTypeProperty implements Serializable {
     public void cancel() {
         PrimeFaces.current().dialog().closeDynamic(null);
     }
-    
+
     private void clearData() {
         name = "";
         type = null;
+        masterProperty = false;
+        arrayProperty = false;
+    }
+
+    public boolean isMasterProperty() {
+        return masterProperty;
+    }
+
+    public void setMasterProperty(boolean masterProperty) {
+        this.masterProperty = masterProperty;
+    }
+
+    public boolean isArrayProperty() {
+        return arrayProperty;
+    }
+
+    public void setArrayProperty(boolean arrayProperty) {
+        this.arrayProperty = arrayProperty;
     }
 }
