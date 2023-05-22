@@ -7,22 +7,22 @@ import java.util.UUID;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import by.jpdm.model.beans.scheme.PropertyType;
 import by.jpdm.model.beans.scheme.Scheme;
 import by.jpdm.model.beans.scheme.TargetType;
 import by.jpdm.model.beans.scheme.UpdateAction;
 import by.jpdm.model.dao.scheme.UpdateActionDAO;
+import by.jpdm.test.jsf.mocks.view.dao.UpdateActionDaoMock;
 import by.jpdm.test.jsf.qualifiers.TestModelDriverMock;
 import jpdm.db.modeller.tree.ModelDriver;
 import jpdm.db.modeller.tree.ModelTypeNode;
 import jpdm.db.modeller.tree.ModelTypeProperty;
 import jpdm.db.modeller.tree.ModelUpdatingException;
-import jpdm.db.modeller.tree.PropertyType;
 
 @Singleton
 @TestModelDriverMock
 public class ModelDriverMock implements ModelDriver {
-    @Inject
-    private UpdateActionDAO updateActionDAO;
+    private UpdateActionDAO updateActionDAO = new UpdateActionDaoMock();
 
     @Override
     public ModelTypeNode buildModelTree(Scheme scheme) throws ModelUpdatingException {
@@ -38,11 +38,12 @@ public class ModelDriverMock implements ModelDriver {
             return root;
 
         updatesMockDataGenerator(root);
-
-        return appendUpdates(root);
+        
+        root = appendUpdates(root, scheme);
+        return root;
     }
 
-    public void appendUpdates(ModelTypeNode root, Scheme scheme) {
+    public ModelTypeNode appendUpdates(ModelTypeNode root, Scheme scheme) {
         List<UpdateAction> updates = updateActionDAO.getUpdateActionsForScheme(scheme);
         for(UpdateAction update: updates) {
             if(update.getTargetType().equals(TargetType.TYPE)) {
@@ -51,14 +52,32 @@ public class ModelDriverMock implements ModelDriver {
                 appendProperty(root, update);
             }
         }
+        return root;
     }
     
     private void appendType(ModelTypeNode root, UpdateAction update) {
-        
+        String parent = update.getParentName();
+        ModelTypeNode node = root.findSubType(parent);
+        ModelTypeNode child = node.addChild(update.getName());
+        child.setSchemeName(update.getSchemeName());
     }
     
     private void appendProperty(ModelTypeNode root, UpdateAction update) {
+        String parentName = update.getParentName();
+        String name = update.getName();
+        PropertyType type = update.getPropertyType();
+        UUID uuid = update.getUuid();
+        boolean isArray = update.isArray();
+        boolean isMaster = update.isMaster();
+        String schemeName = update.getSchemeName();
         
+        ModelTypeProperty property = new ModelTypeProperty(name, type, uuid);
+        property.setArrayProperty(isArray);
+        property.setMasterProperty(isMaster);
+        property.setSchemeName(schemeName);
+        
+        ModelTypeNode node = root.findSubType(parentName);
+        node.addProperty(property);
     }
 
     private void updatesMockDataGenerator(ModelTypeNode root) {
@@ -78,7 +97,7 @@ public class ModelDriverMock implements ModelDriver {
         act2.setParentName("Assembly");
         act2.setUuid(UUID.randomUUID());
         act2.setTargetType(TargetType.TYPE);
-        act1.setSchemeName("test_1");
+        act2.setSchemeName("test_1");
         updateActionDAO.appendAction(act2);
         
         UpdateAction act3 = new UpdateAction();
@@ -86,7 +105,7 @@ public class ModelDriverMock implements ModelDriver {
         act3.setParentName("Assembly");
         act3.setUuid(UUID.randomUUID());
         act3.setTargetType(TargetType.TYPE);
-        act1.setSchemeName("test_1");
+        act3.setSchemeName("test_1");
         updateActionDAO.appendAction(act3);
         
         UpdateAction act4 = new UpdateAction();
@@ -94,7 +113,7 @@ public class ModelDriverMock implements ModelDriver {
         act4.setParentName("Assembly");
         act4.setUuid(UUID.randomUUID());
         act4.setTargetType(TargetType.PROPERTY);
-        act1.setSchemeName("test_1");
+        act4.setSchemeName("test_1");
         updateActionDAO.appendAction(act4);
         
         UpdateAction act5 = new UpdateAction();
@@ -102,7 +121,7 @@ public class ModelDriverMock implements ModelDriver {
         act5.setParentName("Assembly");
         act5.setUuid(UUID.randomUUID());
         act5.setTargetType(TargetType.PROPERTY);
-        act1.setSchemeName("test_2");
+        act5.setSchemeName("test_2");
         updateActionDAO.appendAction(act5);
     }
 

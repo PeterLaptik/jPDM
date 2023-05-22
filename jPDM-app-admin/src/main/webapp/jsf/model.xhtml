@@ -41,8 +41,18 @@
 					<p:toolbarGroup>
 						<h3>Types</h3>
 					</p:toolbarGroup>
+					<p:toolbarGroup>
+					   <p:selectOneMenu id="Scheme"
+					       value="#{modelManager.selectedScheme}"
+					       itemValue=""
+                            itemLabel="Select type"
+                            alwaysDisplayLabel="true">
+                            <f:selectItems
+                                value="#{modelManager.schemeNames}" />
+                        </p:selectOneMenu>
+                     </p:toolbarGroup>
 					<p:toolbarGroup align="right">
-						<p:commandButton value="Create" icon="pi pi-plus"
+						<p:commandButton value="Create scheme" icon="pi pi-plus"
 							style="margin-right: .5rem" styleClass="ui-button-success"
 							action="#{dlgCreateType.createTypeShow}">
 						</p:commandButton>

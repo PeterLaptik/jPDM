@@ -1,5 +1,6 @@
 package by.jpdm.jsf.prime;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,11 +14,8 @@ import jpdm.db.modeller.tree.ModelTypeProperty;
  * 
  * @author Peter Laptik
  */
-public class PrimePropertyExtractor {
-
-    public PrimePropertyExtractor() {
-
-    }
+public class PrimePropertyExtractor implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     /**
      * Update property list for the selected type node

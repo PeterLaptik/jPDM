@@ -1,8 +1,8 @@
 package by.jpdm.jsf.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -33,14 +33,18 @@ import jpdm.db.modeller.tree.ModelTypeProperty;
 @ViewScoped
 public class ModelManager implements Serializable {
     private static final long serialVersionUID = 1L;
-    private TreeNode<ModelTypeNode> rootNode;
+//    private TreeNode<ModelTypeNode> rootNode;
     private TreeNode<ModelTypeNode> selectedNode;
     private List<ModelTypeProperty> propertyList;
-    private List<Scheme> schemes;
-    private Map<Scheme, TreeNode<ModelTypeNode>> schemesRootMaps; 
+    private List<String> schemeNames = new ArrayList<>();
+    
+    private String selectedScheme = "";
+    
+//    private Map<Scheme, TreeNode<ModelTypeNode>> schemesRootMaps; 
     private boolean showInheritedProps = true;
 
     private PrimeTreeTypeMapper primeTreeMapper = new PrimeTreeTypeMapper();
+    
     private PrimePropertyExtractor propertyExtractor = new PrimePropertyExtractor();
 
     @Inject
@@ -72,8 +76,12 @@ public class ModelManager implements Serializable {
         }
     }
 
+    public List<String> getSchemeNames() {
+        return schemeNames;
+    }
+
     public TreeNode<ModelTypeNode> getRootNode() {
-        return rootNode;
+        return primeTreeMapper.getCurrentNode();
     }
 
     public TreeNode<ModelTypeNode> getSelectedNode() {
@@ -92,6 +100,14 @@ public class ModelManager implements Serializable {
     public boolean isShowInheritedProps() {
         return showInheritedProps;
     }
+    
+    public String getSelectedScheme() {
+        return selectedScheme;
+    }
+
+    public void setSelectedScheme(String selectedScheme) {
+        this.selectedScheme = selectedScheme;
+    }
 
     public void setShowInheritedProps(boolean showInheritedProps) {
         this.showInheritedProps = showInheritedProps;
@@ -103,14 +119,13 @@ public class ModelManager implements Serializable {
      */
     @PostConstruct
     private void recreateTypeStructure() {
-        schemes = schemeDao.getSchemes();
-        try {
-            rootNode = primeTreeMapper.buildPrimeTreeTableData(modelDriver);
-        } catch (Exception e) {
-            ModelTypeNode root = ModelTypeNode.createRoot();
-            rootNode = new DefaultTreeNode<ModelTypeNode>(root, null);
-        }
+        List<Scheme> schemes = schemeDao.getSchemes();
+        primeTreeMapper.buildPrimeTreeTableData(modelDriver, schemes);
         updatePropertyList();
+        
+        for(Scheme scheme: schemes) {
+            schemeNames.add(scheme.getFullName());
+        }
     }
 
     private void updatePropertyList() {

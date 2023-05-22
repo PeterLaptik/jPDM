@@ -2,6 +2,8 @@ package jpdm.db.modeller.tree;
 
 import java.util.UUID;
 
+import by.jpdm.model.beans.scheme.PropertyType;
+
 public class ModelTypeProperty {
     private UUID id;
     private String name;
@@ -12,6 +14,12 @@ public class ModelTypeProperty {
 
     public ModelTypeProperty(String name, PropertyType type) {
         id = UUID.randomUUID();
+        this.name = name.trim();
+        this.type = type;
+    }
+    
+    public ModelTypeProperty(String name, PropertyType type, UUID id) {
+        this.id = id;
         this.name = name.trim();
         this.type = type;
     }
