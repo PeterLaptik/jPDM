@@ -24,6 +24,7 @@ public class ErrorProcessor {
     public void processError(Exception e) {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage());
         FacesContext.getCurrentInstance().addMessage(ERROR_RECIEVER, message);
+        e.printStackTrace();
     }
 
     public void processError(String msg) {

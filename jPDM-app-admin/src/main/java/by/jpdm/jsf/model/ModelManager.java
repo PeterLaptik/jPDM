@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
@@ -38,7 +39,7 @@ public class ModelManager implements Serializable {
     private List<ModelTypeProperty> propertyList;
     private List<String> schemeNames = new ArrayList<>();
     
-    private String selectedScheme = "";
+    private String selectedScheme;
     
 //    private Map<Scheme, TreeNode<ModelTypeNode>> schemesRootMaps; 
     private boolean showInheritedProps = true;
@@ -71,6 +72,21 @@ public class ModelManager implements Serializable {
             String name = (String) evt.getObject();
             ModelTypeNode created = selectedNode.getData().addChild(name);
             new DefaultTreeNode<ModelTypeNode>(created, selectedNode);
+        } catch (Exception e) {
+            errorProcessor.processError(e);
+        }
+    }
+    
+    public void handleNewTypePropertyReturn(SelectEvent<Object> evt) {
+        if (selectedNode == null) {
+            errorProcessor.processError("No parent type selected!");
+            return;
+        }
+
+        try {
+            ModelTypeProperty property = (ModelTypeProperty) evt.getObject();
+            selectedNode.getData().addProperty(property);
+            updatePropertyList();
         } catch (Exception e) {
             errorProcessor.processError(e);
         }

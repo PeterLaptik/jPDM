@@ -23,7 +23,7 @@ public enum PropertyType {
 	TIMESTAMP(11);
 	
 	
-	private static final Map<Integer, PropertyType> ALLOWABLE_VALUES = new HashMap<Integer, PropertyType>();
+	private static final Map<Integer, PropertyType> ALLOWABLE_VALUES = new HashMap<>();
 	static {
 		for (PropertyType propType : values()) {
 			ALLOWABLE_VALUES.put(propType.getType(), propType);

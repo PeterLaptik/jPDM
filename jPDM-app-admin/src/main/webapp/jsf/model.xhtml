@@ -45,10 +45,11 @@
 					   <p:selectOneMenu id="Scheme"
 					       value="#{modelManager.selectedScheme}"
 					       itemValue=""
-                            itemLabel="Select type"
-                            alwaysDisplayLabel="true">
+                           itemLabel="Select type"
+                           alwaysDisplayLabel="true">
                             <f:selectItems
                                 value="#{modelManager.schemeNames}" />
+                                <p:ajax update="id-types-list" />
                         </p:selectOneMenu>
                      </p:toolbarGroup>
 					<p:toolbarGroup align="right">
@@ -96,6 +97,7 @@
 						<p:commandButton value="Create" icon="pi pi-plus"
 							style="margin-right: .5rem" styleClass="ui-button-success"
                             action="#{dlgCreateTypeProperty.createTypePropertyShow}">
+                            <p:ajax event="dialogReturn" listener="#{modelManager.handleNewTypePropertyReturn}" update=":growl-sticky, props-table" />
 						</p:commandButton>
 					</p:toolbarGroup>
 				</p:toolbar>

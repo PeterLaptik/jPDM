@@ -12,8 +12,10 @@ import javax.inject.Inject;
 import org.primefaces.PrimeFaces;
 import org.primefaces.model.DialogFrameworkOptions;
 
+import by.jpdm.model.beans.scheme.PropertyType;
 import jakarta.inject.Named;
 import jpdm.db.modeller.tree.ModelDriver;
+import jpdm.db.modeller.tree.ModelTypeProperty;
 
 @Named
 @ManagedBean
@@ -63,7 +65,10 @@ public class DlgCreateTypeProperty implements Serializable {
     }
 
     public void create() {
-        PrimeFaces.current().dialog().closeDynamic(name);
+        ModelTypeProperty property = new ModelTypeProperty(name, PropertyType.valueOf(type));
+        property.setArrayProperty(arrayProperty);
+        property.setMasterProperty(masterProperty);
+        PrimeFaces.current().dialog().closeDynamic(property);
         clearData();
     }
 

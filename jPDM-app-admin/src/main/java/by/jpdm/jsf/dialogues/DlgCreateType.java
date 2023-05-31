@@ -12,6 +12,7 @@ import org.primefaces.model.DialogFrameworkOptions;
 
 import jakarta.inject.Named;
 import jpdm.db.modeller.tree.ModelDriver;
+import jpdm.db.modeller.tree.ModelTypeProperty;
 
 @Named
 @ManagedBean
