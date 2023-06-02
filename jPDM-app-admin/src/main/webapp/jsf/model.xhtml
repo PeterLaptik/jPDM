@@ -42,6 +42,7 @@
 						<h3>Types</h3>
 					</p:toolbarGroup>
 					<p:toolbarGroup>
+					   <p:outputLabel style="font-size: 16px !important;" value="Scheme name &nbsp;"/>
 					   <p:selectOneMenu id="Scheme"
 					       value="#{modelManager.selectedScheme}"
 					       itemValue=""
@@ -52,12 +53,26 @@
                                 <p:ajax update="id-types-list" />
                         </p:selectOneMenu>
                      </p:toolbarGroup>
-					<p:toolbarGroup align="right">
-						<p:commandButton value="Create scheme" icon="pi pi-plus"
-							style="margin-right: .5rem" styleClass="ui-button-success"
-							action="#{dlgCreateType.createTypeShow}">
-						</p:commandButton>
-					</p:toolbarGroup>
+				</p:toolbar>
+				<p:toolbar>
+				    <p:toolbarGroup>
+                        <p:commandButton value="Save" icon="pi pi-save"
+                            style="margin-right: .5rem"
+                            action="#{modelManager.saveCurrentScheme}">
+                        </p:commandButton>
+                        <p:commandButton value="Create" icon="pi pi-plus"
+                            style="margin-right: .5rem">
+                        </p:commandButton>
+                        <p:commandButton value="Export" icon="pi pi-file-export"
+                            style="margin-right: .5rem">
+                        </p:commandButton>
+                        <p:commandButton value="Remove" icon="pi pi-trash"
+                            style="margin-right: .5rem" styleClass="ui-button-warning">
+                        </p:commandButton>
+                        <p:commandButton value="Deploy" icon="pi pi-wrench"
+                            style="margin-right: .5rem" styleClass="ui-button-danger">
+                        </p:commandButton>
+                    </p:toolbarGroup>
 				</p:toolbar>
 				<p:treeTable size="small" id="id-types-list"
 					value="#{modelManager.rootNode}" var="typeObject"
@@ -95,7 +110,7 @@
                        <p:ajax update="props-form:props-table"/>
                     </p:selectBooleanCheckbox>
 						<p:commandButton value="Create" icon="pi pi-plus"
-							style="margin-right: .5rem" styleClass="ui-button-success"
+							style="margin-right: .5rem"
                             action="#{dlgCreateTypeProperty.createTypePropertyShow}">
                             <p:ajax event="dialogReturn" listener="#{modelManager.handleNewTypePropertyReturn}" update=":growl-sticky, props-table" />
 						</p:commandButton>
@@ -112,6 +127,9 @@
 					<p:column headerText="Is master">
 						<h:outputText value="#{property.masterProperty}" />
 					</p:column>
+					<p:column headerText="Is array">
+                        <h:outputText value="#{property.arrayProperty}" />
+                    </p:column>
 				</p:dataTable>
 			</h:form>
 		</div>

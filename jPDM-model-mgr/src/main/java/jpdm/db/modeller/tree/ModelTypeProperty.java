@@ -13,6 +13,7 @@ public class ModelTypeProperty implements Serializable {
     private boolean masterProperty;
     private boolean arrayProperty;
     private String schemeName;
+    private ModelTypeNode parent;
 
     public ModelTypeProperty(String name, PropertyType type) {
         id = UUID.randomUUID();
@@ -72,5 +73,13 @@ public class ModelTypeProperty implements Serializable {
 
     public void setSchemeName(String schemeName) {
         this.schemeName = schemeName;
+    }
+
+    public ModelTypeNode getParent() {
+        return parent;
+    }
+
+    public void setParent(ModelTypeNode parent) {
+        this.parent = parent;
     }
 }

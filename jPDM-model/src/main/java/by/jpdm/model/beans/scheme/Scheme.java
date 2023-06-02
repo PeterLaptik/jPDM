@@ -22,6 +22,10 @@ public class Scheme {
         this.fullName = fullName;
         this.description = description;
     }
+    
+    public static Scheme proxyOfValue(String schemeName) {
+        return new Scheme(schemeName, "");
+    }
 
     public String getFullName() {
         return fullName;

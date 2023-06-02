@@ -28,13 +28,16 @@ public class ModelDbDriver {
         while (results.next()) {
             String superType = results.getString("base_type_name").trim();
             String typeName = results.getString("type_name").trim();
+            String uuidStringValue = results.getString("id");
+            UUID uuid = uuidStringValue!=null ? UUID.fromString(uuidStringValue) : null;
+            
             if (superType.isEmpty()) {
-                root.addChild(typeName);
+                root.addChild(typeName, uuid);
             } else {
                 ModelTypeNode parent = root.findSubType(superType);
                 if (parent == null)
                     throw new ModelUpdatingException(String.format("Could not find super-type for '%s'.", typeName));
-                parent.addChild(typeName);
+                parent.addChild(typeName, uuid);
             }
         }
         // Get properties

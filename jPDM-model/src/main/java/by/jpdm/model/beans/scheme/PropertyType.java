@@ -20,7 +20,8 @@ public enum PropertyType {
 	FLOAT(8),
 	BIG_DECIMAL(9),
 	BIG_INTEGER(10),
-	TIMESTAMP(11);
+	TIMESTAMP(11),
+	OBJECT_LINK(12);
 	
 	
 	private static final Map<Integer, PropertyType> ALLOWABLE_VALUES = new HashMap<>();

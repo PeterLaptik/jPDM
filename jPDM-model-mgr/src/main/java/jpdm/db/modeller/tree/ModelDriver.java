@@ -10,4 +10,9 @@ public interface ModelDriver {
     
     Map<Integer,String> getTypesMap();
     
+    void saveScheme(Scheme scheme, ModelTypeNode root);
+    
+    void exportScheme(Scheme scheme);
+    
+    void deployScheme(Scheme scheme);
 }

@@ -3,18 +3,17 @@ package by.jpdm.model.beans.scheme;
 import java.util.UUID;
 
 /**
- * Single update step description: 
- * schemeName - name for a scheme, 
- * parent - parent element (parent for new sub-type, or type for new property)
- * targetType - new sub-type / or new property is created
- * name - name of new type or property
+ * Single update step description: schemeName - name for a scheme, parent -
+ * parent element (parent for new sub-type, or type for new property) targetType
+ * - new sub-type / or new property is created name - name of new type or
+ * property
  * 
- * For properties only fields:
- * propertyType enum, isMaster, isArray
+ * For properties only fields: propertyType enum, isMaster, isArray
  * 
  * Description for each property/type appending is kept in DB.
  * 
- * All descriptions related to declared scheme are applied during the scheme deployment.
+ * All descriptions related to declared scheme are applied during the scheme
+ * deployment.
  * 
  * @author Peter Laptik
  *
@@ -33,7 +32,7 @@ public class UpdateAction {
 
     private String name;
 
-    /* Only for new properties */
+    // Only for new properties, new types do not require following fields
     private PropertyType propertyType;
     boolean isMaster;
     boolean isArray;
@@ -101,4 +100,24 @@ public class UpdateAction {
     public void setArray(boolean isArray) {
         this.isArray = isArray;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(schemeName);
+        sb.append(" - ");
+        sb.append(targetType);
+        sb.append(" - ");
+        sb.append(name);
+        sb.append(" - ");
+        sb.append(propertyType);
+        sb.append(" - ");
+        sb.append(parentName);
+        sb.append(" - ");
+        sb.append(isMaster);
+        sb.append(" - ");
+        sb.append(isArray);
+        return sb.toString();
+    }
 }
+

@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 public class ModelTypeNode {
     public static final String ROOT_NAME = "ROOT";
+    
+    private UUID uuid;
 
     // Type name
     private String name;
@@ -32,6 +35,7 @@ public class ModelTypeNode {
             throw new ModelUpdatingException(String.format("Defined type name '%s' already exists.", typeName));
 
         parent = null;
+        uuid = null;
         name = typeName.trim();
     }
 
@@ -44,12 +48,25 @@ public class ModelTypeNode {
         return new ModelTypeNode(ROOT_NAME);
     }
 
+    public ModelTypeNode addChild(String name, UUID uuid) throws ModelUpdatingException {
+        Set<String> namesUsed = getUsedNamesList();
+        if (namesUsed.contains(name))
+            throw new ModelUpdatingException(String.format("Defined type name '%s' already exists.", name));
+
+        ModelTypeNode child = new ModelTypeNode(this, name);
+        child.setUuid(uuid);
+        child.level = level + 1;
+        children.add(child);
+        return child;
+    }
+    
     public ModelTypeNode addChild(String name) throws ModelUpdatingException {
         Set<String> namesUsed = getUsedNamesList();
         if (namesUsed.contains(name))
             throw new ModelUpdatingException(String.format("Defined type name '%s' already exists.", name));
 
         ModelTypeNode child = new ModelTypeNode(this, name);
+        child.setUuid(UUID.randomUUID());
         child.level = level + 1;
         children.add(child);
         return child;
@@ -94,6 +111,7 @@ public class ModelTypeNode {
     public ModelTypeProperty addProperty(ModelTypeProperty property) throws ModelUpdatingException {
         checkPropertyName(property);
         properties.add(property);
+        property.setParent(this);
         return property;
     }
 
@@ -113,6 +131,10 @@ public class ModelTypeNode {
         return properties;
     }
 
+    public int getLevel() {
+        return level;
+    }
+
     public ModelTypeNode getRoot() {
         if (parent == null)
             return this;
@@ -126,6 +148,14 @@ public class ModelTypeNode {
         System.out.print(name + ": " + properties.size() + " properties\n");
         for (ModelTypeNode child : children)
             child.toConsole();
+    }
+
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
+    }
+
+    public UUID getUuid() {
+        return uuid;
     }
 
     public List<ModelTypeNode> getChildren() {
@@ -155,5 +185,21 @@ public class ModelTypeNode {
 
     public void setSchemeName(String schemeName) {
         this.schemeName = schemeName;
+    }
+
+    public List<ModelTypeNode> getAllSubtypes() {
+        List<ModelTypeNode> accumulator = new ArrayList<>();
+        for (ModelTypeNode child : children) {
+            accumulator.add(child);
+            child.getAllSubtypes(accumulator);
+        }
+        return accumulator;
+    }
+
+    private void getAllSubtypes(List<ModelTypeNode> accumulator) {
+        for (ModelTypeNode child : children) {
+            accumulator.add(child);
+            child.getAllSubtypes(accumulator);
+        }
     }
 }

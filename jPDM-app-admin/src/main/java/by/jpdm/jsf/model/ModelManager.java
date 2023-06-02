@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
@@ -15,8 +14,7 @@ import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
 import by.jpdm.jsf.model.errors.ErrorProcessor;
-import by.jpdm.jsf.prime.PrimePropertyExtractor;
-import by.jpdm.jsf.prime.PrimeTreeTypeMapper;
+import by.jpdm.jsf.prime.PrimeTreeTypeHolder;
 import by.jpdm.model.beans.scheme.Scheme;
 import by.jpdm.model.dao.scheme.SchemeDAO;
 import jakarta.inject.Named;
@@ -35,25 +33,26 @@ import jpdm.db.modeller.tree.ModelTypeProperty;
 public class ModelManager implements Serializable {
     private static final long serialVersionUID = 1L;
 //    private TreeNode<ModelTypeNode> rootNode;
-    private TreeNode<ModelTypeNode> selectedNode;
+//    private TreeNode<ModelTypeNode> selectedNode;
     private List<ModelTypeProperty> propertyList;
     private List<String> schemeNames = new ArrayList<>();
-    
+
     private String selectedScheme;
-    
+
 //    private Map<Scheme, TreeNode<ModelTypeNode>> schemesRootMaps; 
     private boolean showInheritedProps = true;
 
-    private PrimeTreeTypeMapper primeTreeMapper = new PrimeTreeTypeMapper();
-    
-    private PrimePropertyExtractor propertyExtractor = new PrimePropertyExtractor();
+    private PrimeTreeTypeHolder primeTreeMapper = new PrimeTreeTypeHolder();
+
+    // Move to mapper
+//    private PrimePropertyExtractor propertyExtractor = new PrimePropertyExtractor();
 
     @Inject
     private ErrorProcessor errorProcessor;
 
     @Inject
     private ModelDriver modelDriver;
-    
+
     @Inject
     private SchemeDAO schemeDao;
 
@@ -63,6 +62,7 @@ public class ModelManager implements Serializable {
      * @param evt
      */
     public void handleNewTypeReturn(SelectEvent<Object> evt) {
+        TreeNode<ModelTypeNode> selectedNode = primeTreeMapper.getSelectedNode();
         if (selectedNode == null) {
             errorProcessor.processError("No parent type selected!");
             return;
@@ -76,8 +76,9 @@ public class ModelManager implements Serializable {
             errorProcessor.processError(e);
         }
     }
-    
+
     public void handleNewTypePropertyReturn(SelectEvent<Object> evt) {
+        TreeNode<ModelTypeNode> selectedNode = primeTreeMapper.getSelectedNode();
         if (selectedNode == null) {
             errorProcessor.processError("No parent type selected!");
             return;
@@ -97,15 +98,16 @@ public class ModelManager implements Serializable {
     }
 
     public TreeNode<ModelTypeNode> getRootNode() {
-        return primeTreeMapper.getCurrentNode();
+        return primeTreeMapper.getRootNode();
     }
 
     public TreeNode<ModelTypeNode> getSelectedNode() {
+        TreeNode<ModelTypeNode> selectedNode = primeTreeMapper.getSelectedNode();
         return selectedNode;
     }
 
     public void setSelectedNode(TreeNode<ModelTypeNode> selectedNode) {
-        this.selectedNode = selectedNode;
+        primeTreeMapper.setSelectedNode(selectedNode);
         updatePropertyList();
     }
 
@@ -116,13 +118,14 @@ public class ModelManager implements Serializable {
     public boolean isShowInheritedProps() {
         return showInheritedProps;
     }
-    
+
     public String getSelectedScheme() {
         return selectedScheme;
     }
 
     public void setSelectedScheme(String selectedScheme) {
         this.selectedScheme = selectedScheme;
+        primeTreeMapper.setCurrentScheme(selectedScheme);
     }
 
     public void setShowInheritedProps(boolean showInheritedProps) {
@@ -138,13 +141,19 @@ public class ModelManager implements Serializable {
         List<Scheme> schemes = schemeDao.getSchemes();
         primeTreeMapper.buildPrimeTreeTableData(modelDriver, schemes);
         updatePropertyList();
-        
-        for(Scheme scheme: schemes) {
+
+        for (Scheme scheme : schemes) {
             schemeNames.add(scheme.getFullName());
         }
     }
 
     private void updatePropertyList() {
-        propertyList = propertyExtractor.getPropertyList(selectedNode, showInheritedProps);
+        propertyList = primeTreeMapper.getPropertyList(showInheritedProps);
+    }
+    
+    public void saveCurrentScheme() {
+        Scheme scheme = primeTreeMapper.getCurrentScheme();
+        TreeNode<ModelTypeNode> root = primeTreeMapper.getRootNode();
+        modelDriver.saveScheme(scheme, root.getData());
     }
 }

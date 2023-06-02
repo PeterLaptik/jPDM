@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
@@ -12,19 +13,22 @@ import by.jpdm.model.beans.scheme.Scheme;
 import by.jpdm.model.dao.exceptions.JpdmModelException;
 import jpdm.db.modeller.tree.ModelDriver;
 import jpdm.db.modeller.tree.ModelTypeNode;
+import jpdm.db.modeller.tree.ModelTypeProperty;
 
 /**
  * Maps a type hierarchy to Primefaces TreeNodes
  * 
  * @author Peter Laptik
  */
-public class PrimeTreeTypeMapper implements Serializable {
+public class PrimeTreeTypeHolder implements Serializable {
     private static final long serialVersionUID = 1L;
     private List<Scheme> schemeList;
     private Map<Scheme, TreeNode<ModelTypeNode>> schemesRootMap = new HashMap<>();
     private Scheme currentScheme;
-    private TreeNode<ModelTypeNode> currentNode;
+    private TreeNode<ModelTypeNode> rootNode;
     private TreeNode<ModelTypeNode> selectedNode;
+    
+    private PrimePropertyExtractor propertyExtractor = new PrimePropertyExtractor();
 
     /**
      * Builds full tree of types for a tree-table
@@ -34,29 +38,18 @@ public class PrimeTreeTypeMapper implements Serializable {
      * @throws Exception
      */
     public void buildPrimeTreeTableData(ModelDriver modelDriver, List<Scheme> schemes) {
-        if(schemes.isEmpty()) {
+        if (schemes.isEmpty()) {
             throw new JpdmModelException("No actual data schemes found!");
         }
-        
+
         schemeList = schemes;
         for (Scheme scheme : schemes) {
             TreeNode<ModelTypeNode> root = buildStructure(modelDriver, scheme);
             schemesRootMap.put(scheme, root);
         }
-        
+
         currentScheme = schemes.get(0);
-        currentNode = schemesRootMap.get(currentScheme);
-        
-//        TreeNode<ModelTypeNode> rootNode;
-//        // Build node tree from type system data
-//        ModelTypeNode root = null;
-//        root = modelDriver.buildModelTree();
-//        // Create a single dummy node if a structure could not be built
-//        if (root == null)
-//            root = ModelTypeNode.createRoot();
-//        // Create PrimeFaces TreeNode mapping for the type structure
-//        rootNode = buildSubTree(null, root);
-//        return rootNode;
+        rootNode = schemesRootMap.get(currentScheme);
     }
 
     public TreeNode<ModelTypeNode> buildStructure(ModelDriver modelDriver, Scheme scheme) {
@@ -88,12 +81,18 @@ public class PrimeTreeTypeMapper implements Serializable {
         return currentScheme;
     }
 
-    public void setCurrentScheme(Scheme currentScheme) {
-        this.currentScheme = currentScheme;
+    public void setCurrentScheme(String schemeName) {
+        Optional<Scheme> scheme = schemeList.stream().filter(e -> e.getFullName().equals(schemeName)).findFirst();
+        if(!scheme.isPresent())
+            return;
+        
+        currentScheme = scheme.get();
+        selectedNode = null;
+        rootNode = schemesRootMap.get(scheme.get());
     }
 
-    public TreeNode<ModelTypeNode> getCurrentNode() {
-        return currentNode;
+    public TreeNode<ModelTypeNode> getRootNode() {
+        return rootNode;
     }
 
     public List<Scheme> getSchemeList() {
@@ -106,5 +105,9 @@ public class PrimeTreeTypeMapper implements Serializable {
 
     public void setSelectedNode(TreeNode<ModelTypeNode> selectedNode) {
         this.selectedNode = selectedNode;
+    }
+    
+    public List<ModelTypeProperty> getPropertyList(boolean countInherited) {
+        return propertyExtractor.getPropertyList(selectedNode, countInherited);
     }
 }
