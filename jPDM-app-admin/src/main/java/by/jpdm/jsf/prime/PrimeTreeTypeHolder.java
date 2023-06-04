@@ -23,7 +23,7 @@ import jpdm.db.modeller.tree.ModelTypeProperty;
 public class PrimeTreeTypeHolder implements Serializable {
     private static final long serialVersionUID = 1L;
     private List<Scheme> schemeList;
-    private Map<Scheme, TreeNode<ModelTypeNode>> schemesRootMap = new HashMap<>();
+    private Map<Scheme, TreeNode<ModelTypeNode>> schemesRootMap;
     private Scheme currentScheme;
     private TreeNode<ModelTypeNode> rootNode;
     private TreeNode<ModelTypeNode> selectedNode;
@@ -41,7 +41,8 @@ public class PrimeTreeTypeHolder implements Serializable {
         if (schemes.isEmpty()) {
             throw new JpdmModelException("No actual data schemes found!");
         }
-
+        
+        schemesRootMap = new HashMap<>();
         schemeList = schemes;
         for (Scheme scheme : schemes) {
             TreeNode<ModelTypeNode> root = buildStructure(modelDriver, scheme);

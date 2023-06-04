@@ -7,9 +7,13 @@ import by.jpdm.model.beans.scheme.UpdateAction;
 
 public interface UpdateActionDAO {
 
+    List<UpdateAction> getAllUpdateActions();
+    
     List<UpdateAction> getUpdateActionsForScheme(Scheme scheme);
     
-    void appendAction(UpdateAction updateAction);
+    void setUpdateActionsForScheme(List<UpdateAction> actions, Scheme scheme);
+    
+    void appendSingleAction(UpdateAction updateAction);
     
     int getNumberOfUpdates();
 }

@@ -58,6 +58,7 @@
 				    <p:toolbarGroup>
                         <p:commandButton value="Save" icon="pi pi-save"
                             style="margin-right: .5rem"
+                            update=":growl-sticky"
                             action="#{modelManager.saveCurrentScheme}">
                         </p:commandButton>
                         <p:commandButton value="Create" icon="pi pi-plus"
@@ -70,7 +71,10 @@
                             style="margin-right: .5rem" styleClass="ui-button-warning">
                         </p:commandButton>
                         <p:commandButton value="Deploy" icon="pi pi-wrench"
+                            update=":growl-sticky"
+                            action="#{modelManager.deployCurrentScheme}"
                             style="margin-right: .5rem" styleClass="ui-button-danger">
+                            <p:ajax onsuccess="location.reload();"/>
                         </p:commandButton>
                     </p:toolbarGroup>
 				</p:toolbar>

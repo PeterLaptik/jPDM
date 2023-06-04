@@ -12,6 +12,11 @@ public class SchemeDaoMock implements SchemeDAO {
     private static List<Scheme> schemes = Arrays.asList(new Scheme("default", ""),
             new Scheme("test_1", "test description"), 
             new Scheme("test_2", "test 2 description"));
+    
+    static {
+        for(Scheme scheme: schemes)
+            scheme.setInstalled(false);
+    }
 
     @Override
     public List<Scheme> getSchemes() {
@@ -34,6 +39,14 @@ public class SchemeDaoMock implements SchemeDAO {
             if (existingScheme.equals(scheme)) {
                 it.remove();
             }
+        }
+    }
+
+    @Override
+    public void installScheme(Scheme scheme) {
+        for(Scheme i: schemes) {
+            if(i.equals(scheme))
+                i.setInstalled(true);
         }
     }
 }

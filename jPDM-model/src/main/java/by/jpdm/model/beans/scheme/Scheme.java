@@ -13,9 +13,10 @@ public class Scheme {
 
     private String fullName;
     private String description;
+    private boolean installed;
 
     public Scheme() {
-
+        installed = false;
     }
 
     public Scheme(String fullName, String description) {
@@ -45,6 +46,14 @@ public class Scheme {
     
     public boolean isDefault() {
         return fullName.equals(DEFAULT_NAME);
+    }
+
+    public boolean isInstalled() {
+        return installed;
+    }
+
+    public void setInstalled(boolean installed) {
+        this.installed = installed;
     }
 
     @Override

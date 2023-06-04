@@ -12,7 +12,9 @@ import by.jpdm.model.beans.scheme.PropertyType;
 import by.jpdm.model.beans.scheme.Scheme;
 import by.jpdm.model.beans.scheme.TargetType;
 import by.jpdm.model.beans.scheme.UpdateAction;
+import by.jpdm.model.dao.scheme.SchemeDAO;
 import by.jpdm.model.dao.scheme.UpdateActionDAO;
+import by.jpdm.test.jsf.mocks.view.dao.SchemeDaoMock;
 import by.jpdm.test.jsf.mocks.view.dao.UpdateActionDaoMock;
 import by.jpdm.test.jsf.qualifiers.TestModelDriverMock;
 import jpdm.db.modeller.tree.ModelDriver;
@@ -24,6 +26,7 @@ import jpdm.db.modeller.tree.ModelUpdatingException;
 @TestModelDriverMock
 public class ModelDriverMock implements ModelDriver {
     private UpdateActionDAO updateActionDAO = new UpdateActionDaoMock();
+    private SchemeDAO schemeDao = new SchemeDaoMock();
 
     @Override
     public ModelTypeNode buildModelTree(Scheme scheme) throws ModelUpdatingException {
@@ -39,16 +42,29 @@ public class ModelDriverMock implements ModelDriver {
         detail.addProperty(new ModelTypeProperty("name", PropertyType.VARCHAR_256)).setSchemeName(Scheme.DEFAULT_NAME);
         detail.addProperty(new ModelTypeProperty("det_type", PropertyType.VARCHAR_256)).setSchemeName(Scheme.DEFAULT_NAME);
 
-        if (scheme.isDefault())
+        if (scheme.isDefault()) {
+            root = appendInstalledUpdates(root);
             return root;
-
+        }
+        
         updatesMockDataGenerator(root);
 
-        root = appendUpdates(root, scheme);
+        root = appendUpdatesForScheme(root, scheme);
+        return root;
+    }
+    
+    public ModelTypeNode appendInstalledUpdates(ModelTypeNode root) {
+        List<Scheme> schemes = schemeDao.getSchemes();
+        for(Scheme scheme: schemes) {
+            if(!scheme.isInstalled())
+                continue;
+            
+            appendUpdatesForScheme(root, scheme);
+        }
         return root;
     }
 
-    public ModelTypeNode appendUpdates(ModelTypeNode root, Scheme scheme) {
+    public ModelTypeNode appendUpdatesForScheme(ModelTypeNode root, Scheme scheme) {
         List<UpdateAction> updates = updateActionDAO.getUpdateActionsForScheme(scheme);
         for (UpdateAction update : updates) {
             if (update.getTargetType().equals(TargetType.TYPE)) {
@@ -95,7 +111,7 @@ public class ModelDriverMock implements ModelDriver {
         act1.setUuid(UUID.randomUUID());
         act1.setTargetType(TargetType.TYPE);
         act1.setSchemeName("test_1");
-        updateActionDAO.appendAction(act1);
+        updateActionDAO.appendSingleAction(act1);
 
         UpdateAction act2 = new UpdateAction();
         act2.setName("SubAssembly2");
@@ -103,7 +119,7 @@ public class ModelDriverMock implements ModelDriver {
         act2.setUuid(UUID.randomUUID());
         act2.setTargetType(TargetType.TYPE);
         act2.setSchemeName("test_1");
-        updateActionDAO.appendAction(act2);
+        updateActionDAO.appendSingleAction(act2);
 
         UpdateAction act3 = new UpdateAction();
         act3.setName("SubAssembly3");
@@ -111,7 +127,7 @@ public class ModelDriverMock implements ModelDriver {
         act3.setUuid(UUID.randomUUID());
         act3.setTargetType(TargetType.TYPE);
         act3.setSchemeName("test_1");
-        updateActionDAO.appendAction(act3);
+        updateActionDAO.appendSingleAction(act3);
 
         UpdateAction act4 = new UpdateAction();
         act4.setName("propX");
@@ -119,7 +135,7 @@ public class ModelDriverMock implements ModelDriver {
         act4.setUuid(UUID.randomUUID());
         act4.setTargetType(TargetType.PROPERTY);
         act4.setSchemeName("test_1");
-        updateActionDAO.appendAction(act4);
+        updateActionDAO.appendSingleAction(act4);
 
         UpdateAction act5 = new UpdateAction();
         act5.setName("propY");
@@ -127,7 +143,7 @@ public class ModelDriverMock implements ModelDriver {
         act5.setUuid(UUID.randomUUID());
         act5.setTargetType(TargetType.PROPERTY);
         act5.setSchemeName("test_2");
-        updateActionDAO.appendAction(act5);
+        updateActionDAO.appendSingleAction(act5);
     }
 
     @Override
@@ -141,7 +157,7 @@ public class ModelDriverMock implements ModelDriver {
         for(UpdateAction updateAction: updateActions) {
             System.out.println(updateAction);
         }
-        
+        updateActionDAO.setUpdateActionsForScheme(updateActions, scheme);
     }
 
     private List<UpdateAction> assembleActionsList(Scheme scheme, ModelTypeNode root) {
@@ -195,7 +211,6 @@ public class ModelDriverMock implements ModelDriver {
 
     @Override
     public void deployScheme(Scheme scheme) {
-        // TODO Auto-generated method stub
         
     }
 }

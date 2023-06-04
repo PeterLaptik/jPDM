@@ -11,4 +11,6 @@ public interface SchemeDAO {
     void createScheme(Scheme scheme);
     
     void deleteScheme(Scheme scheme);
+    
+    void installScheme(Scheme scheme);
 }

@@ -102,8 +102,7 @@ public class ModelManager implements Serializable {
     }
 
     public TreeNode<ModelTypeNode> getSelectedNode() {
-        TreeNode<ModelTypeNode> selectedNode = primeTreeMapper.getSelectedNode();
-        return selectedNode;
+        return primeTreeMapper.getSelectedNode();
     }
 
     public void setSelectedNode(TreeNode<ModelTypeNode> selectedNode) {
@@ -152,8 +151,58 @@ public class ModelManager implements Serializable {
     }
     
     public void saveCurrentScheme() {
-        Scheme scheme = primeTreeMapper.getCurrentScheme();
+        Scheme scheme = getActualScheme();
+        if(scheme==null)
+            return;
+        
+        if(scheme.getFullName().equals(Scheme.DEFAULT_NAME)) {
+            errorProcessor.processError("Default scheme cannot be saved");
+            return;
+        }
+            
+        if(scheme.isInstalled()) {
+            errorProcessor.processError("The scheme has already been deployed");
+            return;
+        }
+        
         TreeNode<ModelTypeNode> root = primeTreeMapper.getRootNode();
         modelDriver.saveScheme(scheme, root.getData());
+    }
+    
+    public void deployCurrentScheme() {
+        Scheme scheme = getActualScheme();
+        if(scheme==null)
+            return;
+        
+        if(scheme.getFullName().equals(Scheme.DEFAULT_NAME)) {
+            errorProcessor.processError("Default scheme cannot be deployed");
+            return;
+        }
+            
+        if(scheme.isInstalled()) {
+            errorProcessor.processError("The scheme has already been deployed");
+            return;
+        }
+        
+        
+        schemeDao.installScheme(Scheme.proxyOfValue(selectedScheme));
+        recreateTypeStructure();
+    }
+    
+    private Scheme getActualScheme() {
+        Scheme scheme = null;
+        List<Scheme> actualSchemes = schemeDao.getSchemes();
+        for(Scheme actualScheme: actualSchemes) {
+            if(actualScheme.getFullName().equals(primeTreeMapper.getCurrentScheme().getFullName())) {
+                scheme = actualScheme;
+                break;
+            }
+        }
+        
+        if(scheme==null) {
+            errorProcessor.processError("Unknown error");
+        }
+        
+        return scheme;
     }
 }
